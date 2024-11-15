@@ -157,12 +157,15 @@ body {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 1.2rem;
-    width: 290px;
-    height: 150px;
+    width: 100vh;
+    max-width: 320px;
+    height: 100px;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     justify-content: space-between;
     transition: all 0.5s ease-in-out;
+    gap: 20px;
 
 }
 .payment--card:hover {
@@ -179,12 +182,7 @@ body {
     flex-direction: column;
 }
 .title {
-    font-size: 12px;
-    font-weight: 200;
-    color: black;
-}
-.amount--value {
-    font-size: 24px;
+    font-size: 20px;
     font-family: "inter", serif;
     font-weight: 600;
     color: black;
@@ -198,12 +196,7 @@ body {
     border-radius: 50%;
     font-size: 1.5rem;
     background: red;
-}
-.card-detail {
-    font-size: 18px;
-    color: #777777;
-    letter-spacing: 2px;
-    font-family: "courier new", courier, monospace;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
 }
 /* card container */
 
@@ -249,7 +242,7 @@ body {
     background: rgb(236, 236, 254);
 }
 .dark-red {
-    background: red;
+    background: #FF2929;
 }
 .dark-purple {
     background: purple;
@@ -258,6 +251,6 @@ body {
     background: #239b56;
 }
 .dark-blue {
-    background: blue;
+    background: #133E87;
 }
 /* color css */
