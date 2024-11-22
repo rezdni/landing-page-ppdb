@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>admin panel</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+  <body>
+    <!-- sidebar -->
+    <div class="sidebar">
+        <div class="logo"></div>
+            <ul class="menu">
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-bars"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-user-group"></i>
+                        <span>Data Siswa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Data Pendaftar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>Pengelola Pengumunan</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQ</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-star"></i>
+                        <span>Testimonia</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-cog"></i>
+                        <span>setting</span>
+                    </a>
+                </li>
+                <li class="logout">
+                    <a href="#">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+    </div>
+    <!-- sidebar -->
+     <div class="main--content">
+        <div class="header--wrapper">
+            <div class="header--title">
+                <span>SMA AL FASNAH</span>
+                <h2>Dashboard</h2>
+            </div>
+            <div class="user--info">
+                <div class="searh--box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search">
+            </div>
+            <span class="material-symbols-outlined user-profile">
+                account_circle
+                </span>xxxxx`
+            </div>
+        </div>
+        <!-- end sidebar -->
+         <!-- formulir -->
+          <div class="list--wrapper">
+            <h3 class="main--title">Formulir Pendaftaran</h3>
+            <form class="form-pendaftaran">
+                <div class="input-box">
+                    <label for="">Nama Lengkap</label>
+                    <input type="text" placeholder="Masukan Nama Legkap" required>
+                </div>
+                <div class="input-box">
+                    <label for="">Nama Email</label>
+                    <input type="text" placeholder="Masukan Email" required>
+                </div>
+                <div class="column">
+                    <div class="input-box">
+                        <label> Nomor Telpon</label>
+                        <input type="number" placeholder="Masukan Nomor Telepon" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Masukan Tanggal Lahir</label>
+                        <input type="date" placeholder="Masukan Tanggal Lahir" required>
+                    </div>
+                    <div class="gender">
+                        <p>Jenis Kelamin</p>
+                        <div class="gender-option">
+                            <div class="gdr">
+                                <input type="radio" id="laki-laki" name="gender" checked>
+                                <Label for="laki-laki">Laki-Laki</Label>
+                            </div>
+                            <div class="gdr">
+                                <input type="radio" id="perempuan" name="gender" checked>
+                                <Label for="perempuan">Perempuan</Label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-box-address">
+                    <label>Alamat</label>
+                    <input type="text" placeholder="Masukan Nama Jalan/Gang" required>
+                    <input type="text" placeholder="Masukan Nama Desa" required>
+                    <div class="column">
+                        <div class="select-box">
+                            <select>
+                                <option hidden>Kabupaten</option>
+                                <option>Sesuaikan1</option>
+                                <option>Sesuaikan2</option>
+                                <option>Sesuaikan3</option>
+                                <option>Sesuaikan4</option>
+                                <option>Sesuaikan5</option>
+                                <option>Sesuaikan6</option>
+                                <option>Sesuaikan7</option>
+                                <option>Sesuaikan8</option>
+                                <option>Sesuaikan9</option>
+                                <option>Sesuaikan10</option>
+                                <option>Sesuaikan11</option>
+                                <option>Sesuaikan12</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="Masukan Nama Kecamatan" required>
+                    </div>
+                    <div class="column">
+                        <input type="text" placeholder="Masukan Nama Desa" required>
+                        <input type="number" placeholder="Masukan Kode Post" required>
+                    </div>
+                </div>
+                <button>Daftar</button>
+            </form>
+          </div>
+          <!-- end formulir -->
+
+  </body>
+</html>
