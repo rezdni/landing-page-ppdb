@@ -22,9 +22,11 @@
     justify-content: center;
     outline: none;
     cursor: pointer;
-    background: #742ae8;
+    background: #239b56;
     border-radius: 50%;
 }
+
+
 .chatbot-toggle span {
     position: absolute;
 }
@@ -38,7 +40,7 @@
 .chatbot {
     position: fixed;
     right: 40px;
-    bottom: 0px;
+    bottom: 60px;
     width: 420px;
     transform: scale(0.5);
     opacity: 0;
@@ -46,17 +48,31 @@
     overflow: hidden;
     background: #fff;
     border-radius: 15px;
-    box-shadow: 0 0 128px 0 rgba(0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0.5);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
 }
 .show-chatbot .chatbot {
-    transform: scale(0.5);
+    transform: scale(0.79);
     opacity: 1;
     pointer-events: auto;
 }
 .chatbot header {
-    background: #742ae8;
+    background: #239b56;
     padding: 16px 0;
     text-align: center;
+    position: relative;
+}
+.chatbot header h2 {
+    color: #fff;
+    font-size: 1.4rem;
+}
+.chatbot header span {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: none;
+    transform: translateY(-50%);
 }
 .chatbot .chatbox {
     height: 510px;
@@ -70,7 +86,7 @@
     height: 32px;
     width: 32px;
     color: #fff;
-    background: #742ae8;
+    background: #239b56;
     text-align: center;
     align-self: flex-end;
     line-height: 32px;
@@ -87,7 +103,7 @@
     font-size: 0.95rem;
     padding: 12px 16px;
     border-radius: 10px 10px 0 10px;
-    background: #742ae8;
+    background: #239b56;
 }
 .chatbot .incoming p {
     color: #000;
@@ -117,7 +133,7 @@
     align-self: flex-end;
     height: 55px;
     line-height: 55px;
-    color: #742ae8;
+    color: #239b56;
     font-size: 1.35rem;
     cursor: pointer;
     visibility: hidden;
@@ -136,5 +152,8 @@
     }
     .chatbot .chatbox {
         height: 90%;
+    }
+    .chatbot header span {
+        display: block;
     }
 }

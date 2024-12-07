@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pengelola Pengumuman</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+  <body>
+    <!-- sidebar -->
+    <div class="sidebar">
+        <div class="logo"></div>
+        <ul class="menu">
+            <li>
+                <a href="index.html">
+                    <i class="fa-solid fa-bars"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="data-siswa.html">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span>Data Siswa</span>
+                </a>
+            </li>
+            <li>
+                <a href="data-pendaftar.html">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Data Pendaftar</span>
+                </a>
+            </li>
+            <li>
+                <a href="pengelola-pengumunan.html">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Pengelola Pengumunan</span>
+                </a>
+            </li>
+            <li class="logout">
+                <a href="#">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- sidebar -->
+     <div class="main--content">
+        <div class="header--wrapper">
+            <div class="header--title">
+                <span>SMA AL FASNAH</span>
+                <h2>Pengelola Pengumuman</h2>
+            </div>
+            <div class="user--info">
+                <div class="searh--box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="Search">
+            </div>
+            <span class="material-symbols-outlined user-profile">
+                account_circle
+                </span>
+            </div>
+        </div>
+    <!-- end sidebar -->
+         <!-- list user -->
+         <div class="list--wrapper formulir">
+            <div class="form-head">
+                <h3 class="main--title">Buat Berita</h3>
+                <button id="buat-pengumuman" name="buat-berita">Buat</button>
+            </div>
+            <div class="list--container ">
+                <form action="">
+                    <div class="berita kolom-isi">
+                        <input type="text" id="judul-berita" name="judul-berita" placeholder="Judul Berita">
+                        <textarea id="isi-berita" name="isi-berita" placeholder="Isi Berita"></textarea>
+                        <div class="tombol-berita">
+                            <button name="batal" id="batal">Batal</button>
+                            <button name="simpan" id="simpan">Simpan</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="berita hasil">
+                    <h3>Judul Berita</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti rem molestias, accusamus doloribus corporis doloremque architecto natus asperiores mollitia aliquid incidunt atque unde commodi pariatur nesciunt! Facere fugiat incidunt maiores?
+                    </p>
+                    <button name="hapus-berita" id="hapus-berita">Hapus</button>
+                </div>
+            </div>
+         </div>
+     </div>
+    <!-- end list user -->
+  </body>
+</html>

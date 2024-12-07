@@ -1,0 +1,25 @@
+[
+    {
+        "pertanyaan": ["Hello",  "halo"],
+        "jawaban": "Halo"
+    },
+    {
+        "pertanyaan": ["Hello",  "halo"],
+        "jawaban": ["hallo juga", "bandbabdabdab"]
+    },
+    {
+        "pertanyaan": "kontak",
+        "jawaban": {
+            "WhatsApp": "08123456789",
+            "email": "email@email.com"
+        }
+    },
+    {
+        "pertanyaan":["Apa itu PPDB", "apa itu ppdb", "PPDB"],
+        "jawaban": "PPDB adalah proses Penerimaan Peserta Didik Baru untuk tahun ajaran yang sedang dibuka di sekolah kami."
+    },
+    {
+        "pertanyaan": ["kapan jadwal PPDB bisa di buka?", "kapan jadwal bisa di buka"],
+        "jawaban": "Jadwal PPDB bisa di lihat di menu <i>Informasi Jadwal</i> di website kami.<br> Jangan lupa catat tanggal pentingnya, ya!" 
+    }
+]
