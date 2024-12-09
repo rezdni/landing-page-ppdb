@@ -200,7 +200,7 @@ body {
 }
 /* card container */
 
-/* list */
+/* list & tabel */
 .list--wrapper {
     background-color: #fff;
     padding: 2rem;
@@ -208,11 +208,52 @@ body {
     margin-top: 20px;
     border-radius: 10px;
 }
+
+.list--wrapper table {
+    width: 100%;
+    height: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.list--wrapper table tr th,
+.list--wrapper table tr td {
+    padding: 8px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* tombol ubah data */
+.ubah-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.ubah-data button {
+    padding: 10px;
+    background-color: #239b56;
+    border-radius: 50px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.ubah-data button:nth-child(2) {
+    background-color: #FF2929;
+}
+
 .main--title {
     color: #239b56;
     padding-bottom: 10px;
     font-size: 25px;
 }
+
+.table-title {
+    font-size: 20px;
+}
+
 .list--container .list li {
     list-style-type: none;
     display: flex;
@@ -234,6 +275,7 @@ body {
     color: #fff;
 }
 /* end list */
+
 
 /* color css */
 .light-red{

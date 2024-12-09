@@ -38,6 +38,12 @@
                     <span>Pengelola Pengumunan</span>
                 </a>
             </li>
+            <li>
+                <a href="kelola-pengguna.html">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Kelola Pengguna</span>
+                </a>
+            </li>
             <li class="logout">
                 <a href="#">
                     <i class="fas fa-sign-out-alt"></i>
@@ -65,82 +71,203 @@
         </div>
     <!-- end sidebar -->
          <!-- list user -->
-         <div class="list--wrapper">
-            <h3 class="main--title">LIST SISWA</h3>
-            <div class="list--container">
-               <ul class="list">
-                <li>
-                    <div>
-                        <span class="material-symbols-outlined dark-purple">
-                        person
-                        </span>
-                        <p>ANDIKA</p>
-                    </div>
-                    <div>
-                        <p>15-11-2024</p>
-                        <span class="material-symbols-outlined dark-green">
-                            edit
-                        </span>
-                        <span class="material-symbols-outlined dark-red">
-                            delete
-                        </span>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <span class="material-symbols-outlined dark-purple">
-                        person
-                        </span>
-                        <p>REZA</p>
-                    </div>
-                    <div>
-                        <p>15-11-2024</p>
-                        <span class="material-symbols-outlined dark-green">
-                            edit
-                        </span>
-                        <span class="material-symbols-outlined dark-red">
-                            delete
-                        </span>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <span class="material-symbols-outlined dark-purple">
-                        person
-                        </span>
-                        <p>FATAH</p>
-                    </div>
-                    <div>
-                        <p>15-11-2024</p>
-                        <span class="material-symbols-outlined dark-green">
-                            edit
-                        </span>
-                        <span class="material-symbols-outlined dark-red">
-                            delete
-                        </span>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <span class="material-symbols-outlined dark-purple">
-                        person
-                        </span>
-                        <p>AJIS ANAK KONTOL</p>
-                    </div>
-                    <div>
-                        <p>15-11-2024</p>
-                        <span class="material-symbols-outlined dark-green">
-                            edit
-                        </span>
-                        <span class="material-symbols-outlined dark-red">
-                            delete
-                        </span>
-                    </div>
-                </li>
-               </ul>
-            </div>
-         </div>
-     </div>
+         <div  class="list--wrapper">
+            <table>
+               <thead class="main--title table-title">
+                 <tr>
+                   <th scope="col">No</th>
+                   <th scope="col">Nama Siswa</th>
+                   <th scope="col">Jurusan</th>
+                   <th scope="col">Gelombang</th>
+                   <th scope="col">Tanggal Daftar</th>
+                   <th scope="col">Nomor Telepon</th>
+                   <th scope="col">Keterangan</th>
+                   <th scope="col">Ubah Data</th>
+                 </tr>
+               </thead>
+               <tbody>
+               <tr>
+                 <td data-label="No" class="no">
+                   <p class="text-wrap">1</p>
+                 </td>
+                 <td data-label="Nama Siswa" class="nama-siswa">
+                   <p class="text-wrap">AJIS</p>
+                 </td>
+                 <td data-label="Jurusan" class="jurusan">
+                   <p class="text-wrap">
+                       IPA
+                   </p>
+                 </td>
+                 <td data-label="Gelombang" class="gelombang">
+                   <p class="text-wrap">
+                       1
+                   </p>
+                 </td>
+                 <td data-label="Tanggal" class="tanggal-daftar">
+                   <p class="text-wrap">11/11/2024</p>
+                 </td>
+                 <td data-label="Nomor Telepon" class="nomor-telepon">
+                   <p class="text-wrap"> 
+                       1234567890
+                   </p>
+                 </td>
+                 <td data-label="Keterangan" class="keterangan">
+                   <p class="text-wrap">
+                     sukses
+                   </p>
+                 </td>
+                 <td data-label="Ubah Data" class="ubah-data">
+                    <button name="edit-data" id="edit-data"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button name="hapus-data" id="hapus-data"><i class="fa-solid fa-trash"></i></button>
+                  </td>
+               </tr>
+   
+               <tr>
+                 <td data-label="No" class="no">
+                   <p class="text-wrap">2</p>
+                 </td>
+                 <td data-label="Nama Siswa" class="nama-siswa">
+                   <p class="text-wrap">Zaki</p>
+                 </td>
+                 <td data-label="Jurusan" class="jurusan">
+                   <p class="text-wrap">
+                       IPS
+                   </p>
+                 </td>
+                 <td data-label="Gelombang" class="gelombang">
+                   <p class="text-wrap">
+                       2
+                   </p>
+                 </td>
+                 <td data-label="Tanggal" class="tanggal-daftar">
+                   <p class="text-wrap">12/11/2024</p>
+                 </td>
+                 <td data-label="Nomor Telepon" class="nomor-telepon">
+                   <p class="text-wrap"> 
+                       49187871798
+                   </p>
+                 </td>
+                 <td data-label="Keterangan" class="keterangan">
+                   <p class="text-wrap">
+                     belum
+                   </p>
+                 </td>
+                 <td data-label="Ubah Data" class="ubah-data">
+                    <button name="edit-data" id="edit-data"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button name="hapus-data" id="hapus-data"><i class="fa-solid fa-trash"></i></button>
+                  </td>
+               </tr>
+   
+               <tr>
+                   <td data-label="No" class="no">
+                     <p class="text-wrap">3</p>
+                   </td>
+                   <td data-label="Nama Siswa" class="nama-siswa">
+                     <p class="text-wrap">Faddel</p>
+                   </td>
+                   <td data-label="Jurusan" class="jurusan">
+                     <p class="text-wrap">
+                         IPS
+                     </p>
+                   </td>
+                   <td data-label="Gelombang" class="gelombang">
+                     <p class="text-wrap">
+                         2
+                     </p>
+                   </td>
+                   <td data-label="Tanggal" class="tanggal-daftar">
+                     <p class="text-wrap">11/11/2024</p>
+                   </td>
+                   <td data-label="Nomor Telepon" class="nomor-telepon">
+                     <p class="text-wrap"> 
+                         6731774168174678
+                     </p>
+                   </td>
+                   <td data-label="Keterangan" class="keterangan">
+                     <p class="text-wrap">
+                       belum
+                     </p>
+                   </td>
+                   <td data-label="Ubah Data" class="ubah-data">
+                    <button name="edit-data" id="edit-data"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button name="hapus-data" id="hapus-data"><i class="fa-solid fa-trash"></i></button>
+                  </td>
+                 </tr>
+   
+                 <tr>
+                   <td data-label="No" class="no">
+                     <p class="text-wrap">4</p>
+                   </td>
+                   <td data-label="Nama Siswa" class="nama-siswa">
+                     <p class="text-wrap">fatah</p>
+                   </td>
+                   <td data-label="Jurusan" class="jurusan">
+                     <p class="text-wrap">
+                         IPA
+                     </p>
+                   </td>
+                   <td data-label="Gelombang" class="gelombang">
+                     <p class="text-wrap">
+                         3
+                     </p>
+                   </td>
+                   <td data-label="Tanggal" class="tanggal-daftar">
+                     <p class="text-wrap">26/11/2024</p>
+                   </td>
+                   <td data-label="Nomor Telepon" class="nomor-telepon">
+                     <p class="text-wrap"> 
+                         1234567890
+                     </p>
+                   </td>
+                   <td data-label="Keterangan" class="keterangan">
+                     <p class="text-wrap">
+                       sukses
+                     </p>
+                   </td>
+                   <td data-label="Ubah Data" class="ubah-data">
+                    <button name="edit-data" id="edit-data"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button name="hapus-data" id="hapus-data"><i class="fa-solid fa-trash"></i></button>
+                  </td>
+                 </tr>
+   
+                 <tr>
+                   <td data-label="No" class="no">
+                     <p class="text-wrap">5</p>
+                   </td>
+                   <td data-label="Nama Siswa" class="nama-siswa">
+                     <p class="text-wrap">Andika</p>
+                   </td>
+                   <td data-label="Jurusan" class="jurusan">
+                     <p class="text-wrap">
+                         IPS
+                     </p>
+                   </td>
+                   <td data-label="Gelombang" class="gelombang">
+                     <p class="text-wrap">
+                         1
+                     </p>
+                   </td>
+                   <td data-label="Tanggal" class="tanggal-daftar">
+                     <p class="text-wrap">11/11/2024</p>
+                   </td>
+                   <td data-label="Nomor Telepon" class="nomor-telepon">
+                     <p class="text-wrap"> 
+                         1234567890
+                     </p>
+                   </td>
+                   <td data-label="Keterangan" class="keterangan">
+                     <p class="text-wrap">
+                       sukses
+                     </p>
+                   </td>
+                   <td data-label="Ubah Data" class="ubah-data">
+                    <button name="edit-data" id="edit-data"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button name="hapus-data" id="hapus-data"><i class="fa-solid fa-trash"></i></button>
+                  </td>
+                 </tr>
+               </tbody>
+             </table>
+             </div>
 <!-- end list user -->
   </body>
 </html>
