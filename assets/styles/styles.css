@@ -22,15 +22,15 @@ body {
     bottom: 0;
     width: 110px;
     height: 100vh;
-    padding: 0 1.7rem;
+    padding: 20px 1.7rem;
     color: #fff;
     overflow: hidden;
     transition: all 0.5rem linear;
     background: #239b56;
-    transition: 0.5s;
+    transition: 0.5s;;
 }
 .sidebar:hover{
-    width: 290px;
+    width: 350px;
 
 }
 .logo {
@@ -38,7 +38,7 @@ body {
     padding: 16px;
 }
 .menu {
-    height: 88%;
+    height: 100%;
     position: relative;
     list-style: none;
     padding: 0;
@@ -59,13 +59,19 @@ body {
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    width: 200px;
 }
 .menu a span {
     overflow: hidden;
 }
 .menu a i {
-    font-size: 1.2rem;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    margin-right: 45px;
+    display: block;
+    text-align: center;
+    line-height: 25px;
 }
 .logout {
     position: absolute;
@@ -101,6 +107,9 @@ body {
     margin-bottom: 1rem;
 }
 .header--title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     color: #239b56;
 }
 .user--info {
@@ -144,8 +153,12 @@ body {
 .card--wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    /* align-content: stretch; */
     gap: 10px;   
+}
+.card--wrapper a{
+    flex-basis: auto;
+    flex-grow: 2;
 }
 .main--title {
     color: #239b56;
@@ -157,8 +170,8 @@ body {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 1.2rem;
-    width: 100vh;
-    max-width: 320px;
+    width: 100%;
+    /* max-width: 320px; */
     height: 100px;
     display: flex;
     flex-direction: column;
@@ -367,6 +380,7 @@ body {
 }
 .formulir .kolom-isi textarea{
     height: 150px;
+    resize: none;
 }
 .formulir .tombol-form{
     display: flex;
@@ -436,7 +450,54 @@ body {
 /* Setting Profile */
 
 .profile--setting {
-width: 10px;
-height: 50px;
+    width: 10px;
+    height: 50px;
 }
 /* end Setting Profile */
+
+/* Responsive */
+@media screen and (max-width: 1200px) {
+    .list--wrapper table thead{
+        border: none;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+    .list--wrapper table tr{
+        display: block;
+        margin-bottom: 5px;
+        padding: 10px;
+    }
+    .list--wrapper table td{
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #dee5d9;
+        padding: 10px !important;
+    }
+    .list--wrapper table td .text-wrap{
+        text-align: right;
+        margin: 0;
+    }
+    .list--wrapper table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        width: 100px;
+        text-align: left;
+        text-wrap: wrap;
+        color: #239b56;
+    }
+    .list--wrapper table td.ubah-data {
+        justify-content: space-between !important;
+    }
+    .list--wrapper table td.ubah-data::before {
+        flex: 1;
+    }
+    .list--wrapper table td:last-child {
+        border: none;
+    }
+}
