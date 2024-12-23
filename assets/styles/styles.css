@@ -81,7 +81,7 @@ body {
 }
 /* sidebar */
 
-/* main body section */
+/* main bodyz section */
 .main--content {
     position: relative;
     background: #dfe6e9;
@@ -112,6 +112,7 @@ body {
     gap: 10px;
     color: #239b56;
 }
+
 .user--info {
     display: flex;
     align-items: center;
