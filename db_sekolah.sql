@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 15 Des 2024 pada 08.43
+-- Waktu pembuatan: 23 Des 2024 pada 08.12
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.1.25
 
@@ -81,20 +81,6 @@ CREATE TABLE `orang_tua` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pendaftaran`
---
-
-DROP TABLE IF EXISTS `pendaftaran`;
-CREATE TABLE `pendaftaran` (
-  `id_pendaftaran` int(11) NOT NULL,
-  `id_calon` int(11) NOT NULL,
-  `tanggal_pendaftaran` date NOT NULL,
-  `status_pendaftaran` enum('Menunggu','Diterima','Ditolak') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `pengguna`
 --
 
@@ -104,8 +90,9 @@ CREATE TABLE `pengguna` (
   `nama` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('Admin','Pengguna') NOT NULL,
-  `id_calon` int(11) NOT NULL
+  `role` enum('Admin','Calon') NOT NULL,
+  `id_calon` int(11) NOT NULL,
+  `lupa_sandi` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -117,24 +104,8 @@ CREATE TABLE `pengguna` (
 DROP TABLE IF EXISTS `pengumuman`;
 CREATE TABLE `pengumuman` (
   `id_pengumuman` int(11) NOT NULL,
-  `id_calon` int(11) NOT NULL,
-  `tanggal_pengumuman` date NOT NULL,
-  `status` enum('Diterima','Tidak Diterima','','') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `seleksi`
---
-
-DROP TABLE IF EXISTS `seleksi`;
-CREATE TABLE `seleksi` (
-  `id_seleksi` int(11) NOT NULL,
-  `id_calon` int(11) NOT NULL,
-  `hasil_tes` decimal(10,0) NOT NULL,
-  `nilai_wawancara` decimal(10,0) NOT NULL,
-  `status_seleksi` enum('Lulus','Tidak Lulus','','') NOT NULL
+  `judul` varchar(255) NOT NULL,
+  `isi_pengumuman` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -162,14 +133,6 @@ ALTER TABLE `orang_tua`
   ADD KEY `id_calon` (`id_calon`);
 
 --
--- Indeks untuk tabel `pendaftaran`
---
-ALTER TABLE `pendaftaran`
-  ADD PRIMARY KEY (`id_pendaftaran`),
-  ADD KEY `id_calon` (`id_calon`),
-  ADD KEY `id_calon_2` (`id_calon`);
-
---
 -- Indeks untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
@@ -180,15 +143,7 @@ ALTER TABLE `pengguna`
 -- Indeks untuk tabel `pengumuman`
 --
 ALTER TABLE `pengumuman`
-  ADD PRIMARY KEY (`id_pengumuman`),
-  ADD KEY `id_calon` (`id_calon`);
-
---
--- Indeks untuk tabel `seleksi`
---
-ALTER TABLE `seleksi`
-  ADD PRIMARY KEY (`id_seleksi`),
-  ADD KEY `id_calon` (`id_calon`);
+  ADD PRIMARY KEY (`id_pengumuman`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
@@ -213,12 +168,6 @@ ALTER TABLE `orang_tua`
   MODIFY `id_orang_tua` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `pendaftaran`
---
-ALTER TABLE `pendaftaran`
-  MODIFY `id_pendaftaran` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
@@ -229,12 +178,6 @@ ALTER TABLE `pengguna`
 --
 ALTER TABLE `pengumuman`
   MODIFY `id_pengumuman` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `seleksi`
---
-ALTER TABLE `seleksi`
-  MODIFY `id_seleksi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -253,28 +196,10 @@ ALTER TABLE `orang_tua`
   ADD CONSTRAINT `orang_tua_ibfk_1` FOREIGN KEY (`id_calon`) REFERENCES `calon_siswa` (`id_calon`) ON DELETE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `pendaftaran`
---
-ALTER TABLE `pendaftaran`
-  ADD CONSTRAINT `pendaftaran_ibfk_1` FOREIGN KEY (`id_calon`) REFERENCES `calon_siswa` (`id_calon`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Ketidakleluasaan untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
   ADD CONSTRAINT `pengguna_ibfk_1` FOREIGN KEY (`id_calon`) REFERENCES `calon_siswa` (`id_calon`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ketidakleluasaan untuk tabel `pengumuman`
---
-ALTER TABLE `pengumuman`
-  ADD CONSTRAINT `pengumuman_ibfk_1` FOREIGN KEY (`id_calon`) REFERENCES `calon_siswa` (`id_calon`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ketidakleluasaan untuk tabel `seleksi`
---
-ALTER TABLE `seleksi`
-  ADD CONSTRAINT `seleksi_ibfk_1` FOREIGN KEY (`id_calon`) REFERENCES `calon_siswa` (`id_calon`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
