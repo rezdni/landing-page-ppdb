@@ -80,7 +80,7 @@ section {
     display: flex;
     align-items: center;
     padding: 0 9%;
-    background: url('../img/logo.png') no-repeat;
+    background: url('../images/logo.png') no-repeat;
     background-size: cover;
     background-position: center;
 }
