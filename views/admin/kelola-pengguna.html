@@ -68,7 +68,7 @@
                 <img src="../../assets/images/logo.png" alt="" />
                 <div class="teks">
                     <span>SMA AL FASNAH</span>
-                    <h2>Dashboard</h2>
+                    <h2>Kelola Pengguna</h2>
                 </div>
             </div>
             <div class="user--info">
@@ -84,81 +84,49 @@
     <!-- end sidebar -->
          <!-- list user -->
          <div class="list--wrapper">
-            <h3 class="main--title">LIST SISWA</h3>
+            <h3 class="main--title">LIST PENGGUNA</h3>
             <div class="list--container">
-               <ul class="list">
-                <li>
-                    <div>
-                        <span class="material-symbols-outlined dark-purple">
-                        person
-                        </span>
-                        <p>ANDIKA</p>
-                    </div>
-                    <div>
-                        <p>15-11-2024</p>
-                        <span class="material-symbols-outlined dark-green">
-                            edit
-                        </span>
-                        <span class="material-symbols-outlined dark-red">
-                            delete
-                        </span>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <span class="material-symbols-outlined dark-purple">
-                        person
-                        </span>
-                        <p>REZA</p>
-                    </div>
-                    <div>
-                        <p>15-11-2024</p>
-                        <span class="material-symbols-outlined dark-green">
-                            edit
-                        </span>
-                        <span class="material-symbols-outlined dark-red">
-                            delete
-                        </span>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <span class="material-symbols-outlined dark-purple">
-                        person
-                        </span>
-                        <p>FATAH</p>
-                    </div>
-                    <div>
-                        <p>15-11-2024</p>
-                        <span class="material-symbols-outlined dark-green">
-                            edit
-                        </span>
-                        <span class="material-symbols-outlined dark-red">
-                            delete
-                        </span>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <span class="material-symbols-outlined dark-purple">
-                        person
-                        </span>
-                        <p>AJIS ANAK KONTOL</p>
-                    </div>
-                    <div>
-                        <p>15-11-2024</p>
-                        <span class="material-symbols-outlined dark-green">
-                            edit
-                        </span>
-                        <span class="material-symbols-outlined dark-red">
-                            delete
-                        </span>
-                    </div>
-                </li>
+               <ul class="list" id="list-pengguna">
+                    <li>
+                        <div>
+                            <span class="material-symbols-outlined dark-purple">
+                            person
+                            </span>
+                            <p>ANDIKA</p>
+                        </div>
+                        <div>
+                            <p>15-11-2024</p>
+                            <span class="material-symbols-outlined dark-green">
+                                edit
+                            </span>
+                            <span class="material-symbols-outlined dark-red">
+                                delete
+                            </span>
+                        </div>
+                    </li>
                </ul>
             </div>
          </div>
      </div>
-<!-- end list user -->
+    <!-- end list user -->
+     <script>
+        function showUsers() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "../../backend/kelola-pengguna.php?listPengguna=true", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    let listPengguna = document.getElementById("list-pengguna");
+                    listPengguna.innerHTML = xhr.responseText;
+                } else {
+                    alert("Failed to process data");
+                }
+            }
+            
+            xhr.send();
+        }
+        window.onload = showUsers;
+     </script>
   </body>
 </html>

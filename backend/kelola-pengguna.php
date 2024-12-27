@@ -1,31 +1,73 @@
 <?php
 require_once "../config/koneksi.php";
 
-if (isset($_POST["createUser"])) {
+// Create admin
+if (isset($_POST["createAdmin"])) {
+    // variable
     $name = htmlspecialchars($_POST["name"]);
     $email = htmlspecialchars($_POST["email"]);
     $password = htmlspecialchars($_POST["password"]);
-    $role = htmlspecialchars($_POST["role"]);
 
+    // Decrypt password
     $password = password_hash($password, PASSWORD_BCRYPT);
 
     try {
-        $insertSql = "INSERT INTO pengguna (`id`, `nama`, `email`, `password`, `role`, `id_calon`, `lupa_sandi`) VALUES (null, :name, :email, :password, :role, null, 0)";
+        // Prepare query
+        $insertSql = "INSERT INTO pengguna (`id`, `nama`, `email`, `password`, `role`, `id_calon`, `lupa_sandi`) VALUES (null, :name, :email, :password, 'Admin', null, 0)";
         $insertStmt = $pdo->prepare($insertSql);
 
         $data = [
             'name' => $name,
             'email' => $email,
-            'password' => $password,
-            'role' => $role
+            'password' => $password
             
         ];
         
+        // Insert to database
         $insertStmt->execute($data);
         echo json_encode(["status" => "berhasil"]);
     } catch (PDOException $e) {
         echo json_encode(["status" => "gagal", "keterangan" => $e]);
     }
-    // echo json_encode(["name" => $name, "email" => $email, "password" => $password, "role" => $role]);
+}
+
+if (isset($_GET["listPengguna"])) {
+    // List user account
+    try {
+        $showSql = "SELECT * FROM pengguna";
+        $stmt = $pdo->query($showSql);
+
+        // get result
+        $results = $stmt->fetchAll();
+        if (empty($results)) {
+            ?>
+                <h2>Data tidak tersedia</h2>
+            <?php
+        } else {
+            foreach ($results as $row) {
+                ?>
+                    <li>
+                        <div>
+                            <span class="material-symbols-outlined dark-purple">
+                            person
+                            </span>
+                            <p><?php echo $row["nama"]; ?></p>
+                        </div>
+                        <div>
+                            <p><?php echo $row["role"]; ?></p>
+                            <span class="material-symbols-outlined dark-green">
+                                edit
+                            </span>
+                            <span class="material-symbols-outlined dark-red">
+                                delete
+                            </span>
+                        </div>
+                    </li>
+                <?php
+            }
+        }
+    } catch (\Throwable $th) {
+        echo json_encode(["status" => "gagal", "keterangan" => $e]);
+    }
 }
 ?>
