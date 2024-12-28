@@ -11,6 +11,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- Login -->
         <div class="form-box login">
             <form action="">
                 <h1>Login</h1>
@@ -35,23 +36,23 @@
                 </div> -->
             </form>
         </div>
-
+        <!-- Register -->
         <div class="form-box register">
             <form action="">
                 <h1>Pendaftaran</h1>
                 <div class="input-box">
-                    <input type="text" placeholder="Nama" required>
+                    <input type="text" placeholder="Nama" id="regis-nama" required>
                     <i class='bx bxs-user'></i>
                 </div>
                 <div class="input-box">
-                    <input type="email" placeholder="masukan email" required>
+                    <input type="email" placeholder="masukan email" id="regis-email" required>
                     <i class='bx bx-envelope' ></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Password" required>
+                    <input type="password" placeholder="Password" id="regis-passwd" required>
                     <i class='bx bxs-lock-alt' ></i>
                 </div>
-                <button type="submit" class="btn">Daftar</button>
+                <button type="submit" class="btn" onclick="registrasi(this.parentElement, event)">Daftar</button>
                 <!-- <p>or register with social platfroms</p>
                 <div class="social-icons">
                     <a href="#"><i class='bx bxl-google' ></i></a>
