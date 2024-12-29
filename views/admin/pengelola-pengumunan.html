@@ -86,29 +86,35 @@
          <div class="list--wrapper formulir">
             <div class="form-head">
                 <h3 class="main--title">Buat Berita</h3>
-                <button id="buat-pengumuman" name="buat-berita">Buat</button>
+                <button id="buat-pengumuman" name="buat-pengumuman" onclick="toggleBuatBerita()">Buat</button>
             </div>
-            <div class="list--container ">
-                <form action="">
+            <div class="list--container">
+                <form action="" id="buat-berita">
                     <div class="berita kolom-isi">
                         <input type="text" id="judul-berita" name="judul-berita" placeholder="Judul Berita">
                         <textarea id="isi-berita" name="isi-berita" placeholder="Isi Berita"></textarea>
                         <div class="tombol-berita">
-                            <button name="batal" id="batal">Batal</button>
-                            <button name="simpan" id="simpan">Simpan</button>
+                            <button type="reset" name="batal" id="batal" onclick="toggleBuatBerita()">Batal</button>
+                            <button type="submit" name="simpan" id="simpan" onclick="simpanBerita(this.parentElement.parentElement, event)">Simpan</button>
                         </div>
                     </div>
                 </form>
-                <div class="berita hasil">
-                    <h3>Judul Berita</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti rem molestias, accusamus doloribus corporis doloremque architecto natus asperiores mollitia aliquid incidunt atque unde commodi pariatur nesciunt! Facere fugiat incidunt maiores?
-                    </p>
-                    <button name="hapus-berita" id="hapus-berita">Hapus</button>
+                <div class="list-berita">
+                    <div class="berita hasil">
+                        <h3>Judul Berita</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti rem molestias, accusamus doloribus corporis doloremque architecto natus asperiores mollitia aliquid incidunt atque unde commodi pariatur nesciunt! Facere fugiat incidunt maiores?
+                        </p>
+                        <button name="hapus-berita" id="hapus-berita">Hapus</button>
+                    </div>
                 </div>
             </div>
          </div>
      </div>
     <!-- end list user -->
+     <script src="../../assets/scripts/admin.js"></script>
+     <script>
+        window.onload = listBerita;
+     </script>
   </body>
 </html>
