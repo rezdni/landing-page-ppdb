@@ -1,357 +1,357 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 * {
-  margin: 0;
-  padding: 0;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  list-style: none;
-  text-decoration: none;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
 }
 
 body {
-  height: auto;
+    height: auto;
 }
 
-.container, .container-grid {
-  margin: auto;
-  padding: 0 1rem;
+.container,
+.container-grid {
+    margin: auto;
+    padding: 0 1rem;
 }
 
 .container-grid {
-  display: grid;
+    display: grid;
 }
 
 .container {
-  height: 100%;
-  display: flex;
+    height: 100%;
+    display: flex;
 }
 
 header {
-  height: 90vh;
-  background-color: #ddd;
-  position: relative;
+    height: 90vh;
+    background-color: #ddd;
+    position: relative;
 }
 
 /* Card */
 .card {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
 }
 
 .card i {
-  font-size: 30px;
-} 
+    font-size: 30px;
+}
 /* Akhir Card
 
 
 /* Navbar */
 nav {
-  height: 90px;
-  position: fixed;
-  right: 0;
-  left: 0;
-  background-color: white;
-  z-index: 999;
-  box-shadow: 5px 0 5px #333;
+    height: 90px;
+    position: fixed;
+    right: 0;
+    left: 0;
+    background-color: white;
+    z-index: 999;
+    box-shadow: 5px 0 5px #333;
 }
 
 nav .container {
-  justify-content: space-between;
-  align-items: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 nav ul {
-  width: 600px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  align-items: center;
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    align-items: center;
 }
 
 nav ul li:last-child {
-  background-color: #239b56;
-  border-radius: 10px;
+    background-color: #239b56;
+    border-radius: 10px;
 }
 
 nav ul li a {
-  color: black;
+    color: black;
 }
 
 nav ul li:last-child a {
-  display: inline-block;
-  color: white;
-  padding: 10px;
+    display: inline-block;
+    color: white;
+    padding: 10px;
 }
 
 nav .toggler {
-  width: 30px;
-  height: 23px;
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  z-index: 1;
+    width: 30px;
+    height: 23px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
 }
 
 nav .toggler span {
-  width: 100%;
-  height: 4px;
-  background-color: #239b56;
-  border-radius: 5px;
-  transition: .2s;
+    width: 100%;
+    height: 4px;
+    background-color: #239b56;
+    border-radius: 5px;
+    transition: 0.2s;
 }
 
 nav .toggler span:first-child.rotate {
-  transform-origin: 0 100%;
-  transform: rotate(45deg) translate(2px, -4px);
+    transform-origin: 0 100%;
+    transform: rotate(45deg) translate(2px, -4px);
 }
 
 nav .toggler span:nth-child(2).rotate {
-  transform-origin: 0 100%;
-  transform: scale(0);
+    transform-origin: 0 100%;
+    transform: scale(0);
 }
 
 nav .toggler span:last-child.rotate {
-  transform-origin: 0 100%;
-  transform: rotate(-45deg) translate(5px, 6px);
+    transform-origin: 0 100%;
+    transform: rotate(-45deg) translate(5px, 6px);
 }
 /* Akhir Navbar */
 
-
 /* Welcoming */
 .welcoming {
-  height: 100%;
-  background-image: url(../../assets/images/background.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+    height: 120%;
+    background-image: url(../../assets/images/background.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .welcoming .container {
-  font-family: "Poppins", sans-serif;
-  font-weight: 200;
-  color: #fff;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    color: #fff;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
 
 .welcoming a {
-  width: max-content;
-  display: inline-block;
-  background-color: #239b56;
-  padding: 15px;
-  border-radius: 10px;
-  color: white;
+    width: max-content;
+    display: inline-block;
+    background-color: #239b56;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
 }
 /* Akhir Welcoming */
 
-
 /* Main Card */
 .main-card {
-  position: absolute;
-  bottom: -90px;
-  right: 0;
-  left: 0;
+    position: absolute;
+    bottom: -90px;
+    right: 0;
+    left: 0;
 }
 
 .main-card .container {
-  justify-content: center;
-  gap: 20px;
+    justify-content: center;
+    gap: 20px;
 }
 
 .main-card .card {
-  width: 320px;
-  background-color: #239b56;
-  color: #eee;
-  text-align: center;
+    width: 320px;
+    background-color: #239b56;
+    color: #eee;
+    text-align: center;
 }
 
 .main-card .card h4 {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .main-card .card p {
-  font-size: 12px;
+    font-size: 12px;
 }
 /* Akhir Main Card */
-
-
-
 
 /* ===== Responsive Breakpoint ===== */
 /* Laptop */
 @media (min-width: 1200px) {
-  .container, .container-grid {
-    width: 1200px;
-  }
+    .container,
+    .container-grid {
+        width: 1200px;
+    }
 }
 
 /* Desktop */
 @media (min-width: 1440px) {
-  .container, .container-grid {
-    width: 1440px;
-  }
+    .container,
+    .container-grid {
+        width: 1440px;
+    }
 
-  header {
-    height: 500px;
-  }
+    header {
+        height: 500px;
+    }
 
-  .welcoming h1 {
-    font-size: 3rem;
-    color: #fff;
-  }
+    .welcoming h1 {
+        font-size: 3rem;
+        color: #fff;
+    }
 
-  .welcoming p {
-    font-size: 20px;
-  }
+    .welcoming p {
+        font-size: 20px;
+    }
 }
 
 /* Tablet */
 @media (max-width: 884px) {
-  .container, .container-grid {
-    padding: 0 5rem;
-  }
+    .container,
+    .container-grid {
+        padding: 0 5rem;
+    }
 
-  header {
-    height: 43vh;
-  }
+    header {
+        height: 43vh;
+    }
 
-  .main-card .card .card-body {
-    display: none;
-  }
+    .main-card .card .card-body {
+        display: none;
+    }
 
-  nav .toggler {
-    display: flex;
-  }
+    nav .toggler {
+        display: flex;
+    }
 
-  nav ul {
-    position: absolute;
-    top: 90px;
-    right: 5rem;
-    width: 300px;
-    height: 400px;
-    background-color: #239b56;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 20px;
-    font-size: 16px;
-    box-shadow: 1px 3px 10px #239b56;
-    border-radius: 10px;
-    transform-origin: 100% 0;
-    transform: scale(0);
-    transition: .2s;
-    opacity: 0;
-  }
+    nav ul {
+        position: absolute;
+        top: 90px;
+        right: 5rem;
+        width: 300px;
+        height: 400px;
+        background-color: #239b56;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        font-size: 16px;
+        box-shadow: 1px 3px 10px #239b56;
+        border-radius: 10px;
+        transform-origin: 100% 0;
+        transform: scale(0);
+        transition: 0.2s;
+        opacity: 0;
+    }
 
-  nav ul.active {
-    transform: scale(1);
-    opacity: 1;
-  }
+    nav ul.active {
+        transform: scale(1);
+        opacity: 1;
+    }
 
-  nav ul li a {
-    color: white;
-    font-weight: bold;
-  }
+    nav ul li a {
+        color: white;
+        font-weight: bold;
+    }
 
-  nav ul li:last-child {
-    width: 100%;
-    background-color: #bfd6f6;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-  }
-  
-  nav ul li:last-child a {
-    color: #333;
-  }
+    nav ul li:last-child {
+        width: 100%;
+        background-color: #bfd6f6;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    nav ul li:last-child a {
+        color: #333;
+    }
 }
 
 /* Mobile Phone */
 @media (max-width: 576px) {
-  .container, .container-grid {
-    padding: 0 1rem;
-  }
+    .container,
+    .container-grid {
+        padding: 0 1rem;
+    }
 
-  .contact-info .container, .contact-info .contact-address {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+    .contact-info .container,
+    .contact-info .contact-address {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
-  header{
-    height: 100vh;
-  }
+    header {
+        height: 100vh;
+    }
 
-  nav ul {
-    height: 350px;
-    font-size: 14px;
-    right: 1rem;
-  }
+    nav ul {
+        height: 350px;
+        font-size: 14px;
+        right: 1rem;
+    }
 
-  .main-card {
-    bottom: -370px;
-  }
+    .main-card {
+        bottom: -370px;
+    }
 
-  .main-card .container {
-    flex-direction: column;
-    align-items: center;
-  }
+    .main-card .container {
+        flex-direction: column;
+        align-items: center;
+    }
 
-  .main-card .card {
-    width: 100%;
-  }
+    .main-card .card {
+        width: 100%;
+    }
 }
-
 
 /* Mini Mobile Phone */
 @media (max-width: 320px) {
-  .contact-info {
-    display: none;
-  }
+    .contact-info {
+        display: none;
+    }
 
-  nav ul {
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 80%;
-    background-color: white;
-    border-radius: 0;
-    flex-wrap: wrap;
-    padding-top: 80px;
-    box-shadow: unset;
-    transform: translate(100%);
-  }
+    nav ul {
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 80%;
+        background-color: white;
+        border-radius: 0;
+        flex-wrap: wrap;
+        padding-top: 80px;
+        box-shadow: unset;
+        transform: translate(100%);
+    }
 
-  nav ul.active {
-    transform: translate(0);
-  }
+    nav ul.active {
+        transform: translate(0);
+    }
 
-  nav ul li {
-    width: 50%;
-  }
+    nav ul li {
+        width: 50%;
+    }
 
-  nav ul li a {
-    color: black;
-  }
+    nav ul li a {
+        color: black;
+    }
 
-  nav ul li:last-child {
-    background-color: #3b5998;
-  }
+    nav ul li:last-child {
+        background-color: #3b5998;
+    }
 
-  nav ul li:last-child a {
-    color: white;
-  }
+    nav ul li:last-child a {
+        color: white;
+    }
 
-  nav .toggler span {
-    background-color: #283655;
-  }
-  
-  header .welcoming{
-    padding-top: 4rem;
-  }
+    nav .toggler span {
+        background-color: #283655;
+    }
+
+    header .welcoming {
+        padding-top: 4rem;
+    }
 }
