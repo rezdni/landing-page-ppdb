@@ -23,20 +23,4 @@ try {
     echo "Koneksi gagal: " . $e->getMessage();
     exit;
 }
-
-// Contoh query menggunakan prepared statements
-// try {
-//     $sql = "SELECT * FROM nama_tabel WHERE kolom = :nilai";
-//     $stmt = $pdo->prepare($sql);
-//     $stmt->execute(['nilai' => 'contoh_nilai']);
-
-//     // Mendapatkan hasil
-//     $results = $stmt->fetchAll();
-//     foreach ($results as $row) {
-//         print_r($row);
-//     }
-// } catch (PDOException $e) {
-//     echo "Query gagal: " . $e->getMessage();
-// }
-
 ?>

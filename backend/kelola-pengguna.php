@@ -86,9 +86,9 @@ if (isset($_GET["listPengguna"])) {
                         </div>
                         <div>
                             <p><?php echo $row["role"]; ?></p>
-                            <span class="material-symbols-outlined dark-green">
+                            <a href="edit-akun.html?id_akun=<?php echo $row['id']; ?>" class="material-symbols-outlined dark-green">
                                 edit
-                            </span>
+                            </a>
                             <span class="material-symbols-outlined dark-red" onclick="hapusPengguna(<?php echo $row['id'] ?>, '<?php echo $row['nama'] ?>')">
                                 delete
                             </span>
@@ -97,7 +97,78 @@ if (isset($_GET["listPengguna"])) {
                 <?php
             }
         }
-    } catch (PDOException $th) {
+    } catch (PDOException $e) {
+        echo json_encode(["status" => "gagal", "keterangan" => $e]);
+    }
+}
+
+// tampilkan salah satu akun
+if (isset($_GET["idPengguna"])) {
+    $idPengguna = htmlspecialchars($_GET["idPengguna"]);
+
+    try {
+        $showSql = "SELECT * FROM pengguna WHERE id = :idPengguna";
+        $stmt = $pdo->prepare($showSql);
+
+        $tampilkan = ["idPengguna" => $idPengguna];
+
+        $stmt->execute($tampilkan);
+        // get result
+        $results = $stmt->fetchAll();
+        if (empty($results)) {
+            echo json_encode(["status" => "gagal", "data tidak tersedia" => $e]);
+        } else {
+            foreach ($results as $row) {
+                echo json_encode(["status" => "berhasil", "data" => (["nama" => $row["nama"], "email" => $row["email"], "role" => $row["role"]])]);
+            }
+        }
+    } catch (PDOException $e) {
+        echo json_encode(["status" => "gagal", "keterangan" => $e]);
+    }
+}
+
+// simpan perubahan akun
+if (isset($_POST["simpanPerubahan"])) {
+    $idPengguna = htmlspecialchars($_POST["idPengguna"]);
+    $namaPengguna = htmlspecialchars($_POST["namaPengguna"]);
+    $emailPengguna = htmlspecialchars($_POST["emailPengguna"]);
+    $password = htmlspecialchars($_POST["password"]);
+    $jenisPengguna = htmlspecialchars($_POST["jenisPengguna"]);
+
+    try {
+        if ($password == "") {
+            $updateData = "UPDATE pengguna SET `nama` = :namaPengguna, `email` = :emailPengguna, `role` = :jenisPengguna WHERE `id` = :idPengguna";
+            $stmt = $pdo->prepare($updateData);
+
+            $masukanPerubahan = [
+                "namaPengguna" => $namaPengguna,
+                "emailPengguna" => $emailPengguna,
+                "jenisPengguna" => $jenisPengguna,
+                "idPengguna" => $idPengguna
+            ];
+
+            $stmt->execute($masukanPerubahan);
+
+            echo json_encode(["status" => "berhasil"]);
+        } else {
+            $password = password_hash($password, PASSWORD_BCRYPT);
+
+            $updateData = "UPDATE pengguna SET `nama` = :namaPengguna, `email` = :emailPengguna, `password` = :password, `role` = :jenisPengguna WHERE `id` = :idPengguna";
+            $stmt = $pdo->prepare($updateData);
+
+            $masukanPerubahan = [
+                "namaPengguna" => $namaPengguna,
+                "emailPengguna" => $emailPengguna,
+                "password" => $password,
+                "jenisPengguna" => $jenisPengguna,
+                "idPengguna" => $idPengguna
+            ];
+
+            $stmt->execute($masukanPerubahan);
+
+            echo json_encode(["status" => "berhasil"]);
+        }
+    } catch (PDOException $e) {
         echo json_encode(["status" => "gagal", "keterangan" => $e]);
     }
 }

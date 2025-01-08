@@ -29,7 +29,7 @@ if (isset($_POST["buatBerita"])) {
 if (isset($_GET["listPengumuman"])) {
     // List user account
     try {
-        $showSql = "SELECT * FROM pengumuman";
+        $showSql = "SELECT * FROM pengumuman ORDER BY id_pengumuman DESC";
         $stmt = $pdo->query($showSql);
 
         // get result

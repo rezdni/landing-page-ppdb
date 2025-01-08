@@ -16,6 +16,8 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         />
+        <!-- CSS Popup -->
+        <link rel="stylesheet" href="../../assets/styles/popup.css" />
     </head>
     <body>
         <!-- sidebar -->
@@ -156,7 +158,27 @@
             </div>
         </div>
         <!-- end list user -->
+        <!-- Popup Notifikasi -->
+        <div class="popup">
+            <div class="overlay">
+                <div class="popup-content">
+                    <h2 class="popup-title">This is popup title</h2>
+                    <p class="popup-msg">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Veniam blanditiis magnam aut harum et aperiam ea
+                        eum nulla? Sed, odit. Voluptatem sed debitis ullam
+                        aspernatur aliquam tempora ab magnam illum.
+                    </p>
+                    <div class="controls">
+                        <button class="submit-btn">Submit</button>
+                        <button class="close-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end Popup Notifikasi -->
         <script src="../../assets/scripts/admin.js"></script>
+        <script src="../../assets/scripts/popup.js"></script>
         <script>
             window.onload = listBerita;
         </script>

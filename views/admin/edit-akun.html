@@ -16,6 +16,8 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         />
+        <!-- CSS Popup -->
+        <link rel="stylesheet" href="../../assets/styles/popup.css" />
     </head>
     <body>
         <!-- sidebar -->
@@ -128,10 +130,20 @@
                         </div>
 
                         <div class="tombol-form">
-                            <button type="reset" name="reset" id="reset">
+                            <button
+                                type="reset"
+                                name="reset"
+                                id="reset"
+                                onclick="history.back()"
+                            >
                                 Batal
                             </button>
-                            <button type="submit" name="simpan" id="simpan">
+                            <button
+                                type="submit"
+                                name="simpan"
+                                id="simpan"
+                                onclick="simpanPerubahan(event)"
+                            >
                                 Simpan
                             </button>
                         </div>
@@ -140,5 +152,96 @@
             </div>
         </div>
         <!-- end list user -->
+        <!-- Popup Notifikasi -->
+        <div class="popup">
+            <div class="overlay">
+                <div class="popup-content">
+                    <h2 class="popup-title">This is popup title</h2>
+                    <p class="popup-msg">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Veniam blanditiis magnam aut harum et aperiam ea
+                        eum nulla? Sed, odit. Voluptatem sed debitis ullam
+                        aspernatur aliquam tempora ab magnam illum.
+                    </p>
+                    <div class="controls">
+                        <button class="submit-btn">Submit</button>
+                        <button class="close-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end Popup Notifikasi -->
+        <script src="../../assets/scripts/popup.js"></script>
+        <script>
+            let namaPengguna = document.getElementById("nama-pengguna");
+            let emailPengguna = document.getElementById("email");
+            let password = document.getElementById("password");
+            let jenisPengguna = document.getElementById("jenis-pengguna");
+
+            const getUrlMethod = new URLSearchParams(window.location.search);
+            const idAkun = getUrlMethod.get("id_akun");
+
+            let getXhr = new XMLHttpRequest();
+            getXhr.open(
+                "GET",
+                "../../backend/kelola-pengguna.php?idPengguna=" +
+                    encodeURIComponent(idAkun),
+                true
+            );
+            getXhr.setRequestHeader(
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+            );
+
+            getXhr.onload = function () {
+                if (getXhr.status === 200) {
+                    const dataPengguna = JSON.parse(getXhr.responseText);
+
+                    namaPengguna.value = dataPengguna.data.nama;
+                    emailPengguna.value = dataPengguna.data.email;
+                    jenisPengguna.value = dataPengguna.data.role;
+                } else {
+                    showPopup("Error", "Failed to process data", "", "Ok");
+                }
+            };
+
+            getXhr.send();
+
+            function simpanPerubahan(event) {
+                event.preventDefault();
+
+                let simpan = new XMLHttpRequest();
+                simpan.open("POST", "../../backend/kelola-pengguna.php", true);
+                simpan.setRequestHeader(
+                    "Content-Type",
+                    "application/x-www-form-urlencoded"
+                );
+
+                simpan.onload = function () {
+                    if (simpan.status === 200) {
+                        const respon = JSON.parse(simpan.responseText);
+                        if (respon.status == "berhasil") {
+                            location.href =
+                                "kelola-pengguna.html?editpengguna=berhasil";
+                        }
+                    } else {
+                        showPopup("Error", "Failed to process data", "", "Ok");
+                    }
+                };
+
+                simpan.send(
+                    "simpanPerubahan=true&idPengguna=" +
+                        encodeURIComponent(idAkun) +
+                        "&namaPengguna=" +
+                        encodeURIComponent(namaPengguna.value) +
+                        "&emailPengguna=" +
+                        encodeURIComponent(emailPengguna.value) +
+                        "&password=" +
+                        encodeURIComponent(password.value) +
+                        "&jenisPengguna=" +
+                        encodeURIComponent(jenisPengguna.value)
+                );
+            }
+        </script>
     </body>
 </html>
