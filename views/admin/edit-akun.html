@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Pengelola Pengumuman</title>
+        <title>data-pendaftaran</title>
         <link rel="stylesheet" href="../../assets/styles/styles.css" />
         <link
             rel="stylesheet"
@@ -22,7 +22,7 @@
         <div class="sidebar">
             <ul class="menu">
                 <li>
-                    <a href="index.html">
+                    <a href="#">
                         <i class="fa-solid fa-bars"></i>
                         <span>Menu</span>
                     </a>
@@ -76,7 +76,7 @@
                     <img src="../../assets/images/logo.png" alt="" />
                     <div class="teks">
                         <span>SMA AL FASNAH</span>
-                        <h2>Pengumuman</h2>
+                        <h2>Edit Akun</h2>
                     </div>
                 </div>
                 <div class="user--info">
@@ -92,73 +92,53 @@
             <!-- end sidebar -->
             <!-- list user -->
             <div class="list--wrapper formulir">
-                <div class="form-head">
-                    <h3 class="main--title">Buat Berita</h3>
-                    <button
-                        id="buat-pengumuman"
-                        name="buat-pengumuman"
-                        onclick="toggleBuatBerita()"
-                    >
-                        Buat
-                    </button>
-                </div>
+                <h3 class="main--title">Edit Akun Pengguna</h3>
                 <div class="list--container">
-                    <form action="" id="buat-berita">
-                        <div class="berita kolom-isi">
+                    <form action="">
+                        <div class="kolom-isi">
+                            <label for="nama-pengguna">Nama Pengguna</label>
                             <input
                                 type="text"
-                                id="judul-berita"
-                                name="judul-berita"
-                                placeholder="Judul Berita"
+                                id="nama-pengguna"
+                                name="nama-pengguna"
                             />
-                            <textarea
-                                id="isi-berita"
-                                name="isi-berita"
-                                placeholder="Isi Berita"
-                            ></textarea>
-                            <div class="tombol-berita">
-                                <button
-                                    type="reset"
-                                    name="batal"
-                                    id="batal"
-                                    onclick="toggleBuatBerita()"
-                                >
-                                    Batal
-                                </button>
-                                <button
-                                    type="submit"
-                                    name="simpan"
-                                    id="simpan"
-                                    onclick="simpanBerita(this.parentElement.parentElement, event)"
-                                >
-                                    Simpan
-                                </button>
-                            </div>
                         </div>
-                    </form>
-                    <div class="list-berita">
-                        <div class="berita hasil">
-                            <h3>Judul Berita</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Deleniti rem molestias,
-                                accusamus doloribus corporis doloremque
-                                architecto natus asperiores mollitia aliquid
-                                incidunt atque unde commodi pariatur nesciunt!
-                                Facere fugiat incidunt maiores?
-                            </p>
-                            <button name="hapus-berita" id="hapus-berita">
-                                Hapus
+
+                        <div class="kolom-isi">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" />
+                        </div>
+
+                        <div class="kolom-isi">
+                            <label for="password">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                            />
+                        </div>
+
+                        <div class="kolom-isi">
+                            <label for="jenis-pengguna">Jenis Pengguna</label>
+                            <select name="jenis-pengguna" id="jenis-pengguna">
+                                <option value="" selected></option>
+                                <option value="Admin">Admin</option>
+                                <option value="Calon">Calon</option>
+                            </select>
+                        </div>
+
+                        <div class="tombol-form">
+                            <button type="reset" name="reset" id="reset">
+                                Batal
+                            </button>
+                            <button type="submit" name="simpan" id="simpan">
+                                Simpan
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
         <!-- end list user -->
-        <script src="../../assets/scripts/admin.js"></script>
-        <script>
-            window.onload = listBerita;
-        </script>
     </body>
 </html>
