@@ -1,13 +1,13 @@
-const container = document.querySelector('.container');
-const resgisterBtn = document.querySelector('.register-btn');
-const loginBtn = document.querySelector('.login-btn');
+const container = document.querySelector(".container");
+const resgisterBtn = document.querySelector(".register-btn");
+const loginBtn = document.querySelector(".login-btn");
 
-resgisterBtn.addEventListener('click', () => {
-    container.classList.add('active');
+resgisterBtn.addEventListener("click", () => {
+    container.classList.add("active");
 });
 
-loginBtn.addEventListener('click', () => {
-    container.classList.remove('active');
+loginBtn.addEventListener("click", () => {
+    container.classList.remove("active");
 });
 
 // Sistem registrasi
@@ -30,10 +30,10 @@ function registrasi(elm, event) {
             let respon = JSON.parse(xhr.responseText);
             if (respon.status === "berhasil") {
                 alert("Akun berhasil dibuat, silahkan pindah ke menu login");
-                
+
                 // bersihkan kolom isian
                 let field = elm.querySelectorAll("input");
-                field.forEach(element => {
+                field.forEach((element) => {
                     element.value = "";
                 });
             } else {
@@ -43,15 +43,49 @@ function registrasi(elm, event) {
         } else {
             alert("Kesalahan dalam menghubungkan ke server");
         }
-    }
+    };
 
     // Kirim request ke back-end
     xhr.send(
         "createCalon=true&name=" +
-        encodeURIComponent(nama) +
-        "&email=" +
-        encodeURIComponent(email) +
-        "&password=" +
-        encodeURIComponent(sandi)
+            encodeURIComponent(nama) +
+            "&email=" +
+            encodeURIComponent(email) +
+            "&password=" +
+            encodeURIComponent(sandi)
     );
+}
+
+function login(elm, event) {
+    event.preventDefault();
+
+    const email = elm.querySelector("#login-email").value;
+    const password = elm.querySelector("#login-password").value;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../backend/login.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const respon = JSON.parse(xhr.responseText);
+            console.log(respon);
+            if (respon.status === "berhasil") {
+                pindahHalaman(respon.alihkan);
+            } else {
+                alert(respon.pesan);
+            }
+        }
+    };
+
+    xhr.send(
+        "login=true&email=" +
+            encodeURIComponent(email) +
+            "&password=" +
+            encodeURIComponent(password)
+    );
+}
+
+function pindahHalaman(url) {
+    window.location.href = url;
 }

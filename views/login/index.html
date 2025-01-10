@@ -1,84 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- boxicons -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <!-- CSS -->
-     <link rel="stylesheet" href="../../assets/styles/login.css">
-    <title>Document</title>
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- boxicons -->
+        <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+        />
+        <!-- CSS -->
+        <link rel="stylesheet" href="../../assets/styles/login.css" />
+        <title>Document</title>
+    </head>
 
-
-<body>
-    <div class="container">
-        <!-- Login -->
-        <div class="form-box login">
-            <form action="">
-                <h1>Login</h1>
-                <div class="input-box">
-                    <input type="email" placeholder="Masukan Email" required>
-                    <i class='bx bxs-user'></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Password" required>
-                    <i class='bx bxs-lock-alt' ></i>
-                </div>
-                <div class="forget-link">
-                    <a href="#">Lupa Password?</a>
-                </div>
-                <button type="submit" class="btn">Login</button>
-                <!-- <p>or login with social platfroms</p>
+    <body>
+        <div class="container">
+            <!-- Login -->
+            <div class="form-box login">
+                <form action="">
+                    <h1>Login</h1>
+                    <div class="input-box">
+                        <input
+                            type="email"
+                            placeholder="Masukan Email"
+                            id="login-email"
+                            required
+                        />
+                        <i class="bx bxs-user"></i>
+                    </div>
+                    <div class="input-box">
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            id="login-password"
+                            required
+                        />
+                        <i class="bx bxs-lock-alt"></i>
+                    </div>
+                    <div class="forget-link">
+                        <a href="#">Lupa Password?</a>
+                    </div>
+                    <button
+                        type="submit"
+                        class="btn"
+                        onclick="login(this.parentElement, event)"
+                    >
+                        Login
+                    </button>
+                    <!-- <p>or login with social platfroms</p>
                 <div class="social-icons">
                     <a href="#"><i class='bx bxl-google' ></i></a>
                     <a href="#"><i class='bx bxl-facebook-circle' ></i></a>
                     <a href="#"><i class='bx bxl-github' ></i></a>
                     <a href="#"><i class='bx bxl-linkedin' ></i></a>
                 </div> -->
-            </form>
-        </div>
-        <!-- Register -->
-        <div class="form-box register">
-            <form action="">
-                <h1>Pendaftaran</h1>
-                <div class="input-box">
-                    <input type="text" placeholder="Nama" id="regis-nama" required>
-                    <i class='bx bxs-user'></i>
+                </form>
+            </div>
+            <!-- Register -->
+            <div class="form-box register">
+                <form action="">
+                    <h1>Pendaftaran</h1>
+                    <div class="input-box">
+                        <input
+                            type="text"
+                            placeholder="Nama"
+                            id="regis-nama"
+                            required
+                        />
+                        <i class="bx bxs-user"></i>
+                    </div>
+                    <div class="input-box">
+                        <input
+                            type="email"
+                            placeholder="masukan email"
+                            id="regis-email"
+                            required
+                        />
+                        <i class="bx bx-envelope"></i>
+                    </div>
+                    <div class="input-box">
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            id="regis-passwd"
+                            required
+                        />
+                        <i class="bx bxs-lock-alt"></i>
+                    </div>
+                    <button
+                        type="submit"
+                        class="btn"
+                        onclick="registrasi(this.parentElement, event)"
+                    >
+                        Daftar
+                    </button>
+                    <p>or register with social platfroms</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="bx bxl-google"></i></a>
+                        <a href="#"><i class="bx bxl-facebook-circle"></i></a>
+                        <a href="#"><i class="bx bxl-github"></i></a>
+                        <a href="#"><i class="bx bxl-linkedin"></i></a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="toggle-box">
+                <div class="toggle-panel toggle-left">
+                    <h1>Selamat Datang!!</h1>
+                    <p>Belum mendaftar?</p>
+                    <button class="btn register-btn">Daftar Sekarang!</button>
                 </div>
-                <div class="input-box">
-                    <input type="email" placeholder="masukan email" id="regis-email" required>
-                    <i class='bx bx-envelope' ></i>
+                <div class="toggle-panel toggle-right">
+                    <h1>Selamat Datang!</h1>
+                    <p>Sudah mendaftar?</p>
+                    <button class="btn login-btn">Login</button>
                 </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Password" id="regis-passwd" required>
-                    <i class='bx bxs-lock-alt' ></i>
-                </div>
-                <button type="submit" class="btn" onclick="registrasi(this.parentElement, event)">Daftar</button>
-                <p>or register with social platfroms</p>
-                <div class="social-icons">
-                    <a href="#"><i class='bx bxl-google' ></i></a>
-                    <a href="#"><i class='bx bxl-facebook-circle' ></i></a>
-                    <a href="#"><i class='bx bxl-github' ></i></a>
-                    <a href="#"><i class='bx bxl-linkedin' ></i></a>
-                </div>
-            </form>
+            </div>
         </div>
 
-        <div class="toggle-box">
-            <div class="toggle-panel toggle-left">
-                <h1>Selamat Datang!!</h1>
-                <p>Belum mendaftar?</p>
-                <button class="btn register-btn">Daftar Sekarang!</button>
-            </div>
-            <div class="toggle-panel toggle-right">
-                <h1>Selamat Datang!</h1>
-                <p>Sudah mendaftar?</p>
-                <button class="btn login-btn">Login</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="../../assets/scripts/login.js"></script>
-</body>
+        <script src="../../assets/scripts/login.js"></script>
+        <script src="../../assets/scripts/cek-sesi.js"></script>
+        <script>
+            window.onload = function () {
+                cekSesi("login");
+            };
+        </script>
+    </body>
 </html>
