@@ -25,7 +25,7 @@ body {
     padding: 20px 1.7rem;
     color: #fff;
     overflow: hidden;
-    transition: all 0.5rem linear;
+    /* transition: all 0.5s linear; */
     background: #239b56;
     transition: 0.5s;
 }
@@ -508,5 +508,53 @@ body {
     }
     .list--wrapper table td:last-child {
         border: none;
+    }
+}
+
+/* Responsive Tablet */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 400px;
+        background: #239b56;
+    }
+
+    .sidebar:hover {
+        width: 250px;
+    }
+
+    .menu a {
+        font-size: 14px;
+        width: 150px;
+    }
+
+    .menu a i {
+        margin-right: 20px;
+    }
+}
+
+/* Responsive Hp */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 60px;
+        padding: 30px;
+        overflow: hidden;
+    }
+
+    .sidebar:hover {
+        width: 200px;
+    }
+
+    .menu a {
+        font-size: 12px;
+        width: 120px;
+        text-align: left;
+    }
+
+    .menu a i {
+        margin-right: 10px;
+    }
+
+    .menu li {
+        padding: 0.5rem;
     }
 }
