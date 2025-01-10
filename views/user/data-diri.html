@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>formulir</title>
+        <link rel="stylesheet" href="../../assets/styles/styles.css" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+            integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+    </head>
+    <body>
+        <!-- sidebar -->
+        <div class="sidebar">
+            <ul class="menu">
+                <li>
+                    <a href="index.html">
+                        <i class="fa-solid fa-bars"></i>
+                        <span>Menu</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="data-diri.html">
+                        <i class="fa-solid fa-user-group"></i>
+                        <span>Data Siswa</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="data-orang-tua.html">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Data Orang Tua</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="upload-berkas.html">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>Upload Berkas</span>
+                    </a>
+                </li>
+                <li class="logout">
+                    <a href="#">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- sidebar -->
+        <div class="main--content">
+            <div class="header--wrapper">
+                <div class="header--title">
+                    <img src="../../assets/images/logo.png" alt="" />
+                    <div class="teks">
+                        <span>Selamat Datang</span>
+                        <h2>Di SMA AL FASANAH</h2>
+                    </div>
+                </div>
+                <div class="user--info">
+                    <div class="searh--box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" placeholder="Search" />
+                    </div>
+                    <span class="material-symbols-outlined user-profile">
+                        account_circle
+                    </span>
+                </div>
+            </div>
+            <!-- end sidebar -->
+            <!-- list user -->
+            <div class="list--wrapper formulir">
+                <h3 class="main--title">Formulir Pendaftaran</h3>
+                <div class="list--container ">
+                    <form action="">
+                        <div class="kolom-isi">
+                            <label for="nama-siswa"> Nama Siswa </label>
+                            <input
+                                type="text"
+                                id="nama-siswa"
+                                name="nama-siswa"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="tanggal-lahir"> Tanggal Lahir </label>
+                            <input
+                                type="date"
+                                id="tanggal-lahir"
+                                name="tanggal-lahir"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="no-nis"> No NISN </label>
+                            <input type="number" id="no-nis" name="no-nis" />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="jenis-kelamin"> Jenis Kelamin </label>
+                            <!-- <input type="text" id="jenis-kelamin" name="jenis-kelamin"> -->
+                            <select name="jenis-kelamin" id="jenis-kelamin">
+                                <option value="" selected></option>
+                                <option value="Laki-Laki">Laki-Laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="agama"> Agama </label>
+                            <!-- <input type="text" id="agama" name="agama"> -->
+                            <select name="agama" id="agama">
+                                <option value="" selected></option>
+                                <option value="Islam">Islam</option>
+                                <option value="Katolik">Katolik</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Protestan">Protestan</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Konghucu">Konghucu</option>
+                            </select>
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="asal-sekoah"> Asal Sekolah </label>
+                            <input
+                                type="text"
+                                id="asal-sekoah"
+                                name="asal-sekoah"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="golongan-darah"> Golongan Darah </label>
+                            <input
+                                type="text"
+                                id="golongan-darah"
+                                name="golongan-darah"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="alamat-tinggal"> Alamat </label>
+                            <input
+                                type="text"
+                                id="alamat-tinggal"
+                                name="alamat-tinggal"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="provinsi"> Provinsi </label>
+                            <input type="text" id="provinsi" name="provinsi" />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kota-kabupaten"> Kota/Kabupaten </label>
+                            <input
+                                type="text"
+                                id="kota-kabupaten"
+                                name="kota-kabupaten"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kecamatan"> Kecamatan </label>
+                            <input
+                                type="text"
+                                id="kecamatan"
+                                name="kecamatan"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kelurahan"> Kelurahan </label>
+                            <input
+                                type="text"
+                                id="kelurahan"
+                                name="kelurahan"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kode-post"> Kode Post </label>
+                            <input
+                                type="number"
+                                id="kode-post"
+                                name="kode-post"
+                            />
+                        </div>
+                        <h3 class="main--title">Masukan Berkasmu</h3>
+                        <div class="kolom-isi">
+                            <label for="dokumen"> Ijasah </label>
+                            <input
+                                type="file"
+                                id="Ijasah pdf"
+                                name="Ijasah pdf"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="foto"> Masukan Gambar Maks 1MB </label>
+                            <input
+                                type="file"
+                                id="masukan gambar"
+                                name="masukan gambar"
+                                placeholder="masukan gambar"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="dokumen-lainnya">
+                                Dokumen Lainnya
+                            </label>
+                            <input
+                                type="file"
+                                id="dokumen-lainnya"
+                                name="dokumen-lainnya"
+                            />
+                        </div>
+                        <div class="tombol-form">
+                            <button type="reset" name="reset" id="reset">
+                                Batal
+                            </button>
+                            <button type="submit" name="simpan" id="simpan">
+                                Simpan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end formulir -->
+    </body>
+</html>
