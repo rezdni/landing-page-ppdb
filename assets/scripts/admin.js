@@ -177,3 +177,184 @@ function hapusBerita(idBerita) {
     // Kirim request ke back-end
     xhr.send("hapusBerita=true&idBerita=" + encodeURIComponent(idBerita));
 }
+
+//List semua calon
+function listSemuaCalon() {
+    let getXhr = new XMLHttpRequest();
+    getXhr.open("GET", "../../backend/kelola-calon.php?listCalon=true", true);
+    getXhr.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+    );
+
+    getXhr.onload = function () {
+        if (getXhr.status === 200) {
+            const dataCalon = JSON.parse(getXhr.responseText);
+            let calonSiswa = document.getElementById("data-siswa");
+
+            if (dataCalon.kesalahan) {
+                calonSiswa.innerHTML = `
+                <tr>
+                    <td colspan="7">${dataCalon.kesalahan}</td>
+                </tr>
+                `;
+            } else {
+                let biodataCalon = "";
+
+                dataCalon.forEach((biodata) => {
+                    biodataCalon += `
+                    <tr>
+                        <td data-label="No" class="no">
+                            <p class="text-wrap">${biodata.nomor}</p>
+                        </td>
+                        <td data-label="Nama Siswa" class="nama-siswa">
+                            <p class="text-wrap">${biodata.nama}</p>
+                        </td>
+                        <td data-label="Jurusan" class="jurusan">
+                            <p class="text-wrap">${biodata.jurusan}</p>
+                        </td>
+                        <td data-label="Gelombang" class="gelombang">
+                            <p class="text-wrap">${biodata.gelombang}</p>
+                        </td>
+                        <td data-label="Tanggal" class="tanggal-daftar">
+                            <p class="text-wrap">${biodata.daftar}</p>
+                        </td>
+                        <td
+                            data-label="Nomor Telepon"
+                            class="nomor-telepon"
+                        >
+                            <p class="text-wrap">${biodata.telepon}</p>
+                        </td>
+                        <td data-label="Keterangan" class="keterangan">
+                            <p class="text-wrap">sukses</p>
+                        </td>
+                        <td data-label="Ubah Data" class="ubah-data">
+                            <a href="edit-calon.html?idCalon=${biodata.id}">
+                                <button name="edit-data" id="edit-data">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            </a>
+                            <button name="hapus-data" id="hapus-data" onclick="hapusCalon(${biodata.id}, '${biodata.nama}')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    `;
+                });
+
+                calonSiswa.innerHTML = biodataCalon;
+            }
+        } else {
+            showPopup("Error", "Failed to process data", "", "Ok");
+        }
+    };
+
+    getXhr.send();
+}
+
+// List sebagian calon
+function listCalon(batas) {
+    let getXhr = new XMLHttpRequest();
+    getXhr.open(
+        "GET",
+        "../../backend/kelola-calon.php?listCalon=true&limit=" +
+            encodeURIComponent(batas),
+        true
+    );
+    getXhr.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+    );
+
+    getXhr.onload = function () {
+        if (getXhr.status === 200) {
+            const dataCalon = JSON.parse(getXhr.responseText);
+            let calonSiswa = document.getElementById("data-siswa");
+
+            if (dataCalon.kesalahan) {
+                calonSiswa.innerHTML = `
+                <tr>
+                    <td colspan="7">${dataCalon.kesalahan}</td>
+                </tr>
+                `;
+            } else {
+                let biodataCalon = "";
+
+                dataCalon.forEach((biodata) => {
+                    biodataCalon += `
+                    <tr>
+                        <td data-label="No" class="no">
+                            <p class="text-wrap">${biodata.nomor}</p>
+                        </td>
+                        <td data-label="Nama Siswa" class="nama-siswa">
+                            <p class="text-wrap">${biodata.nama}</p>
+                        </td>
+                        <td data-label="Jurusan" class="jurusan">
+                            <p class="text-wrap">${biodata.jurusan}</p>
+                        </td>
+                        <td data-label="Gelombang" class="gelombang">
+                            <p class="text-wrap">${biodata.gelombang}</p>
+                        </td>
+                        <td data-label="Tanggal" class="tanggal-daftar">
+                            <p class="text-wrap">${biodata.daftar}</p>
+                        </td>
+                        <td
+                            data-label="Nomor Telepon"
+                            class="nomor-telepon"
+                        >
+                            <p class="text-wrap">${biodata.telepon}</p>
+                        </td>
+                        <td data-label="Keterangan" class="keterangan">
+                            <p class="text-wrap">sukses</p>
+                        </td>
+                    </tr>
+                    `;
+                });
+
+                calonSiswa.innerHTML = biodataCalon;
+            }
+        } else {
+            showPopup("Error", "Failed to process data", "", "Ok");
+        }
+    };
+
+    getXhr.send();
+}
+
+// Hapus calon
+function hapusCalon(idCalon, namaCalon) {
+    popupSubmit.setAttribute("onclick", "removeCalon(" + idCalon + ")");
+    showPopup(
+        "Peringatan",
+        "Hapus calon dengan nama '" + namaCalon + "'?",
+        "Batal",
+        "Ok"
+    );
+}
+
+function removeCalon(idCalon) {
+    // buat koneksi xhttprequest
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../backend/kelola-calon.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // terima respon back-end
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            let respon = JSON.parse(xhr.responseText);
+            if (respon.status === "berhasil") {
+                togglePopup();
+                popupSubmit.removeAttribute("onclick");
+                listSemuaCalon();
+            } else {
+                alert("Kesalahan dalam menghapus calon siswa");
+                console.log(respon.keterangan);
+            }
+        } else {
+            alert("Kesalahan dalam menghubungkan ke server");
+        }
+    };
+
+    // Kirim request ke back-end
+    xhr.send("removeCalon=true&calonId=" + encodeURIComponent(idCalon));
+}

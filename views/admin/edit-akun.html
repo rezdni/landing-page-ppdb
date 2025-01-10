@@ -179,33 +179,35 @@
             let jenisPengguna = document.getElementById("jenis-pengguna");
 
             const getUrlMethod = new URLSearchParams(window.location.search);
-            const idAkun = getUrlMethod.get("id_akun");
+            let idAkun = getUrlMethod.get("id_akun");
 
-            let getXhr = new XMLHttpRequest();
-            getXhr.open(
-                "GET",
-                "../../backend/kelola-pengguna.php?idPengguna=" +
-                    encodeURIComponent(idAkun),
-                true
-            );
-            getXhr.setRequestHeader(
-                "Content-Type",
-                "application/x-www-form-urlencoded"
-            );
+            if (idAkun) {
+                let getXhr = new XMLHttpRequest();
+                getXhr.open(
+                    "GET",
+                    "../../backend/kelola-pengguna.php?idPengguna=" +
+                        encodeURIComponent(idAkun),
+                    true
+                );
+                getXhr.setRequestHeader(
+                    "Content-Type",
+                    "application/x-www-form-urlencoded"
+                );
 
-            getXhr.onload = function () {
-                if (getXhr.status === 200) {
-                    const dataPengguna = JSON.parse(getXhr.responseText);
+                getXhr.onload = function () {
+                    if (getXhr.status === 200) {
+                        const dataPengguna = JSON.parse(getXhr.responseText);
 
-                    namaPengguna.value = dataPengguna.data.nama;
-                    emailPengguna.value = dataPengguna.data.email;
-                    jenisPengguna.value = dataPengguna.data.role;
-                } else {
-                    showPopup("Error", "Failed to process data", "", "Ok");
-                }
-            };
+                        namaPengguna.value = dataPengguna.data.nama;
+                        emailPengguna.value = dataPengguna.data.email;
+                        jenisPengguna.value = dataPengguna.data.role;
+                    } else {
+                        showPopup("Error", "Failed to process data", "", "Ok");
+                    }
+                };
 
-            getXhr.send();
+                getXhr.send();
+            }
 
             function simpanPerubahan(event) {
                 event.preventDefault();

@@ -90,4 +90,21 @@ if (isset($_GET["listCalon"])) {
         echo $e;
     }
 }
+
+// Hapus calon siswa
+if (isset($_POST["removeCalon"])) {
+    $calonId = htmlspecialchars($_POST["calonId"]);
+
+    try {
+        $deleteSql = "DELETE FROM pendaftaran WHERE `id_calon` = :idCalon";
+        $stmt = $pdo->prepare($deleteSql);
+
+        $deleteParam = ["idCalon" => $calonId];
+
+        $stmt->execute($deleteParam);
+        echo json_encode(["status" => "berhasil"]);
+    } catch (PDOException $e) {
+        echo json_encode(["status" => "gagal", "keterangan" => $e]);
+    }
+}
 ?>
