@@ -64,7 +64,7 @@
                     </a>
                 </li>
                 <li class="logout">
-                    <a href="#">
+                    <a href="../../logout.php">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </a>
@@ -172,6 +172,7 @@
         </div>
         <!-- end Popup Notifikasi -->
         <script src="../../assets/scripts/popup.js"></script>
+        <script src="../../assets/scripts/cek-sesi.js"></script>
         <script>
             let namaPengguna = document.getElementById("nama-pengguna");
             let emailPengguna = document.getElementById("email");
@@ -244,6 +245,10 @@
                         encodeURIComponent(jenisPengguna.value)
                 );
             }
+
+            window.onload = function () {
+                cekSesi("dashboard");
+            };
         </script>
     </body>
 </html>

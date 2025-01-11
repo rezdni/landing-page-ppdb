@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li class="logout">
-                    <a href="#">
+                    <a href="../../logout.php">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </a>
@@ -82,7 +82,7 @@
             <!-- end sidebar -->
             <!-- list user -->
             <div class="list--wrapper formulir">
-                <div class="list--container ">
+                <div class="list--container">
                     <form action="">
                         <h3 class="main--title">Data Orang Tua</h3>
                         <div class="kolom-isi">
@@ -124,5 +124,11 @@
             </div>
         </div>
         <!-- end formulir -->
+        <script src="../../assets/scripts/cek-sesi.js"></script>
+        <script>
+            window.onload = function () {
+                cekSesi("dashboard");
+            };
+        </script>
     </body>
 </html>

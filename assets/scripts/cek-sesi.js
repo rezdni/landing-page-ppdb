@@ -9,7 +9,6 @@ function cekSesi(lokasi) {
     xhrSesi.onload = function () {
         if (xhrSesi.status === 200) {
             const respon = JSON.parse(xhrSesi.responseText);
-            console.log(respon);
             if (respon.diotentikasi && respon.role === "Admin") {
                 if (lokasi === "login") {
                     window.location.href = "/views/admin/";
@@ -19,7 +18,9 @@ function cekSesi(lokasi) {
                     window.location.href = "/views/user/";
                 }
             } else {
-                window.location.href = "/views/login/";
+                if (lokasi !== "login") {
+                    window.location.href = "/views/login/";
+                }
             }
         }
     };
