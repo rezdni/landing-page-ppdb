@@ -358,3 +358,30 @@ function removeCalon(idCalon) {
     // Kirim request ke back-end
     xhr.send("removeCalon=true&calonId=" + encodeURIComponent(idCalon));
 }
+
+// Sidebar Responsive
+function toggleSidebar() {
+    // Toggle class 'active' untuk membuka dan menutup sidebar
+    document.querySelector(".sidebar").classList.toggle("active");
+}
+// const menuToggle = document.getElementById("menu-toggle");
+// const nav = document.getElementById("nav");
+
+// menuToggle.addEventListener("click", () => {
+//     nav.classList.toggle("active");
+// });
+
+
+const menuToggle = document.querySelector('.menu-toggle');
+const menuClose = document.querySelector('.menu-close');
+const menuMobile = document.querySelector('.menu-mobile');
+
+// Tampilkan menu saat tombol menu ditekan
+menuToggle.addEventListener('click', () => {
+  menuMobile.classList.add('active');
+});
+
+// Sembunyikan menu saat tombol close ditekan
+menuClose.addEventListener('click', () => {
+  menuMobile.classList.remove('active');
+});
