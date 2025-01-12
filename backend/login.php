@@ -34,7 +34,13 @@ if (isset($_POST["login"])) {
 
             $stmt->execute($setSession);
 
-            setcookie("login", $user["id"] . ":" . $token, time() + (86400 * 30), "/");
+            setcookie("login", $user["id"] . ":" . $token, [
+                'expires' => time() + (86400 * 30),
+                'path' => '/',
+                'httponly' => true,
+                'secure' => false, //enable https
+                'samesite' => 'Strict',
+            ]);
 
             if ($_SESSION["user_role"] == "Admin") {
                 echo json_encode(["status" => "berhasil", "alihkan" => "/views/admin/"]);
