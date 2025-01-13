@@ -360,18 +360,7 @@ function removeCalon(idCalon) {
 }
 
 // Sidebar Responsive
-function toggleSidebar() {
-    // Toggle class 'active' untuk membuka dan menutup sidebar
-    document.querySelector(".sidebar").classList.toggle("active");
-}
-// const menuToggle = document.getElementById("menu-toggle");
-// const nav = document.getElementById("nav");
-
-// menuToggle.addEventListener("click", () => {
-//     nav.classList.toggle("active");
-// });
-
-
+// Menu Mobile 480px
 const menuToggle = document.querySelector('.menu-toggle');
 const menuClose = document.querySelector('.menu-close');
 const menuMobile = document.querySelector('.menu-mobile');
