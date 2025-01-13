@@ -36,7 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Periksa apakah folder tujuan ada, jika tidak, buat folder
     if (!is_dir($upload_folder)) {
-        mkdir($upload_folder, 0777, true);
+        if (!mkdir($upload_folder, 0777, true) && !is_dir($upload_folder)) {
+            throw new Exception("Gagal membuat folder tujuan: $upload_folder");
+            // print_r(error_get_last());
+        }
     }
 
     // Jenis file yang diunggah
@@ -119,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ':file_path' => $file_path
                     ]);
                 } else {
+                    // print_r(error_get_last());
                     throw new Exception("Gagal memindahkan file $jenis_file ke folder tujuan.");
                 }
             } else {
