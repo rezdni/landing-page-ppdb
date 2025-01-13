@@ -56,13 +56,4 @@ if (isset($_POST["login"])) {
         echo json_encode(["status" => "error", "pesan" => $e]);
     }
 }
-
-// cek sesi
-if (isset($_POST["cekSesi"])) {
-    # code...
-}
-
-
-// header("Location: /views/admin/");
-// exit;
 ?>

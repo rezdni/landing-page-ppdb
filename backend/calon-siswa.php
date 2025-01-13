@@ -1,5 +1,16 @@
 <?php
+session_start();
+header('Content-Type: application/json');
 require_once '../config/koneksi.php';
+
+
+// print_r($_POST);
+// print_r($_FILES);
+
+if (!isset($_SESSION) || !$_SESSION["user_role"] === "Admin") {
+    echo json_encode(["status" => "error", "pesan" => "Anda tidak memiliki akses untuk ini"]);
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari formulir
@@ -32,14 +43,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Konfigurasi unggahan file
     $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf'];
     $max_file_size = 2 * 1024 * 1024; // 5MB
-    $upload_folder = 'uploads/documents/';
+    $upload_folder = '../uploads/documents/';
 
-    // Periksa apakah folder tujuan ada, jika tidak, buat folder
+    // Periksa apakah folder tujuan ada
     if (!is_dir($upload_folder)) {
-        if (!mkdir($upload_folder, 0777, true) && !is_dir($upload_folder)) {
-            throw new Exception("Gagal membuat folder tujuan: $upload_folder");
-            // print_r(error_get_last());
-        }
+        echo json_encode(["status" => "error", "pesan" => "Folder tujuan tidak tersedia"]);
+        exit();
+
+        // if (!mkdir($upload_folder, 0777, true) && !is_dir($upload_folder)) {
+        //     throw new Exception("Gagal membuat folder tujuan: $upload_folder");
+        // }
     }
 
     // Jenis file yang diunggah
@@ -102,11 +115,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Validasi file
             if ($file_error === UPLOAD_ERR_OK) {
                 if (!in_array($file_extension, $allowed_extensions)) {
-                    throw new Exception("Ekstensi file untuk $jenis_file tidak diperbolehkan.");
+                    throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ekstensi file untuk $jenis_file tidak diperbolehkan."]));
                 }
 
                 if ($file_size > $max_file_size) {
-                    throw new Exception("Ukuran file untuk $jenis_file terlalu besar.");
+                    throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ukuran file untuk $jenis_file terlalu besar."]));
                 }
 
                 // Buat nama file unik
@@ -122,22 +135,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ':file_path' => $file_path
                     ]);
                 } else {
-                    // print_r(error_get_last());
-                    throw new Exception("Gagal memindahkan file $jenis_file ke folder tujuan.");
+                    throw new Exception(json_encode(["status" => "error", "pesan" => "Gagal memindahkan file $jenis_file ke folder tujuan."]));
                 }
             } else {
-                throw new Exception("Terjadi kesalahan saat mengunggah file $jenis_file.");
+                throw new Exception(json_encode(["status" => "error", "pesan" => "Terjadi kesalahan saat mengunggah file $jenis_file."]));
             }
         }
 
         // Commit transaksi
         $pdo->commit();
 
-        echo "Data berhasil disimpan.";
+        echo json_encode(["status" => "berhasil", "pesan" => "Data berhasil disimpan"]);
+
+        header('Location: /views/admin/data-pendaftar.html?succeed=true');
+        exit();
     } catch (Exception $e) {
         // Rollback jika ada kesalahan
         $pdo->rollBack();
-        echo "Terjadi kesalahan: " . $e->getMessage();
+        echo json_encode(["status" => "error", "pesan" => "Terjadi kesalahan: " . $e->getMessage()]);
     }
 }
 ?>

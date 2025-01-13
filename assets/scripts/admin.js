@@ -178,6 +178,35 @@ function hapusBerita(idBerita) {
     xhr.send("hapusBerita=true&idBerita=" + encodeURIComponent(idBerita));
 }
 
+// Tambah calon
+function tambahCalon(event) {
+    // event.preventDefault();
+    // let formulir = document.getElementById("tambahcalon");
+    // let formData = new FormData(formulir);
+    // // formData.append("buatcalon", "true");
+    // formData.forEach((value, key) => {
+    //     // console.log(key, value);
+    // });
+    // const xhr = new XMLHttpRequest();
+    // xhr.open("POST", "../../backend/calon-siswa.php", true);
+    // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    // xhr.onload = function () {
+    //     if (xhr.status === 200) {
+    //         console.log(xhr.responseText);
+    //         // const respon = JSON.parse(xhr.responseText);
+    //         if (respon.status === "error") {
+    //             showPopup("Kesalahan", "Internal Server Error", "", "Oke");
+    //             console.log(respon.pesan);
+    //         } else if (respon.status === "gagal") {
+    //             showPopup("Gagal", respon.pesan, "", "Oke");
+    //         } else {
+    //             showPopup("Berhasil", respon.pesan, "", "Oke");
+    //         }
+    //     }
+    // };
+    // xhr.send(formData);
+}
+
 //List semua calon
 function listSemuaCalon() {
     let getXhr = new XMLHttpRequest();
@@ -361,16 +390,16 @@ function removeCalon(idCalon) {
 
 // Sidebar Responsive
 // Menu Mobile 480px
-const menuToggle = document.querySelector('.menu-toggle');
-const menuClose = document.querySelector('.menu-close');
-const menuMobile = document.querySelector('.menu-mobile');
+const menuToggle = document.querySelector(".menu-toggle");
+const menuClose = document.querySelector(".menu-close");
+const menuMobile = document.querySelector(".menu-mobile");
 
 // Tampilkan menu saat tombol menu ditekan
-menuToggle.addEventListener('click', () => {
-  menuMobile.classList.add('active');
+menuToggle.addEventListener("click", () => {
+    menuMobile.classList.add("active");
 });
 
 // Sembunyikan menu saat tombol close ditekan
-menuClose.addEventListener('click', () => {
-  menuMobile.classList.remove('active');
+menuClose.addEventListener("click", () => {
+    menuMobile.classList.remove("active");
 });
