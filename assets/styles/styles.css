@@ -537,6 +537,10 @@ body {
     }
 }
 
+.menu-mobile {
+    display: none;
+}
+
 /* Responsive Tablet */
 @media (max-width: 768px) {
     /* .sidebar {
@@ -559,7 +563,7 @@ body {
 }
 
 /* Responsive handphone 480 revisi */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 550px) {
     body {
         flex-direction: column;
     }
@@ -615,6 +619,8 @@ body {
     }
 
     .menu-mobile.active {
+        display: flex;
+        left: 0;
         transform: translateX(0);
     }
 
