@@ -390,7 +390,7 @@ function removeCalon(idCalon) {
 
 // Sidebar Responsive
 // Menu Mobile 480px
-const menuToggle = document.querySelector(".menu-toggle");
+const menuToggle = document.querySelector(".menu-btn");
 const menuClose = document.querySelector(".menu-close");
 const menuMobile = document.querySelector(".menu-mobile");
 
