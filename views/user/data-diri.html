@@ -113,7 +113,7 @@
             <div class="list--wrapper formulir">
                 <h3 class="main--title">Formulir Pendaftaran</h3>
                 <div class="list--container">
-                    <form action="">
+                    <form action="#" method="post" name="daftar" id="daftar">
                         <div class="kolom-isi">
                             <label for="nama-siswa"> Nama Siswa </label>
                             <input
@@ -138,7 +138,7 @@
                             <label for="jenis-kelamin"> Jenis Kelamin </label>
                             <!-- <input type="text" id="jenis-kelamin" name="jenis-kelamin"> -->
                             <select name="jenis-kelamin" id="jenis-kelamin">
-                                <option value="" selected></option>
+                                <option value="" selected>Pilih</option>
                                 <option value="Laki-Laki">Laki-Laki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>
@@ -147,22 +147,35 @@
                             <label for="agama"> Agama </label>
                             <!-- <input type="text" id="agama" name="agama"> -->
                             <select name="agama" id="agama">
-                                <option value="" selected></option>
+                                <option value="" selected>Pilih</option>
                                 <option value="Islam">Islam</option>
                                 <option value="Katolik">Katolik</option>
-                                <option value="Kristen">Kristen</option>
-                                <option value="Protestan">Protestan</option>
+                                <option value="Kristen Protestan">
+                                    Kristen Protestan
+                                </option>
                                 <option value="Hindu">Hindu</option>
+                                <option value="Budha">Budha</option>
                                 <option value="Konghucu">Konghucu</option>
                             </select>
                         </div>
                         <div class="kolom-isi">
-                            <label for="asal-sekoah"> Asal Sekolah </label>
+                            <label for="asal-sekolah"> Asal Sekolah </label>
                             <input
                                 type="text"
-                                id="asal-sekoah"
-                                name="asal-sekoah"
+                                id="asal-sekolah"
+                                name="asal-sekolah"
                             />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kewarganegaraan">
+                                Kewarganegaraan
+                            </label>
+                            <!-- <input type="text" id="agama" name="agama"> -->
+                            <select name="kewarganegaraan" id="kewarganegaraan">
+                                <option value="" selected>Pilih</option>
+                                <option value="WNI">WNI</option>
+                                <option value="WNA">WNA</option>
+                            </select>
                         </div>
                         <div class="kolom-isi">
                             <label for="golongan-darah"> Golongan Darah </label>
@@ -209,7 +222,7 @@
                             />
                         </div>
                         <div class="kolom-isi">
-                            <label for="kode-post"> Kode Post </label>
+                            <label for="kode-post"> Kode Pos </label>
                             <input
                                 type="number"
                                 id="kode-post"
@@ -217,11 +230,56 @@
                             />
                         </div>
 
+                        <div class="kolom-isi">
+                            <label for="no-telepon"> Nomor Telepon </label>
+                            <input
+                                type="number"
+                                id="no-telepon"
+                                name="no-telepon"
+                            />
+                        </div>
+
+                        <div class="kolom-isi">
+                            <label for="jurusan"> Pilih Jurusan </label>
+                            <!-- <input type="text" id="agama" name="agama"> -->
+                            <select name="jurusan" id="jurusan">
+                                <option value="" selected>Pilih</option>
+                                <option value="MIA (Matematika Ilmu Alam)">
+                                    MIA (Matematika Ilmu Alam)
+                                </option>
+                                <option value="IIS (Ilmu Ilmu Sosial)">
+                                    IIS (Ilmu Ilmu Sosial)
+                                </option>
+                                <option value="IPA (Ilmu Pengetahuan Alam)">
+                                    IPA (Ilmu Pengetahuan Alam)
+                                </option>
+                                <option value="IPS (Ilmu Pengetahuan Sosial)">
+                                    IPS (Ilmu Pengetahuan Sosial)
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="kolom-isi">
+                            <label for="gelombang"> Pilih Gelombang </label>
+                            <!-- <input type="text" id="agama" name="agama"> -->
+                            <select name="gelombang" id="gelombang">
+                                <option value="" selected>Pilih</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+
                         <div class="tombol-form">
                             <button type="reset" name="reset" id="reset">
                                 Batal
                             </button>
-                            <button type="submit" name="simpan" id="simpan">
+                            <button
+                                type="button"
+                                name="simpan"
+                                id="simpan"
+                                onclick="kirimForm('daftar', event)"
+                            >
                                 Simpan
                             </button>
                         </div>
@@ -231,6 +289,7 @@
         </div>
         <!-- end formulir -->
         <script src="../../assets/scripts/cek-sesi.js"></script>
+        <script src="../../assets/scripts/user.js"></script>
         <script>
             window.onload = function () {
                 cekSesi("dashboard");

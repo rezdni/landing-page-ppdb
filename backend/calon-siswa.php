@@ -3,7 +3,6 @@ session_start();
 header('Content-Type: application/json');
 require_once '../config/koneksi.php';
 
-
 if (!isset($_SESSION) || !$_SESSION["user_role"] === "Admin") {
     echo json_encode(["status" => "error", "pesan" => "Anda tidak memiliki akses untuk ini"]);
     exit();
@@ -11,7 +10,6 @@ if (!isset($_SESSION) || !$_SESSION["user_role"] === "Admin") {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari formulir
-
     // Data calon
     $nama_calon = htmlspecialchars($_POST['nama-siswa']);
     $tanggal_lahir = htmlspecialchars($_POST['tanggal-lahir']);
@@ -46,10 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!is_dir($upload_folder)) {
         echo json_encode(["status" => "error", "pesan" => "Folder tujuan tidak tersedia"]);
         exit();
-
-        // if (!mkdir($upload_folder, 0777, true) && !is_dir($upload_folder)) {
-        //     throw new Exception("Gagal membuat folder tujuan: $upload_folder");
-        // }
     }
 
     // Jenis file yang diunggah
@@ -143,8 +137,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo->commit();
 
         echo json_encode(["status" => "berhasil", "pesan" => "Data berhasil disimpan"]);
-
-        // header('Location: /views/admin/data-pendaftar.html?succeed=true');
         exit();
     } catch (Exception $e) {
         // Rollback jika ada kesalahan

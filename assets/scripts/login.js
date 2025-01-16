@@ -27,6 +27,7 @@ function registrasi(elm, event) {
     // terima respon back-end
     xhr.onload = function () {
         if (xhr.status === 200) {
+            console.log(xhr.responseText);
             let respon = JSON.parse(xhr.responseText);
             if (respon.status === "berhasil") {
                 alert("Akun berhasil dibuat, silahkan pindah ke menu login");

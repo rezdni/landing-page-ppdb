@@ -1,5 +1,4 @@
 // Pengguna
-
 // Tampilkan pengguna
 function showUsers() {
     let xhr = new XMLHttpRequest();
@@ -94,7 +93,6 @@ function deleteUser(idPengguna) {
 }
 
 // Berita
-
 // Tombol form berita
 let formBerita = document.getElementById("buat-berita");
 function toggleBuatBerita() {
@@ -231,18 +229,16 @@ function hapusBerita(idBerita) {
     xhr.send("hapusBerita=true&idBerita=" + encodeURIComponent(idBerita));
 }
 
+// Calon Siswa
 // Tambah calon
 function tambahCalon(event) {
     event.preventDefault();
     let formulir = document.getElementById("tambahcalon");
     let formData = new FormData(formulir);
-    // formData.append("buatcalon", "true");
-    // formData.forEach((value, key) => {
-    //     // console.log(key, value);
-    // });
+
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "../../backend/calon-siswa.php", true);
-    // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
     xhr.onload = function () {
         if (xhr.status === 200) {
             console.log(xhr.responseText);

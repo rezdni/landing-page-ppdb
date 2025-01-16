@@ -2,7 +2,7 @@
 session_start();
 require_once "../config/koneksi.php";
 
-if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
+if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
     header('Content-Type: application/json');
     // Create admin
     if (isset($_POST["createAdmin"])) {

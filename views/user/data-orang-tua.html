@@ -133,9 +133,17 @@
                                 No Telepon
                             </label>
                             <input
-                                type="number"
+                                type="text"
                                 id="nomor-telepon-orang-tua"
                                 name="nomor-telepon-orang-tua"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="pekerjaan-orang-tua"> Pekerjaan </label>
+                            <input
+                                type="text"
+                                id="pekerjaan-orang-tua"
+                                name="pekerjaan-orang-tua"
                             />
                         </div>
                         <div class="kolom-isi">
@@ -150,7 +158,12 @@
                             <button type="reset" name="reset" id="reset">
                                 Batal
                             </button>
-                            <button type="submit" name="simpan" id="simpan">
+                            <button
+                                type="submit"
+                                name="simpan"
+                                id="simpan"
+                                onclick="kirimForm('orangtua', event)"
+                            >
                                 Simpan
                             </button>
                         </div>
@@ -160,6 +173,7 @@
         </div>
         <!-- end formulir -->
         <script src="../../assets/scripts/cek-sesi.js"></script>
+        <script src="../../assets/scripts/user.js"></script>
         <script>
             window.onload = function () {
                 cekSesi("dashboard");
