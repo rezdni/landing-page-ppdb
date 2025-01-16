@@ -5,7 +5,7 @@ function showUsers() {
     let xhr = new XMLHttpRequest();
     xhr.open(
         "GET",
-        "../../backend/kelola-pengguna.php?listPengguna=true",
+        "../../backend/kelola-pengguna.php?list_pengguna=true",
         true
     );
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -13,7 +13,40 @@ function showUsers() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             let listPengguna = document.getElementById("list-pengguna");
-            listPengguna.innerHTML = xhr.responseText;
+            let respon = JSON.parse(xhr.responseText);
+
+            if (respon.kesalahan) {
+                listPengguna.innerHTML = `<h2>${respon.kesalahan}</h2>`;
+            } else {
+                let listDataPengguna = "";
+                respon.forEach((element) => {
+                    listDataPengguna += `
+                    <li>
+                        <div>
+                            <span
+                                class="material-symbols-outlined dark-purple"
+                            >
+                                person
+                            </span>
+                            <p>${element.nama}</p>
+                        </div>
+                        <div>
+                            <p>${element.role}</p>
+                            <a href="edit-akun.html?id_akun=${element.id}" class="material-symbols-outlined dark-green">
+                                edit
+                            </a>
+                            <span
+                                class="material-symbols-outlined dark-red"
+                                onclick="hapusPengguna(${element.id}, '${element.nama}')"
+                            >
+                                delete
+                            </span>
+                        </div>
+                    </li>
+                    `;
+                });
+                listPengguna.innerHTML = listDataPengguna;
+            }
         } else {
             showPopup("Error", "Failed to process data", "", "Ok");
         }
@@ -77,15 +110,35 @@ function listBerita() {
     let xhr = new XMLHttpRequest();
     xhr.open(
         "GET",
-        "../../backend/kelola-pengumuman.php?listPengumuman=true",
+        "../../backend/kelola-pengumuman.php?list_pengumuman=true",
         true
     );
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            let listBerita = document.querySelector(".list-berita");
-            listBerita.innerHTML = xhr.responseText;
+            let kolomBerita = document.querySelector(".list-berita");
+            let listDataBerita = JSON.parse(xhr.responseText);
+
+            if (listDataBerita.kesalahan) {
+                kolomBerita.innerHTML = `<h2>${listDataBerita.kesalahan}</h2>`;
+            } else {
+                let listIsiBerita = "";
+                listDataBerita.forEach((element) => {
+                    listIsiBerita += `
+                    <div class="berita hasil">
+                        <h3>${element.judul}</h3>
+                        <p>
+                            ${element.isi_pengumuman}
+                        </p>
+                        <button name="hapus-berita" class="hapus-berita" onclick="hapusBerita(${element.id_pengumuman})">
+                            Hapus
+                            </button>
+                    </div>
+                    `;
+                });
+                kolomBerita.innerHTML = listIsiBerita;
+            }
         } else {
             showPopup("Error", "Failed to process data", "", "Ok");
         }
@@ -210,7 +263,7 @@ function tambahCalon(event) {
 //List semua calon
 function listSemuaCalon() {
     let getXhr = new XMLHttpRequest();
-    getXhr.open("GET", "../../backend/kelola-calon.php?listCalon=true", true);
+    getXhr.open("GET", "../../backend/kelola-calon.php?list_calon=true", true);
     getXhr.setRequestHeader(
         "Content-Type",
         "application/x-www-form-urlencoded"
@@ -286,7 +339,7 @@ function listCalon(batas) {
     let getXhr = new XMLHttpRequest();
     getXhr.open(
         "GET",
-        "../../backend/kelola-calon.php?listCalon=true&limit=" +
+        "../../backend/kelola-calon.php?list_calon=true&limit=" +
             encodeURIComponent(batas),
         true
     );

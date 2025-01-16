@@ -3,7 +3,7 @@ session_start();
 header('Content-Type: application/json');
 require_once "../config/koneksi.php";
 
-if (isset($_GET["listCalon"])) {
+if (isset($_GET["list_calon"])) {
     if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
         try {
             if (isset($_GET["limit"])) {

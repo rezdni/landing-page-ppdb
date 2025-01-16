@@ -3,6 +3,7 @@ session_start();
 require_once "../config/koneksi.php";
 
 if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
+    header('Content-Type: application/json');
     // Create admin
     if (isset($_POST["createAdmin"])) {
         // variable
@@ -34,7 +35,7 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
     }
     
     // List akun
-    if (isset($_GET["listPengguna"])) {
+    if (isset($_GET["list_pengguna"])) {
         // List user account
         try {
             $showSql = "SELECT * FROM pengguna";
@@ -43,31 +44,19 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
             // get result
             $results = $stmt->fetchAll();
             if (empty($results)) {
-                ?>
-                    <h2>Data tidak tersedia</h2>
-                <?php
+                echo json_encode(["kesalahan" => "Data tidak tersedia"]);
             } else {
+                $hasilData = [];
                 foreach ($results as $row) {
-                    ?>
-                        <li>
-                            <div>
-                                <span class="material-symbols-outlined dark-purple">
-                                person
-                                </span>
-                                <p><?php echo $row["nama"]; ?></p>
-                            </div>
-                            <div>
-                                <p><?php echo $row["role"]; ?></p>
-                                <a href="edit-akun.html?id_akun=<?php echo $row['id']; ?>" class="material-symbols-outlined dark-green">
-                                    edit
-                                </a>
-                                <span class="material-symbols-outlined dark-red" onclick="hapusPengguna(<?php echo $row['id'] ?>, '<?php echo $row['nama'] ?>')">
-                                    delete
-                                </span>
-                            </div>
-                        </li>
-                    <?php
+                    $hasilData[] = [
+                        "id" => $row["id"],
+                        "nama" => $row["nama"],
+                        "email" => $row["email"],
+                        "role" => $row["role"],
+                        "id_calon" => $row["id_calon"]
+                    ];
                 }
+                echo json_encode($hasilData, JSON_PRETTY_PRINT);
             }
         } catch (PDOException $e) {
             echo json_encode(["status" => "gagal", "keterangan" => $e]);
@@ -75,8 +64,8 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
     }
     
     // tampilkan salah satu akun
-    if (isset($_GET["idPengguna"])) {
-        $idPengguna = htmlspecialchars($_GET["idPengguna"]);
+    if (isset($_GET["id_pengguna"])) {
+        $idPengguna = htmlspecialchars($_GET["id_pengguna"]);
     
         try {
             $showSql = "SELECT * FROM pengguna WHERE id = :idPengguna";
@@ -91,7 +80,13 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
                 echo json_encode(["status" => "gagal", "data tidak tersedia" => $e]);
             } else {
                 foreach ($results as $row) {
-                    echo json_encode(["status" => "berhasil", "data" => (["nama" => $row["nama"], "email" => $row["email"], "role" => $row["role"]])]);
+                    echo json_encode([
+                        "id" => $row["id"],
+                        "nama" => $row["nama"],
+                        "email" => $row["email"],
+                        "role" => $row["role"],
+                        "id_calon" => $row["id_calon"]
+                    ]);
                 }
             }
         } catch (PDOException $e) {

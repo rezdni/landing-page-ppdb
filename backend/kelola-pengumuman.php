@@ -1,5 +1,6 @@
 <?php
 session_start();
+header('Content-Type: application/json');
 require_once "../config/koneksi.php";
 
 if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
@@ -28,7 +29,7 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
     }
     
     // List pengumuman
-    if (isset($_GET["listPengumuman"])) {
+    if (isset($_GET["list_pengumuman"])) {
         try {
             $showSql = "SELECT * FROM pengumuman ORDER BY id_pengumuman DESC";
             $stmt = $pdo->query($showSql);
@@ -36,19 +37,17 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
             // get result
             $results = $stmt->fetchAll();
             if (empty($results)) {
-                ?>
-                    <h2>Data tidak tersedia</h2>
-                <?php
+                echo json_encode(["kesalahan" => "Data tidak tersedia"]);
             } else {
+                $pengumuman = [];
                 foreach ($results as $row) {
-                    ?>
-                        <div class="berita hasil">
-                            <h3><?php echo $row["judul"]; ?></h3>
-                            <p><?php echo $row["isi_pengumuman"]; ?></p>
-                            <button name="hapus-berita" id="hapus-berita" onclick="hapusBerita('<?php echo $row['id_pengumuman']; ?>')">Hapus</button>
-                        </div>
-                    <?php
+                    $pengumuman[] = [
+                        "id_pengumuman" => $row["id_pengumuman"],
+                        "judul" => $row["judul"],
+                        "isi_pengumuman" => $row["isi_pengumuman"]
+                    ];
                 }
+                echo json_encode($pengumuman, JSON_PRETTY_PRINT);
             }
         } catch (PDOException $th) {
             echo json_encode(["status" => "gagal", "keterangan" => $e]);
@@ -72,7 +71,7 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
         }
     }
 } else if(isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
-    if (isset($_GET["lihatPengumuman"])) {
+    if (isset($_GET["list_pengumuman"])) {
         try {
             $showSql = "SELECT * FROM pengumuman ORDER BY id_pengumuman DESC";
             $stmt = $pdo->query($showSql);
@@ -96,7 +95,7 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
         }
     }
 } else {
-    echo "<h2>Anda tidak memiliki akses untuk ini</h2>";
+    echo json_encode(["status" => "error", "pesan" => "Anda tidak memiliki akses untuk ini"]);
     exit();
 }
 ?>

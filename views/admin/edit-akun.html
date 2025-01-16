@@ -213,7 +213,7 @@
                 let getXhr = new XMLHttpRequest();
                 getXhr.open(
                     "GET",
-                    "../../backend/kelola-pengguna.php?idPengguna=" +
+                    "../../backend/kelola-pengguna.php?id_pengguna=" +
                         encodeURIComponent(idAkun),
                     true
                 );
@@ -226,9 +226,9 @@
                     if (getXhr.status === 200) {
                         const dataPengguna = JSON.parse(getXhr.responseText);
 
-                        namaPengguna.value = dataPengguna.data.nama;
-                        emailPengguna.value = dataPengguna.data.email;
-                        jenisPengguna.value = dataPengguna.data.role;
+                        namaPengguna.value = dataPengguna.nama;
+                        emailPengguna.value = dataPengguna.email;
+                        jenisPengguna.value = dataPengguna.role;
                     } else {
                         showPopup("Error", "Failed to process data", "", "Ok");
                     }
