@@ -233,31 +233,31 @@ function hapusBerita(idBerita) {
 
 // Tambah calon
 function tambahCalon(event) {
-    // event.preventDefault();
-    // let formulir = document.getElementById("tambahcalon");
-    // let formData = new FormData(formulir);
-    // // formData.append("buatcalon", "true");
+    event.preventDefault();
+    let formulir = document.getElementById("tambahcalon");
+    let formData = new FormData(formulir);
+    // formData.append("buatcalon", "true");
     // formData.forEach((value, key) => {
     //     // console.log(key, value);
     // });
-    // const xhr = new XMLHttpRequest();
-    // xhr.open("POST", "../../backend/calon-siswa.php", true);
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "../../backend/calon-siswa.php", true);
     // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    // xhr.onload = function () {
-    //     if (xhr.status === 200) {
-    //         console.log(xhr.responseText);
-    //         // const respon = JSON.parse(xhr.responseText);
-    //         if (respon.status === "error") {
-    //             showPopup("Kesalahan", "Internal Server Error", "", "Oke");
-    //             console.log(respon.pesan);
-    //         } else if (respon.status === "gagal") {
-    //             showPopup("Gagal", respon.pesan, "", "Oke");
-    //         } else {
-    //             showPopup("Berhasil", respon.pesan, "", "Oke");
-    //         }
-    //     }
-    // };
-    // xhr.send(formData);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log(xhr.responseText);
+            const respon = JSON.parse(xhr.responseText);
+            if (respon.status === "error") {
+                showPopup("Kesalahan", "Internal Server Error", "", "Oke");
+                console.log(respon.pesan);
+            } else if (respon.status === "gagal") {
+                showPopup("Gagal", respon.pesan, "", "Oke");
+            } else {
+                showPopup("Berhasil", respon.pesan, "", "Oke");
+            }
+        }
+    };
+    xhr.send(formData);
 }
 
 //List semua calon

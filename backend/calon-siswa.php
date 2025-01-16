@@ -4,9 +4,6 @@ header('Content-Type: application/json');
 require_once '../config/koneksi.php';
 
 
-// print_r($_POST);
-// print_r($_FILES);
-
 if (!isset($_SESSION) || !$_SESSION["user_role"] === "Admin") {
     echo json_encode(["status" => "error", "pesan" => "Anda tidak memiliki akses untuk ini"]);
     exit();
@@ -147,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo json_encode(["status" => "berhasil", "pesan" => "Data berhasil disimpan"]);
 
-        header('Location: /views/admin/data-pendaftar.html?succeed=true');
+        // header('Location: /views/admin/data-pendaftar.html?succeed=true');
         exit();
     } catch (Exception $e) {
         // Rollback jika ada kesalahan
