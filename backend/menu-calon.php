@@ -4,6 +4,7 @@ header("Content-Type: application/json");
 require_once "../config/koneksi.php";
 
 if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
+    // Data diri
     if (isset($_POST["daftar"])) {
         // Ambil datanya
         $nama_calon = htmlspecialchars($_POST["nama-siswa"]);
@@ -73,6 +74,7 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
         }
     }
 
+    // Data orang tua
     if (isset($_POST["orangtua"])) {
         $nama_orang_tua = htmlspecialchars($_POST['nama-orang-tua']);
         $no_telepon_orangtua = htmlspecialchars($_POST['nomor-telepon-orang-tua']);
@@ -105,6 +107,85 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
             ]);
 
             echo json_encode(["status" => "berhasil", "pesan" => "Data orang tua ditambah"]);
+        } catch (PDOException $e) {
+            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        }
+    }
+
+    // Dokumentasi berkas
+    if (isset($_POST["berkas"])) {
+        // cek akun pengguna
+        $sql = "SELECT * FROM pengguna WHERE id = :id_pengguna";
+        $stmt = $pdo->prepare($sql);
+        
+        $stmt->execute([
+            "id_pengguna" => $_SESSION["user_id"]
+        ]);
+
+        $result = $stmt->fetch();
+        $id_calon = $result["id_calon"];
+        $stmt = null;
+
+        // Konfigurasi unggahan file
+        $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf'];
+        $max_file_size = 2 * 1024 * 1024; // 5MB
+        $upload_folder = '../uploads/documents/';
+
+        // Periksa apakah folder tujuan ada
+        if (!is_dir($upload_folder)) {
+            echo json_encode(["status" => "error", "pesan" => "Folder tujuan tidak tersedia"]);
+            exit();
+        }
+
+        // Jenis file yang diunggah
+        $file_types = [
+            'ijasah' => $_FILES['ijasah'],
+            'foto_profil' => $_FILES['foto-profil'],
+            'dokumen_lainnya' => $_FILES['dokumen-lainnya']
+        ];
+
+        try {
+            // Proses setiap file unggahan
+            foreach ($file_types as $jenis_file => $file) {
+                $file_name = $file['name'];
+                $file_tmp = $file['tmp_name'];
+                $file_size = $file['size'];
+                $file_error = $file['error'];
+
+                // Ekstensi file
+                $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+                // Validasi file
+                if ($file_error === UPLOAD_ERR_OK) {
+                    if (!in_array($file_extension, $allowed_extensions)) {
+                        throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ekstensi file untuk $jenis_file tidak diperbolehkan."]));
+                    }
+
+                    if ($file_size > $max_file_size) {
+                        throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ukuran file untuk $jenis_file terlalu besar."]));
+                    }
+
+                    // Buat nama file unik
+                    $unique_file_name = uniqid($jenis_file . '_', true) . '.' . $file_extension;
+                    $file_path = $upload_folder . $unique_file_name;
+
+                    // Pindahkan file ke folder tujuan
+                    if (move_uploaded_file($file_tmp, $file_path)) {
+                        $stmt = $pdo->prepare("INSERT INTO dokumen_pendaftaran (id_calon, jenis_dokumen, file_path) VALUES (:id_calon, :jenis_dokumen, :file_path)");
+                        $stmt->execute([
+                            ':id_calon' => $id_calon,
+                            ':jenis_dokumen' => $jenis_file,
+                            ':file_path' => $file_path
+                        ]);
+                    } else {
+                        throw new Exception(json_encode(["status" => "error", "pesan" => "Gagal memindahkan file $jenis_file ke folder tujuan."]));
+                    }
+                } else {
+                    throw new Exception(json_encode(["status" => "error", "pesan" => "Terjadi kesalahan saat mengunggah file $jenis_file."]));
+                }
+            }
+
+            echo json_encode(["status" => "berhasil", "pesan" => "Berkas berhasil di unggah"]);
         } catch (PDOException $e) {
             echo json_encode(["status" => "gagal", "keterangan" => $e]);
         }

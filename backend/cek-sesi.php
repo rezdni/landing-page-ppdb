@@ -26,9 +26,33 @@ if (!isset($_SESSION["user_id"]) && isset($_COOKIE["login"])) {
     }
 
 } elseif (isset($_SESSION["user_id"])) {
-    $respon = ["diotentikasi" => true, "role" => $_SESSION["user_role"]];
+    try {
+        // cek akun pengguna
+        $sql = "SELECT * FROM pengguna WHERE id = :id_pengguna";
+        $stmt = $pdo->prepare($sql);
+        
+        $stmt->execute([
+            "id_pengguna" => $_SESSION["user_id"]
+        ]);
+
+        $result = $stmt->fetch();
+
+        // Jika pengguna tidak ada di database
+        if (empty($result)) {
+            $respon = ["diotentikasi" => false, "role" => null];
+
+            // Hapus cookie dan sesi pengguna
+            session_destroy();
+            setcookie("login", "", time() - 3600, "/");
+        } else {
+            // Jika ada
+            $respon = ["diotentikasi" => true, "role" => $_SESSION["user_role"]];
+        }
+    } catch (PDOException $e) {
+        echo json_encode(["status" => "error", "pesan" => $e]);
+    }
 }
 
-echo json_encode($respon);
+echo json_encode($respon, JSON_PRETTY_PRINT);
 exit();
 ?>

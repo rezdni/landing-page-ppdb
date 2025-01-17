@@ -119,21 +119,19 @@
             <div class="list--wrapper formulir">
                 <div class="list--container">
                     <form action="">
-                        <h3 class="main--title">Masukan Berkasmu</h3>
+                        <h3 class="main--title">
+                            Masukan Berkasmu (Maks: 2mb)
+                        </h3>
                         <div class="kolom-isi">
-                            <label for="dokumen"> Ijasah </label>
-                            <input
-                                type="file"
-                                id="Ijasah pdf"
-                                name="Ijasah pdf"
-                            />
+                            <label for="ijasah"> Ijasah </label>
+                            <input type="file" id="ijasah" name="ijasah" />
                         </div>
                         <div class="kolom-isi">
-                            <label for="foto"> Masukan Gambar Maks 1MB </label>
+                            <label for="foto-profil"> Pas foto</label>
                             <input
                                 type="file"
-                                id="masukan gambar"
-                                name="masukan gambar"
+                                id="foto-profil"
+                                name="foto-profil"
                                 placeholder="masukan gambar"
                             />
                         </div>
@@ -151,7 +149,12 @@
                             <button type="reset" name="reset" id="reset">
                                 Batal
                             </button>
-                            <button type="submit" name="simpan" id="simpan">
+                            <button
+                                type="submit"
+                                name="simpan"
+                                id="simpan"
+                                onclick="kirimForm('berkas', event)"
+                            >
                                 Simpan
                             </button>
                         </div>
@@ -161,6 +164,7 @@
         </div>
         <!-- end formulir -->
         <script src="../../assets/scripts/cek-sesi.js"></script>
+        <script src="../../assets/scripts/user.js"></script>
         <script>
             window.onload = function () {
                 cekSesi("dashboard");
