@@ -33,6 +33,7 @@ body {
 .sidebar:hover {
     width: 350px;
 }
+
 .logo {
     height: 80px;
     padding: 16px;
@@ -90,12 +91,14 @@ body {
     height: 100%;
     padding: 1rem;
 }
+
 .header--wrapper img {
     width: 50px;
     height: 50px;
     cursor: pointer;
     border-radius: 50%;
 }
+
 .header--wrapper {
     display: flex;
     align-items: center;
@@ -355,11 +358,39 @@ body {
     padding: 15px;
     border-radius: 8px;
 }
+
 .input-box {
     width: 100%;
     margin-top: 20px;
 }
 
+/* tombol tambah pengguna */
+.btn-tambah {
+    position: relative;
+    width: 50px;
+    height: 60px;
+    box-shadow: #575757;
+}
+
+.btn-tambah-user {
+    position: absolute;
+    background-color: #239b56;
+    color: #fff;
+    top: 10px;
+    left: 100vh;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    justify-content: space-between;
+    transition: background-color 0.3s ease;
+}
+
+/* end tambah pengguna */
+
+.btn-tambah-user:hover {
+    background-color: #239b56;
+}
 /* end formulir pendaftaran */
 
 /* Formulir  */
@@ -543,18 +574,32 @@ body {
 
 /* Responsive Tablet */
 @media (max-width: 768px) {
-    /* .sidebar {
+    .sidebar {
         width: px;
         background: #239b56;
-    } */
+        transition: all 0.5s ease;
+    }
 
     .sidebar:hover {
         width: 250px;
+        left: 0;
+    }
+
+    .header--wrapper {
+        table-layout: fixed;
+    }
+
+    .card--container {
+        table-layout: fixed;
     }
 
     .menu a {
         font-size: 14px;
         width: 150px;
+    }
+
+    .list--wrapper table {
+        table-layout: fixed;
     }
 
     /* .menu a i {
@@ -606,7 +651,6 @@ body {
         background-color: #575757;
     }
 
-    /* Tombol close (X) */
     .menu-close {
         position: absolute;
         top: 10px;
