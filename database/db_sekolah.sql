@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.1deb3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 08 Jan 2025 pada 08.40
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.1.25
+-- Host: localhost:3306
+-- Generation Time: Jan 21, 2025 at 12:35 AM
+-- Server version: 8.0.40-0ubuntu0.24.04.1
+-- PHP Version: 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -26,101 +26,100 @@ USE `db_sekolah`;
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `dokumen_pendaftaran`
+-- Table structure for table `dokumen_pendaftaran`
 --
 
 DROP TABLE IF EXISTS `dokumen_pendaftaran`;
 CREATE TABLE `dokumen_pendaftaran` (
-  `id_dokumen` int(11) NOT NULL,
-  `id_calon` int(11) NOT NULL,
-  `jenis_dokumen` varchar(255) DEFAULT NULL,
-  `file_path` varchar(255) DEFAULT NULL
+  `id_dokumen` int NOT NULL,
+  `id_calon` int NOT NULL,
+  `jenis_dokumen` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `file_path` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `orang_tua`
+-- Table structure for table `orang_tua`
 --
 
 DROP TABLE IF EXISTS `orang_tua`;
 CREATE TABLE `orang_tua` (
-  `id_orang_tua` int(11) NOT NULL,
-  `id_calon` int(11) NOT NULL,
-  `nama_orang_tua` varchar(255) DEFAULT NULL,
-  `nomor_telepon_orang_tua` varchar(15) DEFAULT NULL,
-  `pekerjaan_orang_tua` varchar(50) DEFAULT NULL,
-  `alamat_orang_tua` text DEFAULT NULL
+  `id_orang_tua` int NOT NULL,
+  `id_calon` int NOT NULL,
+  `nama_orang_tua` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nomor_telepon_orang_tua` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pekerjaan_orang_tua` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `alamat_orang_tua` text COLLATE utf8mb4_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pendaftaran`
+-- Table structure for table `pendaftaran`
 --
 
 DROP TABLE IF EXISTS `pendaftaran`;
 CREATE TABLE `pendaftaran` (
-  `id_calon` int(11) NOT NULL,
-  `nama_calon_siswa` varchar(255) NOT NULL,
+  `id_calon` int NOT NULL,
+  `nama_calon_siswa` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal_lahir` date NOT NULL,
-  `no_nis` int(11) DEFAULT NULL,
-  `jenis_kelamin` enum('Laki-laki','Perempuan') NOT NULL,
-  `agama` enum('Islam','Katolik','Kristen Protestan','Hindu','Budha','Konghucu') NOT NULL,
-  `sekolah_asal` varchar(50) DEFAULT NULL,
-  `kewarganegaraan` enum('WNI','WNA') NOT NULL,
-  `golongan_darah` varchar(10) DEFAULT NULL,
-  `alamat_tinggal` text DEFAULT NULL,
-  `provinsi` varchar(50) DEFAULT NULL,
-  `kota_kabupaten` varchar(50) DEFAULT NULL,
-  `kecamatan` varchar(50) DEFAULT NULL,
-  `kelurahan` varchar(50) DEFAULT NULL,
-  `kode_post` int(11) DEFAULT NULL,
+  `no_nis` int DEFAULT NULL,
+  `jenis_kelamin` enum('Laki-laki','Perempuan') COLLATE utf8mb4_general_ci NOT NULL,
+  `agama` enum('Islam','Katolik','Kristen Protestan','Hindu','Budha','Konghucu') COLLATE utf8mb4_general_ci NOT NULL,
+  `sekolah_asal` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `kewarganegaraan` enum('WNI','WNA') COLLATE utf8mb4_general_ci NOT NULL,
+  `golongan_darah` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `alamat_tinggal` text COLLATE utf8mb4_general_ci,
+  `provinsi` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `kota_kabupaten` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `kecamatan` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `kelurahan` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `kode_post` int DEFAULT NULL,
   `tanggal_daftar` date NOT NULL,
-  `no_telepon` int(11) DEFAULT NULL,
-  `jurusan` enum('MIA (Matematika Ilmu Alam)','IIS (Ilmu Ilmu Sosial)','IPS (Ilmu Pengetahuan Sosial)','IPA (Ilmu Pengetahuan Alam)') NOT NULL,
-  `gelombang` enum('1','2','3') NOT NULL
+  `no_telepon` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `jurusan` enum('MIA (Matematika Ilmu Alam)','IIS (Ilmu Ilmu Sosial)','IPS (Ilmu Pengetahuan Sosial)','IPA (Ilmu Pengetahuan Alam)') COLLATE utf8mb4_general_ci NOT NULL,
+  `gelombang` enum('1','2','3') COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pengguna`
+-- Table structure for table `pengguna`
 --
 
 DROP TABLE IF EXISTS `pengguna`;
 CREATE TABLE `pengguna` (
-  `id` int(11) NOT NULL,
-  `nama` varchar(255) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('Admin','Calon') NOT NULL,
-  `id_calon` int(11) DEFAULT NULL,
+  `id` int NOT NULL,
+  `nama` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('Admin','Calon') COLLATE utf8mb4_general_ci NOT NULL,
+  `id_calon` int DEFAULT NULL,
   `lupa_sandi` tinyint(1) NOT NULL,
-  `sesi` text DEFAULT NULL
+  `sesi` text COLLATE utf8mb4_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `pengguna`
+-- Dumping data for table `pengguna`
 --
 
 INSERT INTO `pengguna` (`id`, `nama`, `email`, `password`, `role`, `id_calon`, `lupa_sandi`, `sesi`) VALUES
-(2, 'reza', 'reza@admin', '$2y$10$MH.pJmjlIVkbpL8/LQx38eXYvEK75h3Eh30cdMfQQcz8aQ8UyByfG', 'Admin', NULL, 0, ''),
-(3, 'zaki', 'zaki@user', '$2y$10$8o5uvT2Og7FFzFxZhk3aL.r.d9jcF6nELHFuQffslffzu/yTnGxXa', 'Calon', NULL, 0, ''),
-(6, 'andika', 'andika@raharja', '$2y$10$D11nkrRxN/vnJxGCdXysr.b790uQqdP2mO697V9gx4785rdbmsKuy', 'Calon', NULL, 0, NULL),
-(7, 'fadel', 'fadel@raharja', '$2y$10$26eMYsMv2ehr6Ab.eg6L7e/GUGftFcldYnJLnppDcWOyjuV9qK5by', 'Calon', NULL, 0, NULL);
+(2, 'Reza Dani Pramudya', 'reza@admin', '$2y$10$nsQjcCGqzbqFjzZBFNTGk.5MNwvILoiskFhm.QRKQ6QVW2mDW0RH2', 'Admin', NULL, 0, ''),
+(8, 'Shiroko', 'shiroko@abydos', '$2y$10$7kqiA8Z7QIXEPA3YL5qJtu/iD4RCo3rtHN5zLI5mhBP0ZMAPlIoxa', 'Admin', NULL, 0, '$2y$10$LDC7/sWdlkqssrjA4TNkwuasrBdU/eFeDFgP.Oj6FOlUcPurwWiai'),
+(9, 'Sunaookami Shiroko', 'kuroko@abydos', '$2y$10$PSXvoiJtAZI8iDarvp.Phui2c13NnJtuo1.TtjORj8Rw/wWTN9xvu', 'Calon', NULL, 0, '$2y$10$Pqz3nJQTQcKlXQuxDJeqseck03/fO6pTh7YeEST055O3XEnxQVhga');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pengumuman`
+-- Table structure for table `pengumuman`
 --
 
 DROP TABLE IF EXISTS `pengumuman`;
 CREATE TABLE `pengumuman` (
-  `id_pengumuman` int(11) NOT NULL,
-  `judul` varchar(255) NOT NULL,
-  `isi_pengumuman` text NOT NULL
+  `id_pengumuman` int NOT NULL,
+  `judul` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `isi_pengumuman` text COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -128,90 +127,91 @@ CREATE TABLE `pengumuman` (
 --
 
 --
--- Indeks untuk tabel `dokumen_pendaftaran`
+-- Indexes for table `dokumen_pendaftaran`
 --
 ALTER TABLE `dokumen_pendaftaran`
   ADD PRIMARY KEY (`id_dokumen`),
   ADD KEY `id_calon` (`id_calon`);
 
 --
--- Indeks untuk tabel `orang_tua`
+-- Indexes for table `orang_tua`
 --
 ALTER TABLE `orang_tua`
   ADD PRIMARY KEY (`id_orang_tua`),
   ADD KEY `id_calon` (`id_calon`);
 
 --
--- Indeks untuk tabel `pendaftaran`
+-- Indexes for table `pendaftaran`
 --
 ALTER TABLE `pendaftaran`
-  ADD PRIMARY KEY (`id_calon`);
+  ADD PRIMARY KEY (`id_calon`),
+  ADD UNIQUE KEY `no_nis` (`no_nis`);
 
 --
--- Indeks untuk tabel `pengguna`
+-- Indexes for table `pengguna`
 --
 ALTER TABLE `pengguna`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_calon` (`id_calon`);
 
 --
--- Indeks untuk tabel `pengumuman`
+-- Indexes for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
   ADD PRIMARY KEY (`id_pengumuman`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `dokumen_pendaftaran`
+-- AUTO_INCREMENT for table `dokumen_pendaftaran`
 --
 ALTER TABLE `dokumen_pendaftaran`
-  MODIFY `id_dokumen` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_dokumen` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `orang_tua`
+-- AUTO_INCREMENT for table `orang_tua`
 --
 ALTER TABLE `orang_tua`
-  MODIFY `id_orang_tua` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_orang_tua` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `pendaftaran`
+-- AUTO_INCREMENT for table `pendaftaran`
 --
 ALTER TABLE `pendaftaran`
-  MODIFY `id_calon` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_calon` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `pengguna`
+-- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT untuk tabel `pengumuman`
+-- AUTO_INCREMENT for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
-  MODIFY `id_pengumuman` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pengumuman` int NOT NULL AUTO_INCREMENT;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `dokumen_pendaftaran`
+-- Constraints for table `dokumen_pendaftaran`
 --
 ALTER TABLE `dokumen_pendaftaran`
   ADD CONSTRAINT `dokumen_pendaftaran_ibfk_1` FOREIGN KEY (`id_calon`) REFERENCES `pendaftaran` (`id_calon`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `orang_tua`
+-- Constraints for table `orang_tua`
 --
 ALTER TABLE `orang_tua`
   ADD CONSTRAINT `orang_tua_ibfk_1` FOREIGN KEY (`id_calon`) REFERENCES `pendaftaran` (`id_calon`) ON DELETE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `pengguna`
+-- Constraints for table `pengguna`
 --
 ALTER TABLE `pengguna`
   ADD CONSTRAINT `pengguna_ibfk_1` FOREIGN KEY (`id_calon`) REFERENCES `pendaftaran` (`id_calon`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -95,41 +95,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Proses setiap file unggahan
         foreach ($file_types as $jenis_file => $file) {
-            $file_name = $file['name'];
-            $file_tmp = $file['tmp_name'];
-            $file_size = $file['size'];
-            $file_error = $file['error'];
-
-            // Ekstensi file
-            $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
-            // Validasi file
-            if ($file_error === UPLOAD_ERR_OK) {
-                if (!in_array($file_extension, $allowed_extensions)) {
-                    throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ekstensi file untuk $jenis_file tidak diperbolehkan."]));
+            if ($file['error'] === 1) {
+                throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ukuran file untuk $jenis_file terlalu besar."]));
+            }
+            if ($file['error'] !== 4) {
+                $file_name = $file['name'];
+                $file_tmp = $file['tmp_name'];
+                $file_size = $file['size'];
+                $file_error = $file['error'];
+    
+                // Ekstensi file
+                $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+    
+                // Validasi file
+                if ($file_error === 0) {
+                    if (!in_array($file_extension, $allowed_extensions)) {
+                        throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ekstensi file untuk $jenis_file tidak diperbolehkan."]));
+                    }
+    
+                    if ($file_size > $max_file_size) {
+                        throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ukuran file untuk $jenis_file terlalu besar."]));
+                    }
+    
+                    // Buat nama file unik
+                    $unique_file_name = uniqid($jenis_file . '_', true) . '.' . $file_extension;
+                    $file_path = $upload_folder . $unique_file_name;
+    
+                    // Pindahkan file ke folder tujuan
+                    if (move_uploaded_file($file_tmp, $file_path)) {
+                        $stmt = $pdo->prepare("INSERT INTO dokumen_pendaftaran (id_calon, jenis_dokumen, file_path) VALUES (:id_calon, :jenis_dokumen, :file_path)");
+                        $stmt->execute([
+                            ':id_calon' => $calon_id,
+                            ':jenis_dokumen' => $jenis_file,
+                            ':file_path' => '/uploads/documents/' . $unique_file_name
+                        ]);
+                    } else {
+                        throw new Exception(json_encode(["status" => "error", "pesan" => "Gagal memindahkan file $jenis_file ke folder tujuan."]));
+                    }
                 }
-
-                if ($file_size > $max_file_size) {
-                    throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ukuran file untuk $jenis_file terlalu besar."]));
-                }
-
-                // Buat nama file unik
-                $unique_file_name = uniqid($jenis_file . '_', true) . '.' . $file_extension;
-                $file_path = $upload_folder . $unique_file_name;
-
-                // Pindahkan file ke folder tujuan
-                if (move_uploaded_file($file_tmp, $file_path)) {
-                    $stmt = $pdo->prepare("INSERT INTO dokumen_pendaftaran (id_calon, jenis_dokumen, file_path) VALUES (:id_calon, :jenis_dokumen, :file_path)");
-                    $stmt->execute([
-                        ':id_calon' => $calon_id,
-                        ':jenis_dokumen' => $jenis_file,
-                        ':file_path' => $file_path
-                    ]);
-                } else {
-                    throw new Exception(json_encode(["status" => "error", "pesan" => "Gagal memindahkan file $jenis_file ke folder tujuan."]));
-                }
-            } else {
-                throw new Exception(json_encode(["status" => "error", "pesan" => "Terjadi kesalahan saat mengunggah file $jenis_file."]));
             }
         }
 
@@ -141,7 +144,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         // Rollback jika ada kesalahan
         $pdo->rollBack();
-        echo json_encode(["status" => "error", "pesan" => "Terjadi kesalahan: " . $e->getMessage()]);
+        // echo json_encode(["status" => "error", "pesan" => "Terjadi kesalahan: " . $e->getMessage()]);
+        echo $e->getMessage();
     }
 }
 ?>

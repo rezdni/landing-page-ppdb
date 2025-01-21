@@ -104,6 +104,23 @@ if (isset($_POST["removeCalon"])) {
         $calonId = htmlspecialchars($_POST["calonId"]);
         
         try {
+            // Cek dokumen calon
+            $stmt = $pdo->prepare("SELECT file_path FROM dokumen_pendaftaran WHERE id_calon = :idCalon");
+            $stmt->execute(["idCalon" => $calonId]);
+
+            $dokumen = $stmt->fetchAll();
+
+            // Hapus dokumen calon
+            if (!empty($dokumen)) {
+                foreach ($dokumen as $row) {
+                    $sumberFile = $_SERVER["DOCUMENT_ROOT"] . $row["file_path"];
+                    if (file_exists($sumberFile)) {
+                        unlink($sumberFile);
+                    }
+                }
+            }
+
+            // Hapus calon
             $deleteSql = "DELETE FROM pendaftaran WHERE `id_calon` = :idCalon";
             $stmt = $pdo->prepare($deleteSql);
         

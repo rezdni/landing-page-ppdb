@@ -130,12 +130,20 @@
                                 type="text"
                                 id="nama-pengguna"
                                 name="nama-pengguna"
+                                maxlength="50"
+                                required
                             />
                         </div>
 
                         <div class="kolom-isi">
                             <label for="email">Email</label>
-                            <input type="email" id="email" name="email" />
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                maxlength="50"
+                                required
+                            />
                         </div>
 
                         <div class="kolom-isi">
@@ -144,16 +152,33 @@
                                 type="password"
                                 id="password"
                                 name="password"
+                                required
                             />
                         </div>
 
                         <div class="kolom-isi">
                             <label for="jenis-pengguna">Jenis Pengguna</label>
-                            <select name="jenis-pengguna" id="jenis-pengguna">
+                            <select
+                                name="jenis-pengguna"
+                                id="jenis-pengguna"
+                                required
+                            >
                                 <option value="" selected></option>
                                 <option value="Admin">Admin</option>
                                 <option value="Calon">Calon</option>
                             </select>
+                        </div>
+
+                        <div class="kolom-isi">
+                            <label for="no-nis"
+                                >NIS (Isi jika pengguna adalah Calon)</label
+                            >
+                            <input
+                                type="no-nis"
+                                id="no-nis"
+                                name="no-nis"
+                                maxlength="17"
+                            />
                         </div>
 
                         <div class="tombol-form">

@@ -233,27 +233,43 @@ function hapusBerita(idBerita) {
 // Tambah calon
 function tambahCalon(event) {
     event.preventDefault();
-    let formulir = document.getElementById("tambahcalon");
-    let formData = new FormData(formulir);
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "../../backend/calon-siswa.php", true);
+    let requiredField = document.querySelectorAll(
+        "input[required], select[required]"
+    );
+    let validasi = true;
 
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            console.log(xhr.responseText);
-            const respon = JSON.parse(xhr.responseText);
-            if (respon.status === "error") {
-                showPopup("Kesalahan", "Internal Server Error", "", "Oke");
-                console.log(respon.pesan);
-            } else if (respon.status === "gagal") {
-                showPopup("Gagal", respon.pesan, "", "Oke");
-            } else {
-                showPopup("Berhasil", respon.pesan, "", "Oke");
-            }
+    requiredField.forEach((element) => {
+        if (!element.checkValidity()) {
+            validasi = false;
         }
-    };
-    xhr.send(formData);
+    });
+
+    if (validasi) {
+        let formulir = document.getElementById("tambahcalon");
+        let formData = new FormData(formulir);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "../../backend/calon-siswa.php", true);
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+                const respon = JSON.parse(xhr.responseText);
+                if (respon.status === "error") {
+                    showPopup("Kesalahan", "Internal Server Error", "", "Oke");
+                    console.log(respon.pesan);
+                } else if (respon.status === "gagal") {
+                    showPopup("Gagal", respon.pesan, "", "Oke");
+                } else {
+                    showPopup("Berhasil", respon.pesan, "", "Oke");
+                }
+            }
+        };
+        xhr.send(formData);
+    } else {
+        showPopup("Kesalahan", "Mohon isi kolom yang di butuhkan", "", "Oke");
+    }
 }
 
 //List semua calon
@@ -419,6 +435,7 @@ function removeCalon(idCalon) {
     // terima respon back-end
     xhr.onload = function () {
         if (xhr.status === 200) {
+            console.log(xhr.responseText);
             let respon = JSON.parse(xhr.responseText);
             if (respon.status === "berhasil") {
                 togglePopup();
