@@ -152,7 +152,6 @@
                                 type="password"
                                 id="password"
                                 name="password"
-                                required
                             />
                         </div>
 
@@ -163,7 +162,7 @@
                                 id="jenis-pengguna"
                                 required
                             >
-                                <option value="" selected></option>
+                                <option value="" selected>-- Pilih --</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Calon">Calon</option>
                             </select>
@@ -174,7 +173,7 @@
                                 >NIS (Isi jika pengguna adalah Calon)</label
                             >
                             <input
-                                type="no-nis"
+                                type="number"
                                 id="no-nis"
                                 name="no-nis"
                                 maxlength="17"
@@ -230,6 +229,7 @@
             let emailPengguna = document.getElementById("email");
             let password = document.getElementById("password");
             let jenisPengguna = document.getElementById("jenis-pengguna");
+            let noNis = document.getElementById("no-nis");
 
             const getUrlMethod = new URLSearchParams(window.location.search);
             let idAkun = getUrlMethod.get("id_akun");
@@ -254,6 +254,9 @@
                         namaPengguna.value = dataPengguna.nama;
                         emailPengguna.value = dataPengguna.email;
                         jenisPengguna.value = dataPengguna.role;
+                        noNis.value = dataPengguna.id_calon;
+
+                        cekJenisPengguna();
                     } else {
                         showPopup("Error", "Failed to process data", "", "Ok");
                     }
@@ -262,40 +265,79 @@
                 getXhr.send();
             }
 
+            jenisPengguna.addEventListener("change", () => {
+                cekJenisPengguna();
+            });
+
+            function cekJenisPengguna() {
+                if (jenisPengguna.value === "Admin") {
+                    noNis.setAttribute("disabled", "");
+                } else {
+                    noNis.removeAttribute("disabled");
+                }
+            }
+
             function simpanPerubahan(event) {
                 event.preventDefault();
 
-                let simpan = new XMLHttpRequest();
-                simpan.open("POST", "../../backend/kelola-pengguna.php", true);
-                simpan.setRequestHeader(
-                    "Content-Type",
-                    "application/x-www-form-urlencoded"
+                let requiredField = document.querySelectorAll(
+                    "input[required], select[required]"
                 );
+                let validasi = true;
 
-                simpan.onload = function () {
-                    if (simpan.status === 200) {
-                        const respon = JSON.parse(simpan.responseText);
-                        if (respon.status == "berhasil") {
-                            location.href =
-                                "kelola-pengguna.html?editpengguna=berhasil";
-                        }
-                    } else {
-                        showPopup("Error", "Failed to process data", "", "Ok");
+                requiredField.forEach((element) => {
+                    if (!element.checkValidity()) {
+                        validasi = false;
                     }
-                };
+                });
 
-                simpan.send(
-                    "simpanPerubahan=true&idPengguna=" +
-                        encodeURIComponent(idAkun) +
-                        "&namaPengguna=" +
-                        encodeURIComponent(namaPengguna.value) +
-                        "&emailPengguna=" +
-                        encodeURIComponent(emailPengguna.value) +
-                        "&password=" +
-                        encodeURIComponent(password.value) +
-                        "&jenisPengguna=" +
-                        encodeURIComponent(jenisPengguna.value)
-                );
+                if (validasi) {
+                    const formulir = document.querySelector("form");
+                    let kelolaPengguna = new FormData(formulir);
+
+                    kelolaPengguna.append("idPengguna", idAkun);
+                    kelolaPengguna.append("simpanPerubahan", true);
+
+                    let simpan = new XMLHttpRequest();
+                    simpan.open(
+                        "POST",
+                        "../../backend/kelola-pengguna.php",
+                        true
+                    );
+
+                    simpan.onload = function () {
+                        if (simpan.status === 200) {
+                            const respon = JSON.parse(simpan.responseText);
+                            if (respon.status == "berhasil") {
+                                location.href =
+                                    "kelola-pengguna.html?editpengguna=berhasil";
+                            } else if (respon.status === "gagal") {
+                                showPopup(
+                                    "Kesalahan",
+                                    respon.keterangan,
+                                    "",
+                                    "Ok"
+                                );
+                            }
+                        } else {
+                            showPopup(
+                                "Error",
+                                "Failed to process data",
+                                "",
+                                "Ok"
+                            );
+                        }
+                    };
+
+                    simpan.send(kelolaPengguna);
+                } else {
+                    showPopup(
+                        "Kesalahan",
+                        "Mohon isi kolom yang di butuhkan",
+                        "",
+                        "Oke"
+                    );
+                }
             }
 
             window.onload = function () {

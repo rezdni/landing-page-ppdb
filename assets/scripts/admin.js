@@ -149,47 +149,65 @@ function listBerita() {
 function simpanBerita(elmn, event) {
     event.preventDefault();
 
-    let judulBerita = elmn.querySelector("#judul-berita").value;
-    let isiBerita = elmn.querySelector("#isi-berita").value;
+    let requiredField = document.querySelectorAll(
+        "input[required], textarea[required]"
+    );
+    let validasi = true;
 
-    // buat koneksi xhttprequest
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "../../backend/kelola-pengumuman.php", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    requiredField.forEach((element) => {
+        if (!element.checkValidity()) {
+            validasi = false;
+        }
+    });
 
-    // terima respon back-end
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            let respon = JSON.parse(xhr.responseText);
-            if (respon.status === "berhasil") {
-                showPopup("Berhasil", "Berita berhasil dibuat", "", "Oke");
-                listBerita();
-                toggleBuatBerita();
+    if (validasi) {
+        let judulBerita = elmn.querySelector("#judul-berita").value;
+        let isiBerita = elmn.querySelector("#isi-berita").value;
+
+        // buat koneksi xhttprequest
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "../../backend/kelola-pengumuman.php", true);
+        xhr.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+        );
+
+        // terima respon back-end
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let respon = JSON.parse(xhr.responseText);
+                if (respon.status === "berhasil") {
+                    showPopup("Berhasil", "Berita berhasil dibuat", "", "Oke");
+                    listBerita();
+                    toggleBuatBerita();
+                } else {
+                    showPopup(
+                        "Kesalahan",
+                        "Terjadi kesalahan dalam membuat berita",
+                        "",
+                        "Oke"
+                    );
+                    console.log(respon.keterangan);
+                }
             } else {
                 showPopup(
                     "Kesalahan",
-                    "Terjadi kesalahan dalam membuat berita",
+                    "Kesalahan dalam menghubungkan ke server",
                     "",
                     "Oke"
                 );
-                console.log(respon.keterangan);
             }
-        } else {
-            showPopup(
-                "Kesalahan",
-                "Kesalahan dalam menghubungkan ke server",
-                "",
-                "Oke"
-            );
-        }
-    };
+        };
 
-    xhr.send(
-        "buatBerita=true&judulBerita=" +
-            encodeURIComponent(judulBerita) +
-            "&isiBerita=" +
-            encodeURIComponent(isiBerita)
-    );
+        xhr.send(
+            "buatBerita=true&judulBerita=" +
+                encodeURIComponent(judulBerita) +
+                "&isiBerita=" +
+                encodeURIComponent(isiBerita)
+        );
+    } else {
+        showPopup("Kesalahan", "Mohon isi kolom yang di butuhkan", "", "Oke");
+    }
 }
 
 // Hapus berita

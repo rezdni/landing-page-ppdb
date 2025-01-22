@@ -75,19 +75,17 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
     
             $stmt->execute($tampilkan);
             // get result
-            $results = $stmt->fetchAll();
+            $results = $stmt->fetch();
             if (empty($results)) {
                 echo json_encode(["status" => "gagal", "data tidak tersedia" => $e]);
             } else {
-                foreach ($results as $row) {
-                    echo json_encode([
-                        "id" => $row["id"],
-                        "nama" => $row["nama"],
-                        "email" => $row["email"],
-                        "role" => $row["role"],
-                        "id_calon" => $row["id_calon"]
-                    ]);
-                }
+                echo json_encode([
+                    "id" => $results["id"],
+                    "nama" => $results["nama"],
+                    "email" => $results["email"],
+                    "role" => $results["role"],
+                    "id_calon" => $results["id_calon"]
+                ]);
             }
         } catch (PDOException $e) {
             echo json_encode(["status" => "gagal", "keterangan" => $e]);
@@ -97,21 +95,45 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
     // simpan perubahan akun
     if (isset($_POST["simpanPerubahan"])) {
         $idPengguna = htmlspecialchars($_POST["idPengguna"]);
-        $namaPengguna = htmlspecialchars($_POST["namaPengguna"]);
-        $emailPengguna = htmlspecialchars($_POST["emailPengguna"]);
+        $namaPengguna = htmlspecialchars($_POST["nama-pengguna"]);
+        $emailPengguna = htmlspecialchars($_POST["email"]);
         $password = htmlspecialchars($_POST["password"]);
-        $jenisPengguna = htmlspecialchars($_POST["jenisPengguna"]);
-    
+        $jenisPengguna = htmlspecialchars($_POST["jenis-pengguna"]);
+
+        $nisPengguna = null;
+        $idCalon = null;
+
+        (isset($_POST["no-nis"]) && $_POST["no-nis"] !== "") ? $nisPengguna = htmlspecialchars($_POST["no-nis"]) : $nisPengguna = null;
+        
         try {
+            // Cek NIS
+            if (isset($_POST["no-nis"]) && $_POST["no-nis"] !== "") {
+                $sql = "SELECT * FROM pendaftaran WHERE no_nis = :no_nis";
+                $stmt = $pdo->prepare($sql);
+
+                $stmt->execute(["no_nis" => $nisPengguna]);
+
+                $hasil = $stmt->fetch();
+                
+                if (empty($hasil)) {
+                    echo json_encode(["status" => "gagal", "keterangan" => "NIS tidak tersedia"]);
+                    exit();
+                } else {
+                    $idCalon = $hasil["id_calon"];
+                }
+            }
+
+            // Cek perubahan password
             if ($password == "") {
-                $updateData = "UPDATE pengguna SET `nama` = :namaPengguna, `email` = :emailPengguna, `role` = :jenisPengguna WHERE `id` = :idPengguna";
+                $updateData = "UPDATE pengguna SET `nama` = :namaPengguna, `email` = :emailPengguna, `role` = :jenisPengguna, id_calon = :idCalon WHERE `id` = :idPengguna";
                 $stmt = $pdo->prepare($updateData);
     
                 $masukanPerubahan = [
                     "namaPengguna" => $namaPengguna,
                     "emailPengguna" => $emailPengguna,
                     "jenisPengguna" => $jenisPengguna,
-                    "idPengguna" => $idPengguna
+                    "idPengguna" => $idPengguna,
+                    "idCalon" => $idCalon
                 ];
     
                 $stmt->execute($masukanPerubahan);
@@ -120,7 +142,7 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
             } else {
                 $password = password_hash($password, PASSWORD_BCRYPT);
     
-                $updateData = "UPDATE pengguna SET `nama` = :namaPengguna, `email` = :emailPengguna, `password` = :password, `role` = :jenisPengguna WHERE `id` = :idPengguna";
+                $updateData = "UPDATE pengguna SET `nama` = :namaPengguna, `email` = :emailPengguna, `password` = :password, `role` = :jenisPengguna, id_calon = :idCalon WHERE `id` = :idPengguna";
                 $stmt = $pdo->prepare($updateData);
     
                 $masukanPerubahan = [
@@ -128,7 +150,8 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
                     "emailPengguna" => $emailPengguna,
                     "password" => $password,
                     "jenisPengguna" => $jenisPengguna,
-                    "idPengguna" => $idPengguna
+                    "idPengguna" => $idPengguna,
+                    "idCalon" => $idCalon
                 ];
     
                 $stmt->execute($masukanPerubahan);
