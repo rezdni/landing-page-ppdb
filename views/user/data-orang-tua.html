@@ -126,6 +126,8 @@
                                 type="text"
                                 id="nama-orang-tua"
                                 name="nama-orang-tua"
+                                maxlength="50"
+                                required
                             />
                         </div>
                         <div class="kolom-isi">
@@ -136,6 +138,7 @@
                                 type="text"
                                 id="nomor-telepon-orang-tua"
                                 name="nomor-telepon-orang-tua"
+                                maxlength="15"
                             />
                         </div>
                         <div class="kolom-isi">
@@ -144,6 +147,7 @@
                                 type="text"
                                 id="pekerjaan-orang-tua"
                                 name="pekerjaan-orang-tua"
+                                maxlength="50"
                             />
                         </div>
                         <div class="kolom-isi">
@@ -177,6 +181,34 @@
         <script>
             window.onload = function () {
                 cekSesi("dashboard");
+
+                // Ambil data orang tua
+                const ambilData = new XMLHttpRequest();
+                ambilData.open(
+                    "GET",
+                    "../../backend/menu-calon.php?data-ortu=true",
+                    true
+                );
+
+                ambilData.send();
+
+                ambilData.onload = function () {
+                    if (ambilData.status === 200) {
+                        const respon = JSON.parse(ambilData.responseText);
+                        if (respon.status === "error") {
+                            alert(respon.pesan);
+                        } else {
+                            let kolomIsian = document.querySelectorAll(
+                                "form input, form select"
+                            );
+                            console.log(respon);
+                            console.log(kolomIsian);
+                            for (let i = 0; i < kolomIsian.length; i++) {
+                                kolomIsian[i].value = respon[i];
+                            }
+                        }
+                    }
+                };
             };
         </script>
     </body>

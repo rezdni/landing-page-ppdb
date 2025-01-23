@@ -120,6 +120,8 @@
                                 type="text"
                                 id="nama-siswa"
                                 name="nama-siswa"
+                                maxlength="50"
+                                required
                             />
                         </div>
                         <div class="kolom-isi">
@@ -128,25 +130,35 @@
                                 type="date"
                                 id="tanggal-lahir"
                                 name="tanggal-lahir"
+                                required
                             />
                         </div>
                         <div class="kolom-isi">
                             <label for="no-nis"> No NISN </label>
-                            <input type="number" id="no-nis" name="no-nis" />
+                            <input
+                                type="number"
+                                id="no-nis"
+                                name="no-nis"
+                                maxlength="17"
+                            />
                         </div>
                         <div class="kolom-isi">
                             <label for="jenis-kelamin"> Jenis Kelamin </label>
                             <!-- <input type="text" id="jenis-kelamin" name="jenis-kelamin"> -->
-                            <select name="jenis-kelamin" id="jenis-kelamin">
+                            <select
+                                name="jenis-kelamin"
+                                id="jenis-kelamin"
+                                required
+                            >
                                 <option value="" selected>Pilih</option>
-                                <option value="Laki-Laki">Laki-Laki</option>
+                                <option value="Laki-laki">Laki-laki</option>
                                 <option value="Perempuan">Perempuan</option>
                             </select>
                         </div>
                         <div class="kolom-isi">
                             <label for="agama"> Agama </label>
                             <!-- <input type="text" id="agama" name="agama"> -->
-                            <select name="agama" id="agama">
+                            <select name="agama" id="agama" required>
                                 <option value="" selected>Pilih</option>
                                 <option value="Islam">Islam</option>
                                 <option value="Katolik">Katolik</option>
@@ -164,6 +176,7 @@
                                 type="text"
                                 id="asal-sekolah"
                                 name="asal-sekolah"
+                                maxlength="50"
                             />
                         </div>
                         <div class="kolom-isi">
@@ -171,7 +184,11 @@
                                 Kewarganegaraan
                             </label>
                             <!-- <input type="text" id="agama" name="agama"> -->
-                            <select name="kewarganegaraan" id="kewarganegaraan">
+                            <select
+                                name="kewarganegaraan"
+                                id="kewarganegaraan"
+                                required
+                            >
                                 <option value="" selected>Pilih</option>
                                 <option value="WNI">WNI</option>
                                 <option value="WNA">WNA</option>
@@ -183,6 +200,7 @@
                                 type="text"
                                 id="golongan-darah"
                                 name="golongan-darah"
+                                maxlength="5"
                             />
                         </div>
                         <div class="kolom-isi">
@@ -195,7 +213,12 @@
                         </div>
                         <div class="kolom-isi">
                             <label for="provinsi"> Provinsi </label>
-                            <input type="text" id="provinsi" name="provinsi" />
+                            <input
+                                type="text"
+                                id="provinsi"
+                                name="provinsi"
+                                maxlength="50"
+                            />
                         </div>
                         <div class="kolom-isi">
                             <label for="kota-kabupaten"> Kota/Kabupaten </label>
@@ -203,6 +226,7 @@
                                 type="text"
                                 id="kota-kabupaten"
                                 name="kota-kabupaten"
+                                maxlength="50"
                             />
                         </div>
                         <div class="kolom-isi">
@@ -211,6 +235,7 @@
                                 type="text"
                                 id="kecamatan"
                                 name="kecamatan"
+                                maxlength="50"
                             />
                         </div>
                         <div class="kolom-isi">
@@ -219,6 +244,7 @@
                                 type="text"
                                 id="kelurahan"
                                 name="kelurahan"
+                                maxlength="50"
                             />
                         </div>
                         <div class="kolom-isi">
@@ -227,22 +253,24 @@
                                 type="number"
                                 id="kode-post"
                                 name="kode-post"
+                                maxlength="5"
                             />
                         </div>
 
                         <div class="kolom-isi">
                             <label for="no-telepon"> Nomor Telepon </label>
                             <input
-                                type="number"
+                                type="text"
                                 id="no-telepon"
                                 name="no-telepon"
+                                maxlength="15"
                             />
                         </div>
 
                         <div class="kolom-isi">
                             <label for="jurusan"> Pilih Jurusan </label>
                             <!-- <input type="text" id="agama" name="agama"> -->
-                            <select name="jurusan" id="jurusan">
+                            <select name="jurusan" id="jurusan" required>
                                 <option value="" selected>Pilih</option>
                                 <option value="MIA (Matematika Ilmu Alam)">
                                     MIA (Matematika Ilmu Alam)
@@ -262,7 +290,7 @@
                         <div class="kolom-isi">
                             <label for="gelombang"> Pilih Gelombang </label>
                             <!-- <input type="text" id="agama" name="agama"> -->
-                            <select name="gelombang" id="gelombang">
+                            <select name="gelombang" id="gelombang" required>
                                 <option value="" selected>Pilih</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -293,6 +321,32 @@
         <script>
             window.onload = function () {
                 cekSesi("dashboard");
+
+                // Ambil data calon
+                const ambilData = new XMLHttpRequest();
+                ambilData.open(
+                    "GET",
+                    "../../backend/menu-calon.php?data-diri=true",
+                    true
+                );
+
+                ambilData.send();
+
+                ambilData.onload = function () {
+                    if (ambilData.status === 200) {
+                        const respon = JSON.parse(ambilData.responseText);
+                        if (respon.status === "error") {
+                            console.log(respon.pesan);
+                        } else {
+                            let kolomIsian = document.querySelectorAll(
+                                "form input, form select"
+                            );
+                            for (let i = 0; i < kolomIsian.length; i++) {
+                                kolomIsian[i].value = respon[i];
+                            }
+                        }
+                    }
+                };
             };
         </script>
     </body>

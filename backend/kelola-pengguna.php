@@ -79,12 +79,22 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
             if (empty($results)) {
                 echo json_encode(["status" => "gagal", "data tidak tersedia" => $e]);
             } else {
+                $nis = null;
+
+                $cekNim = $pdo->prepare("SELECT no_nis FROM pendaftaran WHERE id_calon = :id_calon");
+                $cekNim->execute(["id_calon" => $results["id_calon"]]);
+                $hasilNis = $cekNim->fetch();
+
+                if (!empty($hasilNis)) {
+                    $nis = $hasilNis["no_nis"];
+                }
+
                 echo json_encode([
                     "id" => $results["id"],
                     "nama" => $results["nama"],
                     "email" => $results["email"],
                     "role" => $results["role"],
-                    "id_calon" => $results["id_calon"]
+                    "no_nis" => $nis
                 ]);
             }
         } catch (PDOException $e) {
