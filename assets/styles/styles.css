@@ -242,7 +242,7 @@ body {
     border-radius: 10px;
 }
 
-.list--wrapper table {
+.list--wrapper .table-calon {
     width: 100%;
     height: auto;
     border-collapse: collapse;
@@ -250,14 +250,36 @@ body {
     table-layout: fixed;
 }
 
-.list--wrapper table tr th,
-.list--wrapper table tr td {
+.list--wrapper .table-calon tr th,
+.list--wrapper .table-calon tr td {
     padding: 8px;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/* Biodata Siswa diuser */
+.tabel-biodata-siswa {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+}
+
+.list-biodata {
+    width: 48%;
+    border-collapse: collapse;
+}
+
+.list-biodata td {
+    padding: 8px;
+    text-align: left !important;
+}
+/* End Biodata Siswa diuser*/
+
 /* tombol ubah data */
 .ubah-data {
     display: flex;
@@ -366,31 +388,36 @@ body {
 
 /* tombol tambah pengguna */
 .btn-tambah {
-    position: relative;
-    width: 50px;
-    height: 60px;
-    box-shadow: #575757;
+    display: flex;
+    top: 10px;
+    right: 20px;
+    background-color: #444;
 }
 
 .btn-tambah-user {
-    position: absolute;
+    position: fixed;
+    top: 26vh;
+    right: 50px;
     background-color: #239b56;
     color: #fff;
-    top: 10px;
-    left: 100vh;
-    border: none;
+    padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
     justify-content: space-between;
     transition: background-color 0.3s ease;
+    box-shadow: #575757;
 }
-
-/* end tambah pengguna */
 
 .btn-tambah-user:hover {
-    background-color: #239b56;
+    background-color: #dee5d9;
 }
+
+.btn-tambah-user:active {
+    background-color: #003f7f;
+}
+/* end tambah pengguna */
+
 /* end formulir pendaftaran */
 
 /* Formulir  */
@@ -523,7 +550,7 @@ body {
 
 /* Responsive */
 @media screen and (max-width: 1200px) {
-    .list--wrapper table thead {
+    .list--wrapper .table-calon thead {
         border: none;
         clip: rect(0, 0, 0, 0);
         height: 1px;
@@ -533,22 +560,23 @@ body {
         position: absolute;
         width: 1px;
     }
-    .list--wrapper table tr {
+
+    .list--wrapper .table-calon tr {
         display: block;
         margin-bottom: 5px;
         padding: 10px;
     }
-    .list--wrapper table td {
+    .list--wrapper .table-calon td {
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid #dee5d9;
         padding: 10px !important;
     }
-    .list--wrapper table td .text-wrap {
+    .list--wrapper .table-calon td .text-wrap {
         text-align: right;
         margin: 0;
     }
-    .list--wrapper table td::before {
+    .list--wrapper .table-calon td::before {
         content: attr(data-label);
         float: left;
         font-weight: bold;
@@ -557,13 +585,13 @@ body {
         text-wrap: wrap;
         color: #239b56;
     }
-    .list--wrapper table td.ubah-data {
+    .list--wrapper .table-calon td.ubah-data {
         justify-content: space-between !important;
     }
-    .list--wrapper table td.ubah-data::before {
+    .list--wrapper .table-calon td.ubah-data::before {
         flex: 1;
     }
-    .list--wrapper table td:last-child {
+    .list--wrapper .table-calon td:last-child {
         border: none;
     }
 }
@@ -598,7 +626,7 @@ body {
         width: 150px;
     }
 
-    .list--wrapper table {
+    .list--wrapper .table-calon {
         table-layout: fixed;
     }
 
