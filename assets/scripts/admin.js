@@ -12,39 +12,47 @@ function showUsers() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             let listPengguna = document.getElementById("list-pengguna");
-            let respon = JSON.parse(xhr.responseText);
 
-            if (respon.kesalahan) {
-                listPengguna.innerHTML = `<h2>${respon.kesalahan}</h2>`;
-            } else {
-                let listDataPengguna = "";
-                respon.forEach((element) => {
-                    listDataPengguna += `
-                    <li>
-                        <div>
-                            <span
-                                class="material-symbols-outlined dark-purple"
-                            >
-                                person
-                            </span>
-                            <p>${element.nama}</p>
-                        </div>
-                        <div>
-                            <p>${element.role}</p>
-                            <a href="edit-akun.html?id_akun=${element.id}" class="material-symbols-outlined dark-green">
-                                edit
-                            </a>
-                            <span
-                                class="material-symbols-outlined dark-red"
-                                onclick="hapusPengguna(${element.id}, '${element.nama}')"
-                            >
-                                delete
-                            </span>
-                        </div>
-                    </li>
-                    `;
+            try {
+                let = respon = JSON.parse(xhr.responseText);
+                if (respon.status === "success") {
+                    let listDataPengguna = "";
+                    respon.data.forEach((element) => {
+                        listDataPengguna += `
+                        <li>
+                            <div>
+                                <span
+                                    class="material-symbols-outlined dark-purple"
+                                >
+                                    person
+                                </span>
+                                <p>${element.nama}</p>
+                            </div>
+                            <div>
+                                <p>${element.role}</p>
+                                <a href="edit-akun.html?id_akun=${element.id}" class="material-symbols-outlined dark-green">
+                                    edit
+                                </a>
+                                <span
+                                    class="material-symbols-outlined dark-red"
+                                    onclick="hapusPengguna(${element.id}, '${element.nama}')"
+                                >
+                                    delete
+                                </span>
+                            </div>
+                        </li>
+                        `;
+                    });
+                    listPengguna.innerHTML = listDataPengguna;
+                } else {
+                    listPengguna.innerHTML = `<h2>${respon.message}</h2>`;
+                }
+            } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
                 });
-                listPengguna.innerHTML = listDataPengguna;
             }
         } else {
             showPopup("Error", "Failed to process data", "", "Ok");
@@ -74,17 +82,35 @@ function deleteUser(idPengguna) {
     // terima respon back-end
     xhr.onload = function () {
         if (xhr.status === 200) {
-            let respon = JSON.parse(xhr.responseText);
-            if (respon.status === "berhasil") {
-                togglePopup();
-                popupSubmit.removeAttribute("onclick");
-                showUsers();
-            } else {
-                alert("Kesalahan dalam menghapus akun");
-                console.log(respon.keterangan);
+            try {
+                let respon = JSON.parse(xhr.responseText);
+                if (respon.status === "success") {
+                    togglePopup();
+                    popupSubmit.removeAttribute("onclick");
+                    showUsers();
+                } else {
+                    showPopup(
+                        "Kesalahan",
+                        "Terjadi kesalahan dalam menghapus pengguna",
+                        "",
+                        "Oke"
+                    );
+                    console.log(respon.message);
+                }
+            } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
+                });
             }
         } else {
-            alert("Kesalahan dalam menghubungkan ke server");
+            showPopup(
+                "Kesalahan",
+                "Terjadi kesalahan dalam menghubungkan ke server",
+                "",
+                "Oke"
+            );
         }
     };
 
@@ -116,26 +142,34 @@ function listBerita() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             let kolomBerita = document.querySelector(".list-berita");
-            let listDataBerita = JSON.parse(xhr.responseText);
 
-            if (listDataBerita.kesalahan) {
-                kolomBerita.innerHTML = `<h2>${listDataBerita.kesalahan}</h2>`;
-            } else {
-                let listIsiBerita = "";
-                listDataBerita.forEach((element) => {
-                    listIsiBerita += `
-                    <div class="berita hasil">
-                        <h3>${element.judul}</h3>
-                        <p>
-                            ${element.isi_pengumuman}
-                        </p>
-                        <button name="hapus-berita" class="hapus-berita" onclick="hapusBerita(${element.id_pengumuman})">
-                            Hapus
-                            </button>
-                    </div>
-                    `;
+            try {
+                let listDataBerita = JSON.parse(xhr.responseText);
+                if (listDataBerita.status === "success") {
+                    let listIsiBerita = "";
+                    listDataBerita.data.forEach((element) => {
+                        listIsiBerita += `
+                        <div class="berita hasil">
+                            <h3>${element.judul}</h3>
+                            <p>
+                                ${element.isi_pengumuman}
+                            </p>
+                            <button name="hapus-berita" class="hapus-berita" onclick="hapusBerita(${element.id_pengumuman})">
+                                Hapus
+                                </button>
+                        </div>
+                        `;
+                    });
+                    kolomBerita.innerHTML = listIsiBerita;
+                } else {
+                    kolomBerita.innerHTML = `<h2>${listDataBerita.message}</h2>`;
+                }
+            } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
                 });
-                kolomBerita.innerHTML = listIsiBerita;
             }
         } else {
             showPopup("Error", "Failed to process data", "", "Ok");
@@ -175,19 +209,32 @@ function simpanBerita(elmn, event) {
         // terima respon back-end
         xhr.onload = function () {
             if (xhr.status === 200) {
-                let respon = JSON.parse(xhr.responseText);
-                if (respon.status === "berhasil") {
-                    showPopup("Berhasil", "Berita berhasil dibuat", "", "Oke");
-                    listBerita();
-                    toggleBuatBerita();
-                } else {
-                    showPopup(
-                        "Kesalahan",
-                        "Terjadi kesalahan dalam membuat berita",
-                        "",
-                        "Oke"
-                    );
-                    console.log(respon.keterangan);
+                try {
+                    let respon = JSON.parse(xhr.responseText);
+                    if (respon.status === "success") {
+                        showPopup(
+                            "Berhasil",
+                            "Berita berhasil dibuat",
+                            "",
+                            "Oke"
+                        );
+                        listBerita();
+                        toggleBuatBerita();
+                    } else {
+                        showPopup(
+                            "Kesalahan",
+                            "Terjadi kesalahan dalam membuat berita",
+                            "",
+                            "Oke"
+                        );
+                        console.log(respon.message);
+                    }
+                } catch (errMsg) {
+                    showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                    console.dir({
+                        Kesalahan: errMsg,
+                        "XMLHttpRequest Respon": xhr.responseText,
+                    });
                 }
             } else {
                 showPopup(
@@ -220,18 +267,26 @@ function hapusBerita(idBerita) {
     // terima respon back-end
     xhr.onload = function () {
         if (xhr.status === 200) {
-            let respon = JSON.parse(xhr.responseText);
-            if (respon.status === "berhasil") {
-                showPopup("Berhasil", "Berita berhasil dihapus", "", "Oke");
-                listBerita();
-            } else {
-                showPopup(
-                    "Kesalahan",
-                    "Terjadi kesalahan dalam menghapus berita",
-                    "",
-                    "Oke"
-                );
-                console.log(respon.keterangan);
+            try {
+                let respon = JSON.parse(xhr.responseText);
+                if (respon.status === "success") {
+                    showPopup("Berhasil", "Berita berhasil dihapus", "", "Oke");
+                    listBerita();
+                } else {
+                    showPopup(
+                        "Kesalahan",
+                        "Terjadi kesalahan dalam menghapus berita",
+                        "",
+                        "Oke"
+                    );
+                    console.log(respon.message);
+                }
+            } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
+                });
             }
         } else {
             showPopup(
@@ -272,15 +327,32 @@ function tambahCalon(event) {
 
         xhr.onload = function () {
             if (xhr.status === 200) {
-                console.log(xhr.responseText);
-                const respon = JSON.parse(xhr.responseText);
-                if (respon.status === "error") {
-                    showPopup("Kesalahan", "Internal Server Error", "", "Oke");
-                    console.log(respon.pesan);
-                } else if (respon.status === "gagal") {
-                    showPopup("Gagal", respon.pesan, "", "Oke");
-                } else {
-                    showPopup("Berhasil", respon.pesan, "", "Oke");
+                try {
+                    let respon = JSON.parse(xhr.responseText);
+                    if (respon.status === "error") {
+                        if (
+                            respon.code === "FILE_TOO_LARGE" ||
+                            respon.code === "EXTENSION_NOT_ALLOWED"
+                        ) {
+                            showPopup("Gagal", respon.message, "", "Oke");
+                        } else {
+                            showPopup(
+                                "Kesalahan",
+                                "Internal Server Error",
+                                "",
+                                "Oke"
+                            );
+                            console.log(respon.message);
+                        }
+                    } else {
+                        showPopup("Berhasil", respon.message, "", "Oke");
+                    }
+                } catch (errMsg) {
+                    showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                    console.dir({
+                        Kesalahan: errMsg,
+                        "XMLHttpRequest Respon": xhr.responseText,
+                    });
                 }
             }
         };
@@ -301,60 +373,68 @@ function listSemuaCalon() {
 
     getXhr.onload = function () {
         if (getXhr.status === 200) {
-            const dataCalon = JSON.parse(getXhr.responseText);
-            let calonSiswa = document.getElementById("data-siswa");
+            try {
+                let dataCalon = JSON.parse(getXhr.responseText);
+                let calonSiswa = document.getElementById("data-siswa");
 
-            if (dataCalon.kesalahan) {
-                calonSiswa.innerHTML = `
-                <tr>
-                    <td colspan="7">${dataCalon.kesalahan}</td>
-                </tr>
-                `;
-            } else {
-                let biodataCalon = "";
+                if (dataCalon.status === "success") {
+                    let biodataCalon = "";
 
-                dataCalon.forEach((biodata) => {
-                    biodataCalon += `
-                    <tr>
-                        <td data-label="No" class="no">
-                            <p class="text-wrap">${biodata.nomor}</p>
-                        </td>
-                        <td data-label="Nama Siswa" class="nama-siswa">
-                            <p class="text-wrap">${biodata.nama}</p>
-                        </td>
-                        <td data-label="Jurusan" class="jurusan">
-                            <p class="text-wrap">${biodata.jurusan}</p>
-                        </td>
-                        <td data-label="Gelombang" class="gelombang">
-                            <p class="text-wrap">${biodata.gelombang}</p>
-                        </td>
-                        <td data-label="Tanggal" class="tanggal-daftar">
-                            <p class="text-wrap">${biodata.daftar}</p>
-                        </td>
-                        <td
-                            data-label="Nomor Telepon"
-                            class="nomor-telepon"
-                        >
-                            <p class="text-wrap">${biodata.telepon}</p>
-                        </td>
-                        <td data-label="Keterangan" class="keterangan">
-                            <p class="text-wrap">sukses</p>
-                        </td>
-                        <td data-label="Ubah Data" class="ubah-data">
-                            <a href="edit-calon.html?idCalon=${biodata.id}">
-                                <button name="edit-data" id="edit-data">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                            </a>
-                            <button name="hapus-data" id="hapus-data" onclick="hapusCalon(${biodata.id}, '${biodata.nama}')">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    `;
+                    dataCalon.data.forEach((biodata) => {
+                        biodataCalon += `
+                            <tr>
+                                <td data-label="No" class="no">
+                                    <p class="text-wrap">${biodata.nomor}</p>
+                                </td>
+                                <td data-label="Nama Siswa" class="nama-siswa">
+                                    <p class="text-wrap">${biodata.nama}</p>
+                                </td>
+                                <td data-label="Jurusan" class="jurusan">
+                                    <p class="text-wrap">${biodata.jurusan}</p>
+                                </td>
+                                <td data-label="Gelombang" class="gelombang">
+                                    <p class="text-wrap">${biodata.gelombang}</p>
+                                </td>
+                                <td data-label="Tanggal" class="tanggal-daftar">
+                                    <p class="text-wrap">${biodata.daftar}</p>
+                                </td>
+                                <td
+                                    data-label="Nomor Telepon"
+                                    class="nomor-telepon"
+                                >
+                                    <p class="text-wrap">${biodata.telepon}</p>
+                                </td>
+                                <td data-label="Keterangan" class="keterangan">
+                                    <p class="text-wrap">sukses</p>
+                                </td>
+                                <td data-label="Ubah Data" class="ubah-data">
+                                    <a href="edit-calon.html?idCalon=${biodata.id}">
+                                        <button name="edit-data" id="edit-data">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    </a>
+                                    <button name="hapus-data" id="hapus-data" onclick="hapusCalon(${biodata.id}, '${biodata.nama}')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            `;
+                    });
+
+                    calonSiswa.innerHTML = biodataCalon;
+                } else {
+                    calonSiswa.innerHTML = `
+                        <tr>
+                            <td colspan="7">${dataCalon.message}</td>
+                        </tr>
+                        `;
+                }
+            } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
                 });
-
-                calonSiswa.innerHTML = biodataCalon;
             }
         } else {
             showPopup("Error", "Failed to process data", "", "Ok");
@@ -380,50 +460,58 @@ function listCalon(batas) {
 
     getXhr.onload = function () {
         if (getXhr.status === 200) {
-            const dataCalon = JSON.parse(getXhr.responseText);
-            let calonSiswa = document.getElementById("data-siswa");
+            try {
+                let dataCalon = JSON.parse(getXhr.responseText);
+                let calonSiswa = document.getElementById("data-siswa");
 
-            if (dataCalon.kesalahan) {
-                calonSiswa.innerHTML = `
-                <tr>
-                    <td colspan="7">${dataCalon.kesalahan}</td>
-                </tr>
-                `;
-            } else {
-                let biodataCalon = "";
+                if (dataCalon.status === "success") {
+                    let biodataCalon = "";
 
-                dataCalon.forEach((biodata) => {
-                    biodataCalon += `
-                    <tr>
-                        <td data-label="No" class="no">
-                            <p class="text-wrap">${biodata.nomor}</p>
-                        </td>
-                        <td data-label="Nama Siswa" class="nama-siswa">
-                            <p class="text-wrap">${biodata.nama}</p>
-                        </td>
-                        <td data-label="Jurusan" class="jurusan">
-                            <p class="text-wrap">${biodata.jurusan}</p>
-                        </td>
-                        <td data-label="Gelombang" class="gelombang">
-                            <p class="text-wrap">${biodata.gelombang}</p>
-                        </td>
-                        <td data-label="Tanggal" class="tanggal-daftar">
-                            <p class="text-wrap">${biodata.daftar}</p>
-                        </td>
-                        <td
-                            data-label="Nomor Telepon"
-                            class="nomor-telepon"
-                        >
-                            <p class="text-wrap">${biodata.telepon}</p>
-                        </td>
-                        <td data-label="Keterangan" class="keterangan">
-                            <p class="text-wrap">sukses</p>
-                        </td>
-                    </tr>
-                    `;
+                    dataCalon.data.forEach((biodata) => {
+                        biodataCalon += `
+                            <tr>
+                                <td data-label="No" class="no">
+                                    <p class="text-wrap">${biodata.nomor}</p>
+                                </td>
+                                <td data-label="Nama Siswa" class="nama-siswa">
+                                    <p class="text-wrap">${biodata.nama}</p>
+                                </td>
+                                <td data-label="Jurusan" class="jurusan">
+                                    <p class="text-wrap">${biodata.jurusan}</p>
+                                </td>
+                                <td data-label="Gelombang" class="gelombang">
+                                    <p class="text-wrap">${biodata.gelombang}</p>
+                                </td>
+                                <td data-label="Tanggal" class="tanggal-daftar">
+                                    <p class="text-wrap">${biodata.daftar}</p>
+                                </td>
+                                <td
+                                    data-label="Nomor Telepon"
+                                    class="nomor-telepon"
+                                >
+                                    <p class="text-wrap">${biodata.telepon}</p>
+                                </td>
+                                <td data-label="Keterangan" class="keterangan">
+                                    <p class="text-wrap">sukses</p>
+                                </td>
+                            </tr>
+                            `;
+                    });
+
+                    calonSiswa.innerHTML = biodataCalon;
+                } else {
+                    calonSiswa.innerHTML = `
+                        <tr>
+                            <td colspan="7">${dataCalon.message}</td>
+                        </tr>
+                        `;
+                }
+            } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
                 });
-
-                calonSiswa.innerHTML = biodataCalon;
             }
         } else {
             showPopup("Error", "Failed to process data", "", "Ok");
@@ -453,18 +541,35 @@ function removeCalon(idCalon) {
     // terima respon back-end
     xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log(xhr.responseText);
-            let respon = JSON.parse(xhr.responseText);
-            if (respon.status === "berhasil") {
-                togglePopup();
-                popupSubmit.removeAttribute("onclick");
-                listSemuaCalon();
-            } else {
-                alert("Kesalahan dalam menghapus calon siswa");
-                console.log(respon.keterangan);
+            try {
+                let respon = JSON.parse(xhr.responseText);
+                if (respon.status === "success") {
+                    togglePopup();
+                    popupSubmit.removeAttribute("onclick");
+                    listSemuaCalon();
+                } else {
+                    showPopup(
+                        "Kesalahan",
+                        "Terjadi kesalahan dalam menghapus calon siswa",
+                        "",
+                        "Oke"
+                    );
+                    console.log(respon.message);
+                }
+            } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
+                });
             }
         } else {
-            alert("Kesalahan dalam menghubungkan ke server");
+            showPopup(
+                "Kesalahan",
+                "Terjadi kesalahan dalam menghubungkan ke server",
+                "",
+                "Oke"
+            );
         }
     };
 
@@ -478,10 +583,17 @@ const menuToggle = document.querySelector(".menu-btn");
 const menuClose = document.querySelector(".menu-close");
 const menuMobile = document.querySelector(".menu-mobile");
 
-// Tampilkan menu saat tombol menu ditekan
-menuToggle.addEventListener("click", () => {
-    menuMobile.classList.add("active");
-});
+try {
+    // Tampilkan menu saat tombol menu ditekan
+    menuToggle.addEventListener("click", () => {
+        menuMobile.classList.add("active");
+    });
+} catch (errMsg) {
+    alert(
+        "Benerin tombol menu nya itu woy Reza, di baris 582 admin.js. Cek console kalo gk tau salahnya dimana."
+    );
+    console.dir(errMsg);
+}
 
 // Sembunyikan menu saat tombol close ditekan
 menuClose.addEventListener("click", () => {

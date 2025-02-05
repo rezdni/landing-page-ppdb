@@ -43,17 +43,75 @@ if (isset($_POST["login"])) {
             ]);
 
             if ($_SESSION["user_role"] == "Admin") {
-                echo json_encode(["status" => "berhasil", "alihkan" => "/views/admin/"]);
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Berhasil login",
+                    "redirect" => "/views/admin/"
+                ], JSON_PRETTY_PRINT);
             } else {
-                echo json_encode(["status" => "berhasil", "alihkan" => "/views/user/"]);
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Berhasil login",
+                    "redirect" => "/views/user/"
+                ], JSON_PRETTY_PRINT);
             }
 
         } else {
             $_SESSION["error"] = "Email atau Password salah.";
-            echo json_encode(["status" => "gagal", "pesan" => "Email atau Password salah."]);
+            echo json_encode([
+                "status" => "error",
+                "code" => "USER_NOT_FOUND",
+                "message" => "Email atau Password salah."
+            ], JSON_PRETTY_PRINT);
         }
-    } catch (PDOException $e) {
-        echo json_encode(["status" => "error", "pesan" => $e]);
+    } catch (Throwable $e) {
+        echo json_encode([
+            "status" => "error",
+            "code" => 500,
+            "message" => $e
+        ], JSON_PRETTY_PRINT);
+    }
+}
+
+if (isset($_POST["reset"])) {
+    $email = htmlspecialchars($_POST["email"]);
+    $newPass = htmlspecialchars($_POST["newpassword"]);
+    $rePass = htmlspecialchars($_POST["retypepassword"]);
+    $hashPass;
+
+    if ($newPass !== $rePass) {
+        echo json_encode([
+            "status" => "error",
+            "code" => 400,
+            "message" => "Kata sandi tidak sesuai"
+        ], JSON_PRETTY_PRINT);
+        exit();
+    } else {
+        $hashPass = password_hash($rePass, PASSWORD_BCRYPT);
+    }
+
+    try {
+        $sql = "UPDATE pengguna SET `password` = :password WHERE email = :email";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            "email" => $email,
+            "password" => $hashPass
+        ]);
+
+        echo json_encode([
+            "status" => "success",
+            "code" => 200,
+            "message" => "Sandi berhasil diubah"
+        ], JSON_PRETTY_PRINT);
+
+    } catch (Throwable $e) {
+        echo json_encode([
+            "status" => "error",
+            "code" => 500,
+            "message" => $e
+        ], JSON_PRETTY_PRINT);
     }
 }
 ?>

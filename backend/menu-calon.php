@@ -16,7 +16,11 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
             $hasil = $cekCalon->fetch();
     
             if (empty($hasil) || $hasil["id_calon"] === null) {
-                echo json_encode(["status" => "error", "pesan" => "Calon belum mendaftar"]);
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Data tidak ditemukan"
+                ], JSON_PRETTY_PRINT);
             } else {
                 $calonId = $hasil["id_calon"];
     
@@ -27,28 +31,37 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
     
                 if (!empty($hasilData)) {
                     echo json_encode([
-                        $hasilData["nama_calon_siswa"],
-                        $hasilData["tanggal_lahir"],
-                        $hasilData["no_nis"],
-                        $hasilData["jenis_kelamin"],
-                        $hasilData["agama"],
-                        $hasilData["sekolah_asal"],
-                        $hasilData["kewarganegaraan"],
-                        $hasilData["golongan_darah"],
-                        $hasilData["alamat_tinggal"],
-                        $hasilData["provinsi"],
-                        $hasilData["kota_kabupaten"],
-                        $hasilData["kecamatan"],
-                        $hasilData["kelurahan"],
-                        $hasilData["kode_post"],
-                        $hasilData["no_telepon"],
-                        $hasilData["jurusan"],
-                        $hasilData["gelombang"]
+                        "status" => "success",
+                        "code" => 200,
+                        "message" => "Data ditemukan",
+                        "data" => [
+                            $hasilData["nama_calon_siswa"],
+                            $hasilData["tanggal_lahir"],
+                            $hasilData["no_nis"],
+                            $hasilData["jenis_kelamin"],
+                            $hasilData["agama"],
+                            $hasilData["sekolah_asal"],
+                            $hasilData["kewarganegaraan"],
+                            $hasilData["golongan_darah"],
+                            $hasilData["alamat_tinggal"],
+                            $hasilData["provinsi"],
+                            $hasilData["kota_kabupaten"],
+                            $hasilData["kecamatan"],
+                            $hasilData["kelurahan"],
+                            $hasilData["kode_post"],
+                            $hasilData["no_telepon"],
+                            $hasilData["jurusan"],
+                            $hasilData["gelombang"]
+                        ]
                     ], JSON_PRETTY_PRINT);
                 }
             }
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
 
@@ -61,7 +74,11 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
             $hasil = $cekCalon->fetch();
     
             if (empty($hasil) || $hasil["id_calon"] === null) {
-                echo json_encode(["status" => "error", "pesan" => "Mohon mendaftar terlebih dahulu sebelum memasukan data orang tua"]);
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Mohon mendaftar terlebih dahulu sebelum memasukan data orang tua"
+                ], JSON_PRETTY_PRINT);
                 exit();
             } else {
                 $calonId = $hasil["id_calon"];
@@ -73,15 +90,24 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
     
                 if (!empty($hasilData)) {
                     echo json_encode([
-                        $hasilData["nama_orang_tua"],
-                        $hasilData["nomor_telepon_orang_tua"],
-                        $hasilData["pekerjaan_orang_tua"],
-                        $hasilData["alamat_orang_tua"]
+                        "status" => "success",
+                        "code" => 200,
+                        "message" => "Data ditemukan",
+                        "data" => [
+                            $hasilData["nama_orang_tua"],
+                            $hasilData["nomor_telepon_orang_tua"],
+                            $hasilData["pekerjaan_orang_tua"],
+                            $hasilData["alamat_orang_tua"]
+                        ]
                     ], JSON_PRETTY_PRINT);
                 }
             }
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
 
@@ -154,12 +180,16 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                     "id_pengguna" => $_SESSION["user_id"]
                 ]);
 
-                echo json_encode(["status" => "berhasil", "pesan" => "Pendaftaran berhasil"]);
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Pendaftaran berhasil"
+                ], JSON_PRETTY_PRINT);
+
             } else {
                 // Jika sudah mendaftar, ubah perbarui datanya
                 $sql = "UPDATE pendaftaran SET `nama_calon_siswa`= :nama_calon_siswa, `tanggal_lahir` = :tanggal_lahir, `no_nis` = :no_nis, `jenis_kelamin` = :jenis_kelamin, `agama` = :agama, `sekolah_asal` = :sekolah_asal, `kewarganegaraan` = :kewarganegaraan, `golongan_darah` = :golongan_darah, `alamat_tinggal` = :alamat_tinggal, `provinsi` = :provinsi, `kota_kabupaten` = :kota_kabupaten, `kecamatan` = :kecamatan, `kelurahan` = :kelurahan, `kode_post` = :kode_post, `no_telepon` = :no_telepon, `jurusan` = :jurusan, `gelombang` = :gelombang WHERE id_calon = :id_calon";
                 $stmt = $pdo->prepare($sql);
-
                 
                 // Masukan ke database
                 $stmt->execute([
@@ -182,11 +212,21 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                     'gelombang' => $gelombang,
                     'id_calon' => $hasil["id_calon"]
                 ]);
-                echo json_encode(["status" => "berhasil", "pesan" => "Data diri berhasil diubah"]);
+
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Data diri berhasil diubah"
+                ], JSON_PRETTY_PRINT);
+
             }
             
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
 
@@ -209,7 +249,11 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
             $result = $stmt->fetch();
 
             if (empty($result) || $result["id_calon"] === null) {
-                echo json_encode(["status" => "error", "pesan" => "Mohon mendaftar terlebih dahulu sebelum memasukan data orang tua"]);
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Mohon mendaftar terlebih dahulu sebelum memasukan data orang tua"
+                ], JSON_PRETTY_PRINT);
                 exit();
             } else {
                 // Cek apakah calon sudah memasukan data orang tua
@@ -233,7 +277,11 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                         'alamat_orang_tua' => $alamat_orangtua
                     ]);
         
-                    echo json_encode(["status" => "berhasil", "pesan" => "Data orang tua ditambah"]);
+                    echo json_encode([
+                        "status" => "success",
+                        "code" => 200,
+                        "message" => "Data orang tua ditambah"
+                    ], JSON_PRETTY_PRINT);
                 } else {
                     // Jika sudah, ubah data ortu ke database
                     $sql = "UPDATE orang_tua SET `nama_orang_tua` = :nama_orang_tua, `pekerjaan_orang_tua` = :pekerjaan_orang_tua, `nomor_telepon_orang_tua` = :nomor_telepon_orang_tua, `alamat_orang_tua` = :alamat_orang_tua WHERE id_calon = :id_calon";
@@ -247,11 +295,19 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                         'alamat_orang_tua' => $alamat_orangtua
                     ]);
         
-                    echo json_encode(["status" => "berhasil", "pesan" => "Data orang tua diubah"]);
+                    echo json_encode([
+                        "status" => "success",
+                        "code" => 200,
+                        "message" => "Data orang tua diubah"
+                    ], JSON_PRETTY_PRINT);
                 }
             }
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
 
@@ -264,7 +320,15 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
 
         // Periksa apakah folder tujuan ada
         if (!is_dir($upload_folder)) {
-            echo json_encode(["status" => "error", "pesan" => "Folder tujuan tidak tersedia"]);
+            echo json_encode([
+                "status" => "error",
+                "code" => "FOLDER_NOT_FOUND",
+                "message" => "Folder tujuan tidak tersedia",
+                "details" => [
+                    "folder_path" => "/uploads/documents/",
+                    "issue" => "Folder tidak ditemukan atau tidak dapat diakses"
+                ]
+            ], JSON_PRETTY_PRINT);
             exit();
         }
         
@@ -286,7 +350,11 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
     
             $result = $stmt->fetch();
             if (empty($result) || $result["id_calon"] === null) {
-                echo json_encode(["status" => "error", "pesan" => "Mohon mendaftar terlebih dahulu sebelum memasukan berkas"]);
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Mohon mendaftar terlebih dahulu sebelum memasukan berkas"
+                ], JSON_PRETTY_PRINT);
             } else {
                 $id_calon = $result["id_calon"];
                 $fileDiUpload = 0;
@@ -306,7 +374,15 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                         // Jika belum
                         // Proses setiap file unggahan
                         if ($file['error'] === 1) {
-                            json_encode(["status" => "gagal", "pesan" => "Ukuran file untuk $jenis_file terlalu besar."]);
+                            echo json_encode([
+                                "status" => "error",
+                                "code" => "FILE_TOO_LARGE",
+                                "message" => "Ukuran file terlalu besar.",
+                                "details" => [
+                                    "file" => $jenis_file,
+                                    "issue" => "Ukuran file untuk $jenis_file terlalu besar."
+                                ]
+                            ], JSON_PRETTY_PRINT);
                             exit();
                         }
                         if ($file['error'] !== 4) {
@@ -321,11 +397,27 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                             // Validasi file
                             if ($file_error === 0) {
                                 if (!in_array($file_extension, $allowed_extensions)) {
-                                    throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ekstensi file untuk $jenis_file tidak diperbolehkan."]));
+                                    throw new Exception(json_encode([
+                                        "status" => "error",
+                                        "code" => "EXTENSION_NOT_ALLOWED",
+                                        "message" => "Ekstensi file tidak diperbolehkan.",
+                                        "details" => [
+                                            "file", $jenis_file,
+                                            "issue" => "Ekstensi file untuk $jenis_file tidak diperbolehkan."
+                                        ]
+                                    ], JSON_PRETTY_PRINT));
                                 }
                 
                                 if ($file_size > $max_file_size) {
-                                    throw new Exception(json_encode(["status" => "gagal", "pesan" => "Ukuran file untuk $jenis_file terlalu besar."]));
+                                    throw new Exception(json_encode([
+                                        "status" => "error",
+                                        "code" => "FILE_TOO_LARGE",
+                                        "message" => "Ukuran file terlalu besar.",
+                                        "details" => [
+                                            "file" => $jenis_file,
+                                            "issue" => "Ukuran file untuk $jenis_file terlalu besar."
+                                        ]
+                                    ], JSON_PRETTY_PRINT));
                                 }
                 
                                 // Buat nama file unik
@@ -343,21 +435,45 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
 
                                     $fileDiUpload++;
                                 } else {
-                                    throw new Exception(json_encode(["status" => "error", "pesan" => "Gagal memindahkan file $jenis_file ke folder tujuan."]));
+                                    throw new Exception(json_encode([
+                                        "status" => "error",
+                                        "code" => "FOLDER_NOT_FOUND",
+                                        "message" => "Gagal memindahkan file ke folder tujuan.",
+                                        "details" => [
+                                            "file" => $jenis_file,
+                                            "issue" => "Gagal memindahkan file dikarenakan folder tujuan tidak tersedia atau tidak dapat diakses."
+                                        ]
+                                    ], JSON_PRETTY_PRINT));
                                 }
                             }
                         }
 
                         if ($fileDiUpload === 0) {
-                            $jsonMsg = ["status" => "error", "pesan" => "Mohon setidaknya unggah satu berkas"];
+                            $jsonMsg = [
+                                "status" => "error",
+                                "code" => 400,
+                                "message" => "Mohon setidaknya unggah satu berkas"
+                            ];
                         } else {
-                            $jsonMsg = ["status" => "berhasil", "pesan" => "Berkas berhasil di unggah"];
+                            $jsonMsg = [
+                                "status" => "success",
+                                "code" => 200,
+                                "message" => "Berkas berhasil di unggah"
+                            ];
                         }
                     } else {
                         // Jika sudah
                         // ganti berkas baru
                         if ($file['error'] === 1) {
-                            echo json_encode(["status" => "gagal", "pesan" => "Ukuran file untuk $jenis_file terlalu besar."]);
+                            echo json_encode([
+                                "status" => "error",
+                                "code" => "FILE_TOO_LARGE",
+                                "message" => "Ukuran file terlalu besar.",
+                                "details" => [
+                                    "file" => $jenis_file,
+                                    "issue" => "Ukuran file untuk $jenis_file terlalu besar."
+                                ]
+                            ], JSON_PRETTY_PRINT);
                             exit();
                         }
                         if ($file['error'] !== 4) {
@@ -372,12 +488,28 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                             // Validasi file
                             if ($file_error === 0) {
                                 if (!in_array($file_extension, $allowed_extensions)) {
-                                    echo json_encode(["status" => "gagal", "pesan" => "Ekstensi file untuk $jenis_file tidak diperbolehkan."]);
+                                    echo json_encode([
+                                        "status" => "error",
+                                        "code" => "EXTENSION_NOT_ALLOWED",
+                                        "message" => "Ekstensi file tidak diperbolehkan.",
+                                        "details" => [
+                                            "file", $jenis_file,
+                                            "issue" => "Ekstensi file untuk $jenis_file tidak diperbolehkan."
+                                        ]
+                                    ], JSON_PRETTY_PRINT);
                                     exit();
                                 }
                 
                                 if ($file_size > $max_file_size) {
-                                    echo json_encode(["status" => "gagal", "pesan" => "Ukuran file untuk $jenis_file terlalu besar."]);
+                                    echo json_encode([
+                                        "status" => "error",
+                                        "code" => "FILE_TOO_LARGE",
+                                        "message" => "Ukuran file terlalu besar.",
+                                        "details" => [
+                                            "file" => $jenis_file,
+                                            "issue" => "Ukuran file untuk $jenis_file terlalu besar."
+                                        ]
+                                    ], JSON_PRETTY_PRINT);
                                     exit();
                                 }
                 
@@ -414,26 +546,51 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
 
                                     $fileDiUpload++;
                                 } else {
-                                    throw new Exception(json_encode(["status" => "error", "pesan" => "Gagal memindahkan file $jenis_file ke folder tujuan."]));
+                                    throw new Exception(json_encode([
+                                        "status" => "error",
+                                        "code" => "FOLDER_NOT_FOUND",
+                                        "message" => "Gagal memindahkan file ke folder tujuan.",
+                                        "details" => [
+                                            "file" => $jenis_file,
+                                            "issue" => "Gagal memindahkan file dikarenakan folder tujuan tidak tersedia atau tidak dapat diakses."
+                                        ]
+                                    ], JSON_PRETTY_PRINT));
                                 }
                             }
                         }
 
                         if ($fileDiUpload === 0) {
-                            $jsonMsg = ["status" => "error", "pesan" => "Mohon setidaknya unggah satu berkas"];
+                            $jsonMsg = [
+                                "status" => "error",
+                                "code" => 400,
+                                "message" => "Mohon setidaknya unggah satu berkas"
+                            ];
                         } else {
-                            $jsonMsg = ["status" => "berhasil", "pesan" => "Berkas berhasil di ganti"];
+                            $jsonMsg = [
+                                "status" => "success",
+                                "code" => 200,
+                                "message" => "Berkas berhasil di ganti"
+                            ];
                         }
                     }
                 }
 
-                echo json_encode($jsonMsg);
+                echo json_encode($jsonMsg, JSON_PRETTY_PRINT);
             }
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
 } else {
-    echo json_encode(["status" => "error", "pesan" => "Anda tidak memiliki akses untuk ini"]);
+    echo json_encode([
+        "status" => "error",
+        "code" => 403,
+        "message" => "Anda tidak memiliki akses untuk ini",
+    ], JSON_PRETTY_PRINT);
+    exit();
 }
 ?>

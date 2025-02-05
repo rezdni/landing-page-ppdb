@@ -3,7 +3,7 @@ session_start();
 header('Content-Type: application/json');
 require "../config/koneksi.php";
 
-$respon = ["diotentikasi" => false, "role" => null];
+$respon = ["authenticated" => false, "role" => null];
 
 if (!isset($_SESSION["user_id"]) && isset($_COOKIE["login"])) {
     list($id, $token) = explode(":", $_COOKIE["login"]);
@@ -19,10 +19,14 @@ if (!isset($_SESSION["user_id"]) && isset($_COOKIE["login"])) {
             $_SESSION["user_id"] = $user["id"];
             $_SESSION["user_name"] = $user["nama"];
             $_SESSION["user_role"] = $user["role"];
-            $respon = ["diotentikasi" => true, "role" => $_SESSION["user_role"]];
+            $respon = ["authenticated" => true, "role" => $_SESSION["user_role"]];
         }
-    } catch (PDOException $e) {
-        echo json_encode(["status" => "error", "pesan" => $e]);
+    } catch (Throwable $e) {
+        echo json_encode([
+            "status" => "error",
+            "code" => 500,
+            "message" => $e
+        ], JSON_PRETTY_PRINT);
     }
 
 } elseif (isset($_SESSION["user_id"])) {
@@ -39,20 +43,29 @@ if (!isset($_SESSION["user_id"]) && isset($_COOKIE["login"])) {
 
         // Jika pengguna tidak ada di database
         if (empty($result)) {
-            $respon = ["diotentikasi" => false, "role" => null];
+            $respon = ["authenticated" => false, "role" => null];
 
             // Hapus cookie dan sesi pengguna
             session_destroy();
             setcookie("login", "", time() - 3600, "/");
         } else {
             // Jika ada
-            $respon = ["diotentikasi" => true, "role" => $_SESSION["user_role"]];
+            $respon = ["authenticated" => true, "role" => $_SESSION["user_role"]];
         }
-    } catch (PDOException $e) {
-        echo json_encode(["status" => "error", "pesan" => $e]);
+    } catch (Throwable $e) {
+        echo json_encode([
+            "status" => "error",
+            "code" => 500,
+            "message" => $e
+        ], JSON_PRETTY_PRINT);
     }
 }
 
-echo json_encode($respon, JSON_PRETTY_PRINT);
+echo json_encode([
+    "status" => "success",
+    "code" => 200,
+    "details" => $respon
+], JSON_PRETTY_PRINT);
+
 exit();
 ?>

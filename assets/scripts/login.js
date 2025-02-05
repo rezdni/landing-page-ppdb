@@ -42,21 +42,27 @@ function registrasi(elm, event) {
         // terima respon back-end
         xhr.onload = function () {
             if (xhr.status === 200) {
-                console.log(xhr.responseText);
-                let respon = JSON.parse(xhr.responseText);
-                if (respon.status === "berhasil") {
-                    alert(
-                        "Akun berhasil dibuat, silahkan pindah ke menu login"
-                    );
+                try {
+                    let respon = JSON.parse(xhr.responseText);
+                    if (respon.status === "success") {
+                        alert(
+                            "Akun berhasil dibuat, silahkan pindah ke menu login"
+                        );
 
-                    // bersihkan kolom isian
-                    let field = elm.querySelectorAll("input");
-                    field.forEach((element) => {
-                        element.value = "";
+                        // bersihkan kolom isian
+                        let field = elm.querySelectorAll("input");
+                        field.forEach((element) => {
+                            element.value = "";
+                        });
+                    } else {
+                        alert("Kesalahan dalam membuat akun");
+                        console.log(respon.message);
+                    }
+                } catch (errMsg) {
+                    console.dir({
+                        Kesalahan: errMsg,
+                        "XMLHttpRequest Respon": xhr.responseText,
                     });
-                } else {
-                    alert("Kesalahan dalam membuat akun");
-                    console.log(respon.keterangan);
                 }
             } else {
                 alert("Kesalahan dalam menghubungkan ke server");
@@ -77,6 +83,7 @@ function registrasi(elm, event) {
     }
 }
 
+// Sistem login
 function login(elm, event) {
     event.preventDefault();
 
@@ -104,12 +111,18 @@ function login(elm, event) {
 
         xhr.onload = function () {
             if (xhr.status === 200) {
-                const respon = JSON.parse(xhr.responseText);
-                console.log(respon);
-                if (respon.status === "berhasil") {
-                    pindahHalaman(respon.alihkan);
-                } else {
-                    alert(respon.pesan);
+                try {
+                    let respon = JSON.parse(xhr.responseText);
+                    if (respon.status === "success") {
+                        pindahHalaman(respon.redirect);
+                    } else {
+                        alert(respon.message);
+                    }
+                } catch (errMsg) {
+                    console.dir({
+                        Kesalahan: errMsg,
+                        "XMLHttpRequest Respon": xhr.responseText,
+                    });
                 }
             }
         };
@@ -119,6 +132,70 @@ function login(elm, event) {
                 encodeURIComponent(email) +
                 "&password=" +
                 encodeURIComponent(password)
+        );
+    } else {
+        alert("Mohon isi kolom dengan benar");
+    }
+}
+
+// Sistem reset sandi
+function resetPass(elm, event) {
+    event.preventDefault();
+
+    let requiredField = elm.querySelectorAll(
+        "input[required], select[required]"
+    );
+    let validasi = true;
+
+    requiredField.forEach((element) => {
+        if (!element.checkValidity()) {
+            validasi = false;
+        }
+    });
+
+    let passfield = document.querySelectorAll("input[type='password']");
+    if (passfield[0].value !== passfield[1].value) {
+        validasi = false;
+    }
+
+    if (validasi) {
+        const email = elm.querySelector("#login-email").value;
+        const newPassword = elm.querySelector("#new-password").value;
+        const retypePassword = elm.querySelector("#new-password").value;
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "../../backend/login.php", true);
+        xhr.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+        );
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                try {
+                    let respon = JSON.parse(xhr.responseText);
+                    if (respon.status === "success") {
+                        alert(respon.message);
+                    } else {
+                        alert("Terjadi kesalahan");
+                        console.dir(respon.message);
+                    }
+                } catch (errMsg) {
+                    console.dir({
+                        Kesalahan: errMsg,
+                        "XMLHttpRequest Respon": xhr.responseText,
+                    });
+                }
+            }
+        };
+
+        xhr.send(
+            "reset=true&email=" +
+                encodeURIComponent(email) +
+                "&newpassword=" +
+                encodeURIComponent(newPassword) +
+                "&retypepassword=" +
+                encodeURIComponent(retypePassword)
         );
     } else {
         alert("Mohon isi kolom dengan benar");

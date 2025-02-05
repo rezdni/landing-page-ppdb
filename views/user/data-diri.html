@@ -320,7 +320,7 @@
         <script src="../../assets/scripts/user.js"></script>
         <script>
             window.onload = function () {
-                cekSesi("dashboard");
+                cekSesi();
 
                 // Ambil data calon
                 const ambilData = new XMLHttpRequest();
@@ -334,16 +334,23 @@
 
                 ambilData.onload = function () {
                     if (ambilData.status === 200) {
-                        const respon = JSON.parse(ambilData.responseText);
-                        if (respon.status === "error") {
-                            console.log(respon.pesan);
-                        } else {
-                            let kolomIsian = document.querySelectorAll(
-                                "form input, form select"
-                            );
-                            for (let i = 0; i < kolomIsian.length; i++) {
-                                kolomIsian[i].value = respon[i];
+                        try {
+                            const respon = JSON.parse(ambilData.responseText);
+                            if (respon.status === "error") {
+                                console.log(respon.message);
+                            } else {
+                                let kolomIsian = document.querySelectorAll(
+                                    "form input, form select"
+                                );
+                                for (let i = 0; i < kolomIsian.length; i++) {
+                                    kolomIsian[i].value = respon.data[i];
+                                }
                             }
+                        } catch (errMsg) {
+                            console.dir({
+                                Kesalahan: errMsg,
+                                "XMLHttpRequest Respon": ambilData.responseText,
+                            });
                         }
                     }
                 };

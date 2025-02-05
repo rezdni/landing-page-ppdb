@@ -23,14 +23,23 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
                 'name' => $name,
                 'email' => $email,
                 'password' => $password
-                
             ];
             
             // Insert to database
             $insertStmt->execute($data);
-            echo json_encode(["status" => "berhasil"]);
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+            
+            echo json_encode([
+                "status" => "success",
+                "code" => 200,
+                "message" => "Berhasil menambahkan admin baru"
+            ], JSON_PRETTY_PRINT);
+            
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
     
@@ -44,7 +53,11 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
             // get result
             $results = $stmt->fetchAll();
             if (empty($results)) {
-                echo json_encode(["kesalahan" => "Data tidak tersedia"]);
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Data tidak tersedia"
+                ], JSON_PRETTY_PRINT);
             } else {
                 $hasilData = [];
                 foreach ($results as $row) {
@@ -56,10 +69,20 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
                         "id_calon" => $row["id_calon"]
                     ];
                 }
-                echo json_encode($hasilData, JSON_PRETTY_PRINT);
+
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Data berhasil diambil",
+                    "data" => $hasilData
+                ], JSON_PRETTY_PRINT);
             }
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
     
@@ -77,7 +100,11 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
             // get result
             $results = $stmt->fetch();
             if (empty($results)) {
-                echo json_encode(["status" => "gagal", "data tidak tersedia" => $e]);
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Data tidak ditemukan"
+                ], JSON_PRETTY_PRINT);
             } else {
                 $nis = null;
 
@@ -90,15 +117,24 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
                 }
 
                 echo json_encode([
-                    "id" => $results["id"],
-                    "nama" => $results["nama"],
-                    "email" => $results["email"],
-                    "role" => $results["role"],
-                    "no_nis" => $nis
-                ]);
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Data ditemukan",
+                    "data" => [
+                        "id" => $results["id"],
+                        "nama" => $results["nama"],
+                        "email" => $results["email"],
+                        "role" => $results["role"],
+                        "no_nis" => $nis
+                    ]
+                ], JSON_PRETTY_PRINT);
             }
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
     
@@ -126,7 +162,11 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
                 $hasil = $stmt->fetch();
                 
                 if (empty($hasil)) {
-                    echo json_encode(["status" => "gagal", "keterangan" => "NIS tidak tersedia"]);
+                    echo json_encode([
+                        "status" => "error",
+                        "code" => 404,
+                        "message" => "NIS tidak tersedia"
+                    ], JSON_PRETTY_PRINT);
                     exit();
                 } else {
                     $idCalon = $hasil["id_calon"];
@@ -148,7 +188,12 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
     
                 $stmt->execute($masukanPerubahan);
     
-                echo json_encode(["status" => "berhasil"]);
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Data pengguna berhasil diubah"
+                ], JSON_PRETTY_PRINT);
+
             } else {
                 $password = password_hash($password, PASSWORD_BCRYPT);
     
@@ -166,10 +211,19 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
     
                 $stmt->execute($masukanPerubahan);
     
-                echo json_encode(["status" => "berhasil"]);
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Data pengguna berhasil diubah"
+                ], JSON_PRETTY_PRINT);
+
             }
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
     
@@ -184,9 +238,18 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
             $deleteParam = ["idPengguna" => $userId];
     
             $stmt->execute($deleteParam);
-            echo json_encode(["status" => "berhasil"]);
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+            echo json_encode([
+                "status" => "success",
+                "code" => 200,
+                "message" => "Berhasil menghapus pengguna"
+            ], JSON_PRETTY_PRINT);
+
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
 }
@@ -215,9 +278,18 @@ if (isset($_POST["createCalon"])) {
         
         // Insert to database
         $insertStmt->execute($data);
-        echo json_encode(["status" => "berhasil"]);
-    } catch (PDOException $e) {
-        echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        echo json_encode([
+            "status" => "success",
+            "code" => 200,
+            "message" => "Berhasil menambah calon"
+        ], JSON_PRETTY_PRINT);
+
+    } catch (Throwable $e) {
+        echo json_encode([
+            "status" => "error",
+            "code" => 500,
+            "message" => $e
+        ], JSON_PRETTY_PRINT);
     }
 }
 ?>

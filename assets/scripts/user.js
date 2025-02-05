@@ -30,18 +30,26 @@ function kirimData(isi) {
 
     xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log(xhr.responseText);
-            const respon = JSON.parse(xhr.responseText);
-            if (respon.status === "error") {
-                alert(respon.pesan);
-                // showPopup("Kesalahan", "Internal Server Error", "", "Oke");
-                console.log(respon.pesan);
-            } else if (respon.status === "gagal") {
-                alert(respon.pesan);
-                // showPopup("Gagal", respon.pesan, "", "Oke");
-            } else {
-                alert(respon.pesan);
-                // showPopup("Berhasil", respon.pesan, "", "Oke");
+            try {
+                const respon = JSON.parse(xhr.responseText);
+                if (respon.status === "error") {
+                    if (
+                        respon.code === "FILE_TOO_LARGE" ||
+                        respon.code === "EXTENSION_NOT_ALLOWED"
+                    ) {
+                        alert(respon.message);
+                        // showPopup("Kesalahan", "Internal Server Error", "", "Oke");
+                        console.log(respon.message);
+                    }
+                } else {
+                    alert(respon.message);
+                    // showPopup("Berhasil", respon.pesan, "", "Oke");
+                }
+            } catch (errMsg) {
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
+                });
             }
         }
     };

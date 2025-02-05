@@ -32,8 +32,8 @@
                     <div class="input-box">
                         <input
                             type="password"
-                            placeholder="Password"
-                            id="login-password"
+                            placeholder="Sandi baru"
+                            id="new-password"
                             required
                         />
                         <i class="bx bxs-lock-alt"></i>
@@ -43,8 +43,8 @@
                     <div class="input-box">
                         <input
                             type="password"
-                            placeholder="Password"
-                            id="login-password"
+                            placeholder="Ketik ulang sandi"
+                            id="retype-password"
                             required
                         />
                         <i class="bx bxs-lock-alt"></i>
@@ -52,9 +52,9 @@
                     <button
                         type="submit"
                         class="btn"
-                        onclick="login(this.parentElement, event)"
+                        onclick="resetPass(this.parentElement, event)"
                     >
-                        Login
+                        Reset sandi
                     </button>
                 </form>
             </div>
@@ -119,7 +119,7 @@
         <script src="../../assets/scripts/cek-sesi.js"></script>
         <script>
             window.onload = function () {
-                cekSesi("login");
+                cekSesi();
             };
         </script>
     </body>

@@ -22,9 +22,19 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
             
             // Insert to database
             $insertStmt->execute($data);
-            echo json_encode(["status" => "berhasil"]);
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+
+            echo json_encode([
+                "status" => "success",
+                "code" => 200,
+                "message" => "Berita berhasil dibuat"
+            ], JSON_PRETTY_PRINT);
+
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
     
@@ -37,7 +47,11 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
             // get result
             $results = $stmt->fetchAll();
             if (empty($results)) {
-                echo json_encode(["kesalahan" => "Data tidak tersedia"]);
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Data tidak tersedia"
+                ], JSON_PRETTY_PRINT);
             } else {
                 $pengumuman = [];
                 foreach ($results as $row) {
@@ -47,10 +61,20 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
                         "isi_pengumuman" => $row["isi_pengumuman"]
                     ];
                 }
-                echo json_encode($pengumuman, JSON_PRETTY_PRINT);
+
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Data berhasil diambil",
+                    "data" => $pengumuman
+                ], JSON_PRETTY_PRINT);
             }
-        } catch (PDOException $th) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $th) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
     
@@ -65,9 +89,19 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
             $deleteParam = ["idPengumuman" => $idPengumuman];
     
             $stmt->execute($deleteParam);
-            echo json_encode(["status" => "berhasil"]);
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+
+            echo json_encode([
+                "status" => "success",
+                "code" => 200,
+                "message" => "Berita berhasil dihapus"
+            ], JSON_PRETTY_PRINT);
+
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
 } else if(isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
@@ -79,7 +113,11 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
             // get result
             $results = $stmt->fetchAll();
             if (empty($results)) {
-                echo json_encode(["kesalahan" => "Data tidak tersedia"]);
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Data tidak tersedia"
+                ], JSON_PRETTY_PRINT);
             } else {
                 $listPengumuman = [];
                 foreach ($results as $row) {
@@ -88,14 +126,28 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
                         "isi" => $row["isi_pengumuman"]
                     ];
                 }
-                echo json_encode($listPengumuman, JSON_PRETTY_PRINT);
+                
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Data berhasil diambil",
+                    "data" => $listPengumuman
+                ], JSON_PRETTY_PRINT);
             }
-        } catch (PDOException $th) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+        } catch (Throwable $th) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     }
 } else {
-    echo json_encode(["status" => "error", "pesan" => "Anda tidak memiliki akses untuk ini"]);
+    echo json_encode([
+        "status" => "error",
+        "code" => 403,
+        "message" => "Anda tidak memiliki akses untuk ini",
+    ], JSON_PRETTY_PRINT);
     exit();
 }
 ?>

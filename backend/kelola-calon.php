@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 require_once "../config/koneksi.php";
 
 if (isset($_GET["list_calon"])) {
-    if (isset($_SESSION) && $_SESSION["user_role"] === "Admin") {
+    if (isset($_SESSION) && isset($_SESSION["user_role"]) &&$_SESSION["user_role"] === "Admin") {
         try {
             if (isset($_GET["limit"])) {
                 $limit = htmlspecialchars($_GET["limit"]);
@@ -18,7 +18,11 @@ if (isset($_GET["list_calon"])) {
                 $hasil = $stmt->fetchAll();
     
                 if (empty($hasil)) {
-                    echo json_encode(["kesalahan" => "Data tidak tersedia"]);
+                    echo json_encode([
+                        "status" => "error",
+                        "code" => 404,
+                        "message" => "Data tidak tersedia"
+                    ], JSON_PRETTY_PRINT);
                 } else {
                     $hasilData = [];
                     $nomor = 1;
@@ -47,7 +51,13 @@ if (isset($_GET["list_calon"])) {
                         ];
                         $nomor++;
                     }
-                    echo json_encode($hasilData, JSON_PRETTY_PRINT);
+
+                    echo json_encode([
+                        "status" => "success",
+                        "code" => 200,
+                        "message" => "Data berhasil diambil",
+                        "data" => $hasilData
+                    ], JSON_PRETTY_PRINT);
                 }
             } else {
                 $sql = "SELECT * FROM pendaftaran";
@@ -56,7 +66,11 @@ if (isset($_GET["list_calon"])) {
                 $hasil = $stmt->fetchAll();
     
                 if (empty($hasil)) {
-                    echo json_encode(["kesalahan" => "Data tidak tersedia"]);
+                    echo json_encode([
+                        "status" => "error",
+                        "code" => 404,
+                        "message" => "Data tidak tersedia"
+                    ], JSON_PRETTY_PRINT);
                 } else {
                     $hasilData = [];
                     $nomor = 1;
@@ -85,15 +99,25 @@ if (isset($_GET["list_calon"])) {
                         ];
                         $nomor++;
                     }
-                    echo json_encode($hasilData, JSON_PRETTY_PRINT);
+
+                    echo json_encode([
+                        "status" => "success",
+                        "code" => 200,
+                        "message" => "Data berhasil diambil",
+                        "data" => $hasilData
+                    ], JSON_PRETTY_PRINT);
                 }
             }
             
-        } catch (PDOException $e) {
+        } catch (Throwable $e) {
             echo $e;
         }
     } else {
-        echo json_encode(["status" => "error", "pesan" => "Anda tidak memiliki akses untuk ini"]);
+        echo json_encode([
+            "status" => "error",
+            "code" => 403,
+            "message" => "Anda tidak memiliki akses untuk ini",
+        ], JSON_PRETTY_PRINT);
         exit();
     }
 }
@@ -127,12 +151,26 @@ if (isset($_POST["removeCalon"])) {
             $deleteParam = ["idCalon" => $calonId];
         
             $stmt->execute($deleteParam);
-            echo json_encode(["status" => "berhasil"]);
-        } catch (PDOException $e) {
-            echo json_encode(["status" => "gagal", "keterangan" => $e]);
+
+            echo json_encode([
+                "status" => "success",
+                "code" => 200,
+                "message" => "Berhasil menghapus calon siswa"
+            ], JSON_PRETTY_PRINT);
+
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     } else {
-        echo json_encode(["status" => "error", "pesan" => "Anda tidak memiliki akses untuk ini"]);
+        echo json_encode([
+            "status" => "error",
+            "code" => 403,
+            "message" => "Anda tidak memiliki akses untuk ini",
+        ], JSON_PRETTY_PRINT);
         exit();
     }
 }
