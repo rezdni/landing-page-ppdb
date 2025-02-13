@@ -110,7 +110,11 @@ if (isset($_GET["list_calon"])) {
             }
             
         } catch (Throwable $e) {
-            echo $e;
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
         }
     } else {
         echo json_encode([

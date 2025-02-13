@@ -10,6 +10,7 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
     // Data diri
     if (isset($_GET["data-diri"])) {
         try {
+            // Cek apakah pengguna sudah mendaftar
             $sql = "SELECT id_calon FROM pengguna WHERE id = :user_id";
             $cekCalon = $pdo->prepare($sql);
             $cekCalon->execute(["user_id" => $_SESSION["user_id"]]);
@@ -68,6 +69,7 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
     // Data Ortu
     if (isset($_GET["data-ortu"])) {
         try {
+            // Cek apakah pengguna sudah mendaftar
             $sql = "SELECT id_calon FROM pengguna WHERE id = :user_id";
             $cekCalon = $pdo->prepare($sql);
             $cekCalon->execute(["user_id" => $_SESSION["user_id"]]);
@@ -99,6 +101,54 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                             $hasilData["pekerjaan_orang_tua"],
                             $hasilData["alamat_orang_tua"]
                         ]
+                    ], JSON_PRETTY_PRINT);
+                }
+            }
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
+        }
+    }
+
+    // Dokumen pendukung
+    if (isset($_GET["berkas"])) {
+        try {
+            // Cek apakah pengguna sudah mendaftar
+            $sql = "SELECT id_calon FROM pengguna WHERE id = :user_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(["user_id" => $_SESSION["user_id"]]);
+            $hasil = $stmt->fetch();
+
+            if (empty($hasil) || $hasil["id_calon"] === null) {
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Data tidak ditemukan"
+                ], JSON_PRETTY_PRINT);
+            } else {
+                $calonId = $hasil["id_calon"];
+    
+                $sql = "SELECT * FROM dokumen_pendaftaran WHERE id_calon = :id_calon";
+                $cekDokumen = $pdo->prepare($sql);
+                $cekDokumen->execute(["id_calon" => $calonId]);
+                $hasilData = $cekDokumen->fetchAll();
+    
+                if (!empty($hasilData)) {
+                    $path_dokumen = [];
+                    foreach ($hasilData as $baris) {
+                        $path_dokumen[] = [
+                            "jenis" => $baris["jenis_dokumen"],
+                            "path" => $baris["file_path"]
+                        ];
+                    }
+                    echo json_encode([
+                        "status" => "success",
+                        "code" => 200,
+                        "message" => "Data ditemukan",
+                        "data" => $path_dokumen
                     ], JSON_PRETTY_PRINT);
                 }
             }
