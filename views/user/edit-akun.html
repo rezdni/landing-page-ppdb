@@ -21,21 +21,11 @@
     </head>
     <body>
         <!-- Menu mobile -->
-        <div class="menu-mobile active">
+        <div class="menu-mobile">
             <button class="menu-close">X</button>
             <a href="index.html">
                 <i class="fa-solid fa-house"></i>
                 <span>Dashboard</span>
-            </a>
-
-            <a href="data-siswa.html">
-                <i class="fa-solid fa-user-group"></i>
-                <span>Data Siswa</span>
-            </a>
-
-            <a href="data-pendaftar.html">
-                <i class="fas fa-chart-bar"></i>
-                <span>Data Pendaftar</span>
             </a>
 
             <a href="data-pendaftar.html">
@@ -45,7 +35,7 @@
 
             <a href="kelola-pengguna.html">
                 <i class="fa-solid fa-users"></i>
-                <span>Kelola Pengguna</span>
+                <span>Edit Akun</span>
             </a>
 
             <a href="../../logout.php">
@@ -79,7 +69,7 @@
                 <li>
                     <a href="/views/user/edit-akun.html">
                         <i class="fa-solid fa-users"></i>
-                        <span>Kelola Pengguna</span>
+                        <span>Edit Akun</span>
                     </a>
                 </li>
                 <li class="logout">
@@ -105,7 +95,7 @@
             <!-- end sidebar -->
             <!-- list user -->
             <div class="list--wrapper formulir">
-                <h3 class="main--title">Edit Akun Pengguna</h3>
+                <h3 class="main--title">Edit Akun</h3>
                 <div class="list--container">
                     <form action="">
                         <div class="kolom-isi">
@@ -140,14 +130,11 @@
                         </div>
 
                         <div class="kolom-isi">
-                            <label for="no-nis"
-                                >NIS (Isi jika pengguna adalah Calon)</label
-                            >
+                            <label for="ulangi-password">Ulangi Password</label>
                             <input
-                                type="number"
-                                id="no-nis"
-                                name="no-nis"
-                                maxlength="17"
+                                type="password"
+                                id="ulangi-password"
+                                name="ulangi-password"
                             />
                         </div>
 
@@ -236,9 +223,7 @@
                 getXhr.send();
             }
 
-            jenisPengguna.addEventListener("change", () => {
-                cekJenisPengguna();
-            });
+
 
             function cekJenisPengguna() {
                 if (jenisPengguna.value === "Admin") {
