@@ -1,143 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- font-owesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- css -->
-     <link rel="stylesheet" href="../../assets/styles/invoice.css">
-    <title>Invoice</title>
-</head>
-<body>
-    
-    <div class="invoice-wrapper" id="print-area">
-        <div class="invoice">
-            <div class="invoice-container">
-                <div class="invoice-head">
-                    <div class="invoice-head-top">
-                        <div class="invoice-head-top-left text-star">
-                            <img src="../../assets/images/logo.png" alt="">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- font-owesome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+            integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <!-- css -->
+        <link rel="stylesheet" href="../../assets/styles/invoice.css" />
+        <title>Invoice</title>
+    </head>
+    <body>
+        <div class="invoice-wrapper" id="print-area">
+            <div class="invoice">
+                <div class="invoice-container">
+                    <div class="invoice-head">
+                        <div class="invoice-head-top">
+                            <div class="invoice-head-top-left text-star">
+                                <img
+                                    src="../../assets/images/logo.png"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="invoice-head-top-right text-end">
+                                <h3>Invoice</h3>
+                            </div>
                         </div>
-                        <div class="invoice-head-top-right text-end">
-                            <h3>Invoice</h3>
+                        <div class="hr"></div>
+                        <div class="invoice-head-middle">
+                            <div class="invoice-head-middle-left text-star">
+                                <p>
+                                    <span class="text-bold">Date</span
+                                    >:05/12/2024
+                                </p>
+                            </div>
+                            <div class="invoice-head-middle-right text-end">
+                                <p>
+                                    <span class="text-bold">Invoice No:</span>
+                                    76877
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="hr"></div>
-                    <div class="invoice-head-middle">
-                        <div class="invoice-head-middle-left text-star">
-                            <p><span class="text-bold">Date</span>:05/12/2024</p>
-                        </div>
-                        <div class="invoice-head-middle-right text-end">
-                            <p><span class="text-bold">Invoice No:</span> 76877</p>
-                        </div>
-                    </div>
-                    <div class="hr"></div>
-                    <div class="invoice-head-bottom">
-                        <div class="invoice-head-bottom-left">
-                            <ul>
-                                <li class="text-bold">Invoice To:</li>
-                                <li>Smith Rhodes</li>
-                                <li>15 Hodges Mews, High Wycombe</li>
-                                <li>HP12 3JL</li>
-                                <li>United Kingdom</li>
-                            </ul>
-                        </div>
-
-                        <div class="invoice-head-bottom-right">
-                            <ul class="text-end">
-                                <li class="text-bold">Pay To:</li>
-                                <li>Koice Inc.</li>
-                                <li>2705 N. Enterprise</li>
-                                <li>Orange, CA 89438</li>
-                                <li>rezadani29@gmail.com</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="overflow-view">
-                    <div class="invoice-body">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td class="text-bold">Service</td>
-                                    <td class="text-bold">Description</td>
-                                    <td class="text-bold">Rate</td>
-                                    <td class="text-bold">QTY</td>
-                                    <td class="text-bold">Amount</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Design</td>
-                                    <td>Creating Website design</td>
-                                    <td>$50.00</td>
-                                    <td class="text-end">$500.00</td>
-                                </tr>
-
-                                <tr>
-                                    <td>Development</td>
-                                    <td>Website Development</td>
-                                    <td>$50.00</td>
-                                    <td class="text-end">$500.00</td>
-                                </tr>
-
-                                <tr>
-                                    <td>SEO</td>
-                                    <td>Optimize the site for search engines (SEO)</td>
-                                    <td>$50.00</td>
-                                    <td class="text-end">$500.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="invoive-body-bottom">
-                            <div class="invoive-body-info-item border-bottom">
-                                <div class="info-item-td text-end text-bold">Sub Total:</div>
-                                <div class="info-item-td text-end">$2150.00</div>
+                        <div class="hr"></div>
+                        <div class="invoice-head-bottom">
+                            <div class="invoice-head-bottom-left">
+                                <ul>
+                                    <li class="text-bold">Invoice To:</li>
+                                    <li>Smith Rhodes</li>
+                                    <li>15 Hodges Mews, High Wycombe</li>
+                                    <li>HP12 3JL</li>
+                                    <li>United Kingdom</li>
+                                </ul>
                             </div>
 
-                            <div class="invoive-body-info-item border-bottom">
-                                <div class="info-item-td text-end text-bold">Tax:</div>
-                                <div class="info-item-td text-end">$2150.00</div>
-                            </div>
-
-                            <div class="invoive-body-info-item">
-                                <div class="info-item-td text-end text-bold">Sub Total:</div>
-                                <div class="info-item-td text-end">$2150.00</div>
-                            </div>
-
-                            <div class="invoive-body-info-item">
-                                <div class="info-item-td text-end text-bold">Sub Total:</div>
-                                <div class="info-item-td text-end">$2150.00</div>
+                            <div class="invoice-head-bottom-right">
+                                <ul class="text-end">
+                                    <li class="text-bold">Pay To:</li>
+                                    <li>Koice Inc.</li>
+                                    <li>2705 N. Enterprise</li>
+                                    <li>Orange, CA 89438</li>
+                                    <li>rezadani29@gmail.com</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="invoice-foot text-center">
-                    <p><span class="text-bold text-center">NOTE:&nbsp;</span>
-                    This is computer generated receipt and does not require physical signature.</p>
+                    <div class="overflow-view">
+                        <div class="invoice-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td class="text-bold">Service</td>
+                                        <td class="text-bold">Description</td>
+                                        <td class="text-bold">Rate</td>
+                                        <td class="text-bold">QTY</td>
+                                        <td class="text-bold">Amount</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Design</td>
+                                        <td>Creating Website design</td>
+                                        <td>$50.00</td>
+                                        <td class="text-end">$500.00</td>
+                                    </tr>
 
-                    <div class="invoice-btns" onclick="printInvoice()">
-                        <button type="button" class="invoice-btn">
-                            <span><i class="fa-solid fa-print"></i></span>
-                            <span>Print</span>
-                        </button>
+                                    <tr>
+                                        <td>Development</td>
+                                        <td>Website Development</td>
+                                        <td>$50.00</td>
+                                        <td class="text-end">$500.00</td>
+                                    </tr>
 
-                        <button type="button" class="invoice-btn">
-                            <span><i class="fa-solid fa-download"></i></span>
-                            <span>Download</span>
-                        </button>
+                                    <tr>
+                                        <td>SEO</td>
+                                        <td>
+                                            Optimize the site for search engines
+                                            (SEO)
+                                        </td>
+                                        <td>$50.00</td>
+                                        <td class="text-end">$500.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="invoive-body-bottom">
+                                <div
+                                    class="invoive-body-info-item border-bottom"
+                                >
+                                    <div
+                                        class="info-item-td text-end text-bold"
+                                    >
+                                        Sub Total:
+                                    </div>
+                                    <div class="info-item-td text-end">
+                                        $2150.00
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="invoive-body-info-item border-bottom"
+                                >
+                                    <div
+                                        class="info-item-td text-end text-bold"
+                                    >
+                                        Tax:
+                                    </div>
+                                    <div class="info-item-td text-end">
+                                        $2150.00
+                                    </div>
+                                </div>
+
+                                <div class="invoive-body-info-item">
+                                    <div
+                                        class="info-item-td text-end text-bold"
+                                    >
+                                        Sub Total:
+                                    </div>
+                                    <div class="info-item-td text-end">
+                                        $2150.00
+                                    </div>
+                                </div>
+
+                                <div class="invoive-body-info-item">
+                                    <div
+                                        class="info-item-td text-end text-bold"
+                                    >
+                                        Sub Total:
+                                    </div>
+                                    <div class="info-item-td text-end">
+                                        $2150.00
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="invoice-foot text-center">
+                        <p>
+                            <span class="text-bold text-center"
+                                >NOTE:&nbsp;</span
+                            >
+                            This is computer generated receipt and does not
+                            require physical signature.
+                        </p>
+
+                        <div class="invoice-btns" onclick="printInvoice()">
+                            <button type="button" class="invoice-btn">
+                                <span><i class="fa-solid fa-print"></i></span>
+                                <span>Print</span>
+                            </button>
+
+                            <button type="button" class="invoice-btn">
+                                <span
+                                    ><i class="fa-solid fa-download"></i
+                                ></span>
+                                <span>Download</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
+        <!-- Popup Notifikasi -->
+        <div class="popup">
+            <div class="overlay">
+                <div class="popup-content">
+                    <h2 class="popup-title">This is popup title</h2>
+                    <p class="popup-msg">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Veniam blanditiis magnam aut harum et aperiam ea
+                        eum nulla? Sed, odit. Voluptatem sed debitis ullam
+                        aspernatur aliquam tempora ab magnam illum.
+                    </p>
+                    <div class="controls">
+                        <button class="submit-btn">Submit</button>
+                        <button class="close-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end Popup Notifikasi -->
 
-
-    <script src="../assets/script/invoice.js"></script>
-</body>
+        <script src="../assets/script/invoice.js"></script>
+    </body>
 </html>
