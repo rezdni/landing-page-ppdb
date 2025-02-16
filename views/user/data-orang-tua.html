@@ -184,7 +184,9 @@
                         try {
                             const respon = JSON.parse(ambilData.responseText);
                             if (respon.status === "error") {
-                                alert(respon.message);
+                                respon.code !== 404
+                                    ? alert(respon.message)
+                                    : "";
                             } else {
                                 let kolomIsian = document.querySelectorAll(
                                     "form input, form select"

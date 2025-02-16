@@ -249,14 +249,30 @@
 
                 getXhr.onload = function () {
                     if (getXhr.status === 200) {
-                        const dataPengguna = JSON.parse(getXhr.responseText);
+                        try {
+                            const dataPengguna = JSON.parse(
+                                getXhr.responseText
+                            );
+                            if (dataPengguna.status === "success") {
+                                namaPengguna.value = dataPengguna.data.nama;
+                                emailPengguna.value = dataPengguna.data.email;
+                                jenisPengguna.value = dataPengguna.data.role;
+                                noNis.value = dataPengguna.data.no_nis;
+                            }
 
-                        namaPengguna.value = dataPengguna.nama;
-                        emailPengguna.value = dataPengguna.email;
-                        jenisPengguna.value = dataPengguna.role;
-                        noNis.value = dataPengguna.no_nis;
-
-                        cekJenisPengguna();
+                            cekJenisPengguna();
+                        } catch (errMsg) {
+                            showPopup(
+                                "Kesalahan",
+                                "Terjadi kesalahan",
+                                "",
+                                "Oke"
+                            );
+                            console.dir({
+                                Kesalahan: errMsg,
+                                "XMLHttpRequest Respon": getXhr.responseText,
+                            });
+                        }
                     } else {
                         showPopup("Error", "Failed to process data", "", "Ok");
                     }
@@ -307,17 +323,30 @@
 
                     simpan.onload = function () {
                         if (simpan.status === 200) {
-                            const respon = JSON.parse(simpan.responseText);
-                            if (respon.status == "berhasil") {
-                                location.href =
-                                    "kelola-pengguna.html?editpengguna=berhasil";
-                            } else if (respon.status === "gagal") {
+                            try {
+                                const respon = JSON.parse(simpan.responseText);
+                                if (respon.status == "success") {
+                                    location.href =
+                                        "kelola-pengguna.html?editpengguna=berhasil";
+                                } else if (respon.status === "error") {
+                                    showPopup(
+                                        "Kesalahan",
+                                        respon.message,
+                                        "",
+                                        "Ok"
+                                    );
+                                }
+                            } catch (errMsg) {
                                 showPopup(
                                     "Kesalahan",
-                                    respon.keterangan,
+                                    "Terjadi kesalahan",
                                     "",
-                                    "Ok"
+                                    "Oke"
                                 );
+                                console.dir({
+                                    Kesalahan: errMsg,
+                                    "XMLHttpRequest Respon": xhr.responseText,
+                                });
                             }
                         } else {
                             showPopup(

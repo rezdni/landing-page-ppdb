@@ -1,3 +1,4 @@
+// Data formulir
 function kirimForm(postId, event) {
     event.preventDefault();
 
@@ -24,6 +25,7 @@ function kirimForm(postId, event) {
     }
 }
 
+// Kirim formulir
 function kirimData(isi) {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "../../backend/menu-calon.php", true);
@@ -37,13 +39,27 @@ function kirimData(isi) {
                         respon.code === "FILE_TOO_LARGE" ||
                         respon.code === "EXTENSION_NOT_ALLOWED"
                     ) {
+                        // Jika file terlalu besar
                         alert(respon.message);
                         // showPopup("Kesalahan", "Internal Server Error", "", "Oke");
                         console.log(respon.message);
+                    } else if (respon.code === 500) {
+                        // Debuging
+                        console.dir(respon.message);
+                        // Jika NISN sudah dimiliki siswa lain
+                        respon.message.errorInfo[1] === 1062
+                            ? alert(
+                                  "Nomor NISN yang anda masukan sudah dimiliki siswa lain"
+                              )
+                            : "";
                     }
                 } else {
                     alert(respon.message);
-                    window.location.href = "biodata.html";
+
+                    // Pindahkan pengguna ke halaman biodata
+                    window.location.href.includes("biodata")
+                        ? muatData()
+                        : (window.location.href = "biodata.html");
                     // showPopup("Berhasil", respon.pesan, "", "Oke");
                 }
             } catch (errMsg) {
@@ -139,25 +155,32 @@ function muatDataOrtu() {
 
     dataOrtu.onload = function () {
         if (dataOrtu.status === 200) {
-            let data = JSON.parse(dataOrtu.responseText);
-            if (data.code === 200) {
-                try {
-                    // Tabel biodata
-                    let tabel = document.querySelectorAll("#ortu table");
-                    let indeks = 0;
+            try {
+                let data = JSON.parse(dataOrtu.responseText);
+                if (data.code === 200) {
+                    try {
+                        // Tabel biodata
+                        let tabel = document.querySelectorAll("#ortu table");
+                        let indeks = 0;
 
-                    tabel.forEach((elmTabel) => {
-                        let tdIsi =
-                            elmTabel.querySelectorAll("td:nth-child(2)");
-                        tdIsi.forEach((elmIsi) => {
-                            elmIsi.innerText = ": " + data.data[indeks];
-                            indeks++;
+                        tabel.forEach((elmTabel) => {
+                            let tdIsi =
+                                elmTabel.querySelectorAll("td:nth-child(2)");
+                            tdIsi.forEach((elmIsi) => {
+                                elmIsi.innerText = ": " + data.data[indeks];
+                                indeks++;
+                            });
                         });
-                    });
-                } catch (kesalahan) {
-                    alert("Terjadi kesalahan");
-                    console.log(kesalahan);
+                    } catch (kesalahan) {
+                        alert("Terjadi kesalahan");
+                        console.log(kesalahan);
+                    }
                 }
+            } catch (errMsg) {
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": dataOrtu.responseText,
+                });
             }
         }
     };
@@ -174,18 +197,28 @@ function muatDokumen() {
 
     dokumen.onload = function () {
         if (dokumen.status === 200) {
-            let data = JSON.parse(dokumen.responseText);
-            if (data.code === 200) {
-                try {
-                    let sumberFile = data.data;
+            try {
+                let data = JSON.parse(dokumen.responseText);
+                if (data.code === 200) {
+                    try {
+                        let sumberFile = data.data;
 
-                    for (let i = 0; i < sumberFile.length; i++) {
-                        previewFile(sumberFile[i].path, sumberFile[i].jenis);
+                        for (let i = 0; i < sumberFile.length; i++) {
+                            previewFile(
+                                sumberFile[i].path,
+                                sumberFile[i].jenis
+                            );
+                        }
+                    } catch (kesalahan) {
+                        alert("Terjadi kesalahan");
+                        console.log(kesalahan);
                     }
-                } catch (kesalahan) {
-                    alert("Terjadi kesalahan");
-                    console.log(kesalahan);
                 }
+            } catch (errMsg) {
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": dokumen.responseText,
+                });
             }
         }
     };
@@ -252,4 +285,11 @@ function previewFile(filepath, jenis) {
         previewElement.innerHTML = "";
         previewElement.appendChild(img);
     }
+}
+
+// Muat semua data
+function muatData() {
+    muatDataCalon();
+    muatDataOrtu();
+    muatDokumen();
 }

@@ -15,8 +15,8 @@ function cekSesi() {
     // Ambil respon
     xhrSesi.onload = function () {
         if (xhrSesi.status === 200) {
-            let respon;
-            if ((respon = JSON.parse(xhrSesi.responseText))) {
+            try {
+                let respon = JSON.parse(xhrSesi.responseText);
                 // Cek sesi di halaman login
                 if (currentUrl.includes("login")) {
                     if (
@@ -53,9 +53,11 @@ function cekSesi() {
                 ) {
                     window.location.href = "/views/user/";
                 }
-            } else {
-                alert("Kesalahaan dalam memparsing API");
-                console.log(xhrSesi.responseText);
+            } catch (errMsg) {
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhrSesi.responseText,
+                });
             }
         }
     };

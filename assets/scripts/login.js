@@ -54,6 +54,9 @@ function registrasi(elm, event) {
                         field.forEach((element) => {
                             element.value = "";
                         });
+
+                        // pindahkan pengguna ke halaman login
+                        window.location.href = "index.html";
                     } else {
                         alert("Kesalahan dalam membuat akun");
                         console.log(respon.message);
@@ -176,9 +179,14 @@ function resetPass(elm, event) {
                     let respon = JSON.parse(xhr.responseText);
                     if (respon.status === "success") {
                         alert(respon.message);
+                        window.location.href = "index.html";
                     } else {
-                        alert("Terjadi kesalahan");
-                        console.dir(respon.message);
+                        if (respon.code === 404 || respon.code === 403) {
+                            alert(respon.message);
+                        } else {
+                            alert("Terjadi kesalahan");
+                            console.dir(respon.message);
+                        }
                     }
                 } catch (errMsg) {
                     console.dir({
