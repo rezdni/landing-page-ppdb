@@ -515,20 +515,20 @@ body {
     display: block;
 }
 
-.formulir .hasil {
+.list--container .hasil {
     background-color: #dfe6e9;
     padding: 20px;
     border-radius: 5px;
     margin-bottom: 20px;
 }
-.formulir .hasil h3 {
+.list--container .hasil h3 {
     margin-bottom: 15px;
 }
-.formulir .hasil p {
+.list--container .hasil p {
     text-align: justify;
 }
-.formulir .hasil button,
-.formulir .kolom-isi.berita button {
+.list--container .hasil button,
+.list--container .kolom-isi.berita button {
     display: inline-block;
     padding: 10px 15px;
     background-color: #ff2929;
@@ -555,9 +555,9 @@ body {
 }
 .tabel-berkas .dokumen .preview {
     width: 300px;
-    height: 350px;
+    height: 375px;
     background-color: #fff;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -567,12 +567,12 @@ body {
 .tabel-berkas .dokumen .preview > *:not(span) {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
 }
 .tabel-berkas .dokumen .preview > span {
     font-size: 200px;
     opacity: 0.2;
-    color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.5);
 }
 .tabel-berkas .dokumen .upload-btn {
     display: flex;

@@ -102,6 +102,12 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                             $hasilData["alamat_orang_tua"]
                         ]
                     ], JSON_PRETTY_PRINT);
+                } else {
+                    echo json_encode([
+                        "status" => "error",
+                        "code" => 404,
+                        "message" => "Data orang tua tidak tersedia"
+                    ], JSON_PRETTY_PRINT);
                 }
             }
         } catch (Throwable $e) {
@@ -149,6 +155,12 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                         "code" => 200,
                         "message" => "Data ditemukan",
                         "data" => $path_dokumen
+                    ], JSON_PRETTY_PRINT);
+                } else {
+                    echo json_encode([
+                        "status" => "error",
+                        "code" => 404,
+                        "message" => "Dokumen tidak tersedia"
                     ], JSON_PRETTY_PRINT);
                 }
             }
@@ -271,7 +283,7 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
 
             }
             
-        } catch (Throwable $e) {
+        } catch (PDOException $e) {
             echo json_encode([
                 "status" => "error",
                 "code" => 500,

@@ -94,15 +94,71 @@
             <!-- biodata status -->
             <div class="list--wrapper">
                 <h3 class="main--title">Pengumuman</h3>
-                <div class="list--container"></div>
+                <div class="list--container">
+                    <div class="list-berita">
+                        <div class="berita hasil">
+                            <h3>Judul Berita</h3>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur
+                                adipisicing elit. Deleniti rem molestias,
+                                accusamus doloribus corporis doloremque
+                                architecto natus asperiores mollitia aliquid
+                                incidunt atque unde commodi pariatur nesciunt!
+                                Facere fugiat incidunt maiores?
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- end biodata status -->
         <script src="../../assets/scripts/cek-sesi.js"></script>
         <script>
+            // List berita
+            function listBerita() {
+                let listBeritaContainer =
+                    document.querySelector(".list-berita");
+                let listBerita = "";
+                let pengumuman = new XMLHttpRequest();
+                pengumuman.open(
+                    "GET",
+                    "../../backend/kelola-pengumuman.php?list_pengumuman=true",
+                    true
+                );
+                pengumuman.setRequestHeader("Content-Type", "application/json");
+
+                pengumuman.send();
+
+                pengumuman.onload = () => {
+                    if (pengumuman.status === 200) {
+                        try {
+                            let berita = JSON.parse(pengumuman.responseText);
+                            if (berita.status === "success") {
+                                berita.data.forEach((element) => {
+                                    listBerita += `
+                                        <div class="berita hasil">
+                                            <h3>${element.judul}</h3>
+                                            <p>
+                                                ${element.isi}
+                                            </p>
+                                        </div>
+                                    `;
+                                });
+                                listBeritaContainer.innerHTML = listBerita;
+                            }
+                        } catch (errMsg) {
+                            alert("Terjadi kesalahan");
+                            console.log(errMsg);
+                            console.log(pengumuman.responseText);
+                        }
+                    }
+                };
+            }
+
             window.onload = function () {
                 cekSesi();
+                listBerita();
             };
         </script>
     </body>

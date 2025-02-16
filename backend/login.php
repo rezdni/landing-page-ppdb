@@ -3,6 +3,7 @@ session_start();
 header('Content-Type: application/json');
 require "../config/koneksi.php";
 
+// Sistem login
 if (isset($_POST["login"])) {
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
@@ -75,6 +76,7 @@ if (isset($_POST["login"])) {
     }
 }
 
+// Reset sandi
 if (isset($_POST["reset"])) {
     $email = htmlspecialchars($_POST["email"]);
     $newPass = htmlspecialchars($_POST["newpassword"]);
@@ -93,19 +95,41 @@ if (isset($_POST["reset"])) {
     }
 
     try {
-        $sql = "UPDATE pengguna SET `password` = :password WHERE email = :email";
+        // Cek apakah pengguna adalah admin
+        $sql = "SELECT `role` FROM pengguna WHERE email = :email";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            "email" => $email,
-            "password" => $hashPass
-        ]);
+        $stmt->execute(["email" => $email]);
+        $hasil = $stmt->fetch();
 
-        echo json_encode([
-            "status" => "success",
-            "code" => 200,
-            "message" => "Sandi berhasil diubah"
-        ], JSON_PRETTY_PRINT);
+        if (empty($hasil)) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 404,
+                "message" => "Pengguna tidak tersedia"
+            ], JSON_PRETTY_PRINT);
+        } else {
+            if ($hasil["role"] === "Admin") {
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 403,
+                    "message" => "Anda tidak bisa mengubah sandi pengguna ini"
+                ], JSON_PRETTY_PRINT);
+            } else {
+                // Proses reset sandi
+                $sql = "UPDATE pengguna SET `password` = :password WHERE email = :email";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    "email" => $email,
+                    "password" => $hashPass
+                ]);
 
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Sandi berhasil diubah"
+                ], JSON_PRETTY_PRINT);
+            }
+        }
     } catch (Throwable $e) {
         echo json_encode([
             "status" => "error",
