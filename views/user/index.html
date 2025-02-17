@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>User-panel</title>
         <link rel="stylesheet" href="../../assets/styles/styles.css" />
+        <link rel="stylesheet" href="../../assets/styles/popup.css" />
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
@@ -133,6 +134,7 @@
         <!-- end Popup Notifikasi -->
 
         <!-- end biodata status -->
+        <script src="../../assets/scripts/popup.js"></script>
         <script src="../../assets/scripts/cek-sesi.js"></script>
         <script>
             // List berita
@@ -166,6 +168,24 @@
                                     `;
                                 });
                                 listBeritaContainer.innerHTML = listBerita;
+                            } else if (
+                                berita.status === "error" &&
+                                berita.code === 404
+                            ) {
+                                listBerita += `
+                                    <div class="berita hasil">
+                                        <h3>Tidak ada pengumuman</h3>
+                                    </div>
+                                `;
+                                listBeritaContainer.innerHTML = listBerita;
+                            } else {
+                                showPopup(
+                                    "Kesalahan",
+                                    "Terjadi kesalahan",
+                                    "",
+                                    "Oke"
+                                );
+                                console.log(berita.message);
                             }
                         } catch (errMsg) {
                             alert("Terjadi kesalahan");

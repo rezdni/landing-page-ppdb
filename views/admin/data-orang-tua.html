@@ -142,16 +142,20 @@
         </div>
         <!-- end formulir -->
         <script src="../../assets/scripts/cek-sesi.js"></script>
-        <script src="../../assets/scripts/user.js"></script>
+        <script src="../../assets/scripts/admin.js"></script>
         <script>
-            window.onload = function () {
-                cekSesi();
+            // Cek url
+            const getUrlMethod = new URLSearchParams(window.location.search);
+            let idCalon = getUrlMethod.get("id-calon");
 
-                // Ambil data orang tua
+            // Ambil data orang tua
+            function reqOrtuCalon(params) {
                 const ambilData = new XMLHttpRequest();
                 ambilData.open(
                     "GET",
-                    "../../backend/menu-calon.php?data-ortu=true",
+                    "../../backend/kelola-calon.php?id-calon=" +
+                        idCalon +
+                        "&data-ortu=true",
                     true
                 );
 
@@ -179,6 +183,11 @@
                         }
                     }
                 };
+            }
+
+            window.onload = function () {
+                cekSesi();
+                reqOrtuCalon();
             };
         </script>
     </body>

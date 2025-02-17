@@ -20,8 +20,7 @@ function kirimForm(postId, event) {
 
         kirimData(isiForm);
     } else {
-        alert("Mohon isi kolom yang dibutuhkan");
-        // showPopup("Info", "Mohon isi kolom yang dibutuhkan", "", "Oke");
+        showPopup("Info", "Mohon isi kolom yang dibutuhkan", "", "Oke");
     }
 }
 
@@ -40,29 +39,38 @@ function kirimData(isi) {
                         respon.code === "EXTENSION_NOT_ALLOWED"
                     ) {
                         // Jika file terlalu besar
-                        alert(respon.message);
-                        // showPopup("Kesalahan", "Internal Server Error", "", "Oke");
+                        showPopup("Kesalahan", respon.message, "", "Oke");
                         console.log(respon.message);
                     } else if (respon.code === 500) {
                         // Debuging
                         console.dir(respon.message);
                         // Jika NISN sudah dimiliki siswa lain
                         respon.message.errorInfo[1] === 1062
-                            ? alert(
-                                  "Nomor NISN yang anda masukan sudah dimiliki siswa lain"
+                            ? showPopup(
+                                  "Info",
+                                  "Nomor NISN yang anda masukan sudah dimiliki siswa lain",
+                                  "",
+                                  "Oke"
                               )
                             : "";
                     }
                 } else {
-                    alert(respon.message);
-
                     // Pindahkan pengguna ke halaman biodata
-                    window.location.href.includes("biodata")
-                        ? muatData()
-                        : (window.location.href = "biodata.html");
-                    // showPopup("Berhasil", respon.pesan, "", "Oke");
+                    if (window.location.href.includes("biodata")) {
+                        showPopup(
+                            "Berhasil",
+                            "Biodata berhasil di update",
+                            "",
+                            "Oke"
+                        );
+                        muatData();
+                    } else {
+                        window.location.href =
+                            "biodata.html?status_change=true";
+                    }
                 }
             } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
                 console.dir({
                     Kesalahan: errMsg,
                     "XMLHttpRequest Respon": xhr.responseText,
@@ -136,7 +144,7 @@ function muatDataCalon() {
                             ": " + konversiTanggal(tglLahir.innerText);
                     }
                 } catch (kesalahan) {
-                    alert("Terjadi kesalahan");
+                    showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
                     console.log(kesalahan);
                 }
             }
@@ -172,7 +180,7 @@ function muatDataOrtu() {
                             });
                         });
                     } catch (kesalahan) {
-                        alert("Terjadi kesalahan");
+                        showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
                         console.log(kesalahan);
                     }
                 }
@@ -210,7 +218,7 @@ function muatDokumen() {
                             );
                         }
                     } catch (kesalahan) {
-                        alert("Terjadi kesalahan");
+                        showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
                         console.log(kesalahan);
                     }
                 }
@@ -232,34 +240,48 @@ function previewInputFile(parentClass) {
     if (inputFile.files.length > 0) {
         const file = inputFile.files[0];
         const fileType = file.type;
+        const maxSize = 2 * 1024 * 1024;
 
-        // Cek tipe file
-        if (fileType.startsWith("image/")) {
-            // Jika file adalah gambar, tampilkan menggunakan <img>
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = document.createElement("img");
-                img.src = e.target.result;
-                previewFile.innerHTML = "";
-                previewFile.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        } else if (fileType === "application/pdf") {
-            // Jika file adalah PDF, tampilkan menggunakan <iframe>
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const iframe = document.createElement("iframe");
-                iframe.src = e.target.result;
-                iframe.width = "100%";
-                iframe.height = "500px";
-                previewFile.innerHTML = "";
-                previewFile.appendChild(iframe);
-            };
-            reader.readAsDataURL(file);
+        // cek ukuran file
+        if (file.size > maxSize) {
+            showPopup("Kesalahan", "Ukuran file terlalu besar", "", "Oke");
+            const icon = document.createElement("span");
+            icon.setAttribute("class", "material-symbols-outlined");
+            icon.innerText = "broken_image";
+            previewFile.innerHTML = "";
+            previewFile.appendChild(icon);
         } else {
-            // Jika file bukan gambar atau PDF, tampilkan pesan
-            // previewFile.textContent =
-            //     "Preview tidak tersedia untuk tipe file ini.";
+            // Cek tipe file
+            if (fileType.startsWith("image/")) {
+                // Jika file adalah gambar, tampilkan menggunakan <img>
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    previewFile.innerHTML = "";
+                    previewFile.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            } else if (fileType === "application/pdf") {
+                // Jika file adalah PDF, tampilkan menggunakan <iframe>
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const iframe = document.createElement("iframe");
+                    iframe.src = e.target.result;
+                    iframe.width = "100%";
+                    iframe.height = "500px";
+                    previewFile.innerHTML = "";
+                    previewFile.appendChild(iframe);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                showPopup("Kesalahan", "Format file tidak didukung", "", "Oke");
+                const icon = document.createElement("span");
+                icon.setAttribute("class", "material-symbols-outlined");
+                icon.innerText = "broken_image";
+                previewFile.innerHTML = "";
+                previewFile.appendChild(icon);
+            }
         }
     }
 }

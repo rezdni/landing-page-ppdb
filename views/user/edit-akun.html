@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>data-pendaftaran</title>
         <link rel="stylesheet" href="../../assets/styles/styles.css" />
+        <link rel="stylesheet" href="../../assets/styles/popup.css" />
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
@@ -186,94 +187,111 @@
             let namaPengguna = document.getElementById("nama-pengguna");
             let emailPengguna = document.getElementById("email");
             let password = document.getElementById("password");
-            let jenisPengguna = document.getElementById("jenis-pengguna");
-            let noNis = document.getElementById("no-nis");
+            let rePassword = document.getElementById("ulangi-password");
 
-            const getUrlMethod = new URLSearchParams(window.location.search);
-            let idAkun = getUrlMethod.get("id_akun");
+            let getXhr = new XMLHttpRequest();
+            getXhr.open(
+                "GET",
+                "../../backend/menu-calon.php?info-akun=true",
+                true
+            );
+            getXhr.setRequestHeader(
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+            );
 
-            if (idAkun) {
-                let getXhr = new XMLHttpRequest();
-                getXhr.open(
-                    "GET",
-                    "../../backend/kelola-pengguna.php?id_pengguna=" +
-                        encodeURIComponent(idAkun),
-                    true
-                );
-                getXhr.setRequestHeader(
-                    "Content-Type",
-                    "application/x-www-form-urlencoded"
-                );
-
-                getXhr.onload = function () {
-                    if (getXhr.status === 200) {
+            getXhr.onload = function () {
+                if (getXhr.status === 200) {
+                    try {
                         const dataPengguna = JSON.parse(getXhr.responseText);
-
-                        namaPengguna.value = dataPengguna.nama;
-                        emailPengguna.value = dataPengguna.email;
-                        jenisPengguna.value = dataPengguna.role;
-                        noNis.value = dataPengguna.no_nis;
-
-                        cekJenisPengguna();
-                    } else {
-                        showPopup("Error", "Failed to process data", "", "Ok");
+                        if (dataPengguna.status === "success") {
+                            namaPengguna.value = dataPengguna.data.nama;
+                            emailPengguna.value = dataPengguna.data.email;
+                        } else {
+                            showPopup(
+                                "Kesalahan",
+                                "Terjadi kesalahan",
+                                "",
+                                "Oke"
+                            );
+                            console.dir(dataPengguna.message);
+                        }
+                    } catch (errMsg) {
+                        showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                        console.dir({
+                            Kesalahan: errMsg,
+                            "XMLHttpRequest Respon": getXhr.responseText,
+                        });
                     }
-                };
-
-                getXhr.send();
-            }
-
-
-
-            function cekJenisPengguna() {
-                if (jenisPengguna.value === "Admin") {
-                    noNis.setAttribute("disabled", "");
                 } else {
-                    noNis.removeAttribute("disabled");
+                    showPopup("Error", "Failed to process data", "", "Ok");
                 }
-            }
+            };
+
+            getXhr.send();
 
             function simpanPerubahan(event) {
                 event.preventDefault();
 
-                let requiredField = document.querySelectorAll(
-                    "input[required], select[required]"
-                );
+                let requiredField =
+                    document.querySelectorAll("input[required]");
                 let validasi = true;
 
+                // Cek semua kolom diisi kecual password
                 requiredField.forEach((element) => {
                     if (!element.checkValidity()) {
                         validasi = false;
                     }
                 });
 
+                // Cek jika kolom password di isi dan keduanya sama
+                if (password.value !== "" && rePassword.value !== "") {
+                    if (password.value !== rePassword.value) {
+                        validasi = false;
+                    }
+                }
+
                 if (validasi) {
                     const formulir = document.querySelector("form");
-                    let kelolaPengguna = new FormData(formulir);
+                    let editAkun = new FormData(formulir);
 
-                    kelolaPengguna.append("idPengguna", idAkun);
-                    kelolaPengguna.append("simpanPerubahan", true);
+                    editAkun.append("simpanPerubahan", true);
 
                     let simpan = new XMLHttpRequest();
-                    simpan.open(
-                        "POST",
-                        "../../backend/kelola-pengguna.php",
-                        true
-                    );
+                    simpan.open("POST", "../../backend/menu-calon.php", true);
 
                     simpan.onload = function () {
                         if (simpan.status === 200) {
-                            const respon = JSON.parse(simpan.responseText);
-                            if (respon.status == "berhasil") {
-                                location.href =
-                                    "kelola-pengguna.html?editpengguna=berhasil";
-                            } else if (respon.status === "gagal") {
+                            try {
+                                const respon = JSON.parse(simpan.responseText);
+                                if (respon.status == "success") {
+                                    showPopup(
+                                        "Berhasil",
+                                        "Akun berhasil diubah",
+                                        "",
+                                        "Oke"
+                                    );
+                                } else if (respon.status === "error") {
+                                    showPopup(
+                                        "Kesalahan",
+                                        "Terjadi kesalahan",
+                                        "",
+                                        "Oke"
+                                    );
+                                    console.dir(respon.message);
+                                }
+                            } catch (errMsg) {
                                 showPopup(
                                     "Kesalahan",
-                                    respon.keterangan,
+                                    "Terjadi kesalahan",
                                     "",
-                                    "Ok"
+                                    "Oke"
                                 );
+                                console.dir({
+                                    Kesalahan: errMsg,
+                                    "XMLHttpRequest Respon":
+                                        simpan.responseText,
+                                });
                             }
                         } else {
                             showPopup(
@@ -285,14 +303,9 @@
                         }
                     };
 
-                    simpan.send(kelolaPengguna);
+                    simpan.send(editAkun);
                 } else {
-                    showPopup(
-                        "Kesalahan",
-                        "Mohon isi kolom yang di butuhkan",
-                        "",
-                        "Oke"
-                    );
+                    showPopup("Kesalahan", "Mohon isi dengan benar", "", "Oke");
                 }
             }
 

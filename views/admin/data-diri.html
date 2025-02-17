@@ -288,18 +288,21 @@
         </div>
         <!-- end formulir -->
         <script src="../../assets/scripts/cek-sesi.js"></script>
-        <script src="../../assets/scripts/user.js"></script>
+        <script src="../../assets/scripts/admin.js"></script>
         <script>
-            window.onload = function () {
-                cekSesi();
+            // Cek url
+            const getUrlMethod = new URLSearchParams(window.location.search);
+            let idCalon = getUrlMethod.get("id-calon");
 
+            function reqCalon() {
                 // Ambil data calon
                 const ambilData = new XMLHttpRequest();
                 ambilData.open(
                     "GET",
-                    "../../backend/menu-calon.php?data-diri=true",
+                    "../../backend/kelola-calon.php?id-calon=" + idCalon,
                     true
                 );
+                ambilData.setRequestHeader("Content-Type", "application/json");
 
                 ambilData.send();
 
@@ -318,6 +321,12 @@
                                 }
                             }
                         } catch (errMsg) {
+                            showPopup(
+                                "Kesalahan",
+                                "Terjadi keselahan",
+                                "",
+                                "Oke"
+                            );
                             console.dir({
                                 Kesalahan: errMsg,
                                 "XMLHttpRequest Respon": ambilData.responseText,
@@ -325,6 +334,11 @@
                         }
                     }
                 };
+            }
+
+            window.onload = function () {
+                cekSesi();
+                reqCalon();
             };
         </script>
     </body>

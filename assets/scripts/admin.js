@@ -334,7 +334,7 @@ function tambahCalon(event) {
                             respon.code === "FILE_TOO_LARGE" ||
                             respon.code === "EXTENSION_NOT_ALLOWED"
                         ) {
-                            showPopup("Gagal", respon.message, "", "Oke");
+                            showPopup("Kesalahan", respon.message, "", "Oke");
                         } else {
                             showPopup(
                                 "Kesalahan",
@@ -408,7 +408,7 @@ function listSemuaCalon() {
                                     <p class="text-wrap">sukses</p>
                                 </td>
                                 <td data-label="Ubah Data" class="ubah-data">
-                                    <a href="edit-calon.html?idCalon=${biodata.id}">
+                                    <a href="edit-calon.html?id-calon=${biodata.id}">
                                         <button name="edit-data" id="edit-data">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
@@ -599,3 +599,106 @@ try {
 menuClose.addEventListener("click", () => {
     menuMobile.classList.remove("active");
 });
+
+// Konversi tanggal
+function konversiTanggal(tanggal) {
+    const tglObj = new Date(tanggal);
+    const bulan = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+    ];
+
+    const hari = tglObj.getDate();
+    const namaBulan = bulan[tglObj.getMonth()];
+    const tahun = tglObj.getFullYear();
+
+    const hasilKonversi = `${hari} ${namaBulan} ${tahun}`;
+    return hasilKonversi;
+}
+
+// Preview file
+function previewInputFile(parentClass) {
+    let inputFile = parentClass.querySelector(".upload-btn input");
+    let previewFile = parentClass.querySelector(".preview");
+
+    if (inputFile.files.length > 0) {
+        const file = inputFile.files[0];
+        const fileType = file.type;
+        const maxSize = 2 * 1024 * 1024;
+
+        // cek ukuran file
+        if (file.size > maxSize) {
+            showPopup("Kesalahan", "Ukuran file terlalu besar", "", "Oke");
+            const icon = document.createElement("span");
+            icon.setAttribute("class", "material-symbols-outlined");
+            icon.innerText = "broken_image";
+            previewFile.innerHTML = "";
+            previewFile.appendChild(icon);
+        } else {
+            // Cek tipe file
+            if (fileType.startsWith("image/")) {
+                // Jika file adalah gambar, tampilkan menggunakan <img>
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    previewFile.innerHTML = "";
+                    previewFile.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            } else if (fileType === "application/pdf") {
+                // Jika file adalah PDF, tampilkan menggunakan <iframe>
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const iframe = document.createElement("iframe");
+                    iframe.src = e.target.result;
+                    iframe.width = "100%";
+                    iframe.height = "500px";
+                    previewFile.innerHTML = "";
+                    previewFile.appendChild(iframe);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                showPopup("Kesalahan", "Format file tidak didukung", "", "Oke");
+                const icon = document.createElement("span");
+                icon.setAttribute("class", "material-symbols-outlined");
+                icon.innerText = "broken_image";
+                previewFile.innerHTML = "";
+                previewFile.appendChild(icon);
+            }
+        }
+    }
+}
+
+function previewFile(filepath, jenis) {
+    let previewElement = document.querySelector("#view-" + jenis);
+
+    // cek tipe file
+    let indeksFile = filepath.lastIndexOf(".");
+    let jenisFile =
+        indeksFile !== -1 ? filepath.slice(indeksFile + 1).toLowerCase() : "";
+
+    if (jenisFile === "pdf") {
+        const iframe = document.createElement("iframe");
+        iframe.src = filepath;
+        iframe.width = "100%";
+        iframe.height = "500px";
+        previewElement.innerHTML = "";
+        previewElement.appendChild(iframe);
+    } else {
+        const img = document.createElement("img");
+        img.src = filepath;
+        previewElement.innerHTML = "";
+        previewElement.appendChild(img);
+    }
+}

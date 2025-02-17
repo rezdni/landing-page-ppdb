@@ -3,8 +3,6 @@ session_start();
 header("Content-Type: application/json");
 require_once "../config/koneksi.php";
 
-// var_dump($_SESSION);
-
 if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
     // Minta data
     // Data diri
@@ -163,6 +161,55 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                         "message" => "Dokumen tidak tersedia"
                     ], JSON_PRETTY_PRINT);
                 }
+            }
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
+        }
+    }
+
+    // Informasi akun
+    if (isset($_GET["info-akun"])) {
+        $idPengguna = $_SESSION["user_id"];
+    
+        try {
+            $showSql = "SELECT * FROM pengguna WHERE id = :idPengguna";
+            $stmt = $pdo->prepare($showSql);
+    
+            $tampilkan = ["idPengguna" => $idPengguna];
+    
+            $stmt->execute($tampilkan);
+            // get result
+            $results = $stmt->fetch();
+            if (empty($results)) {
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 404,
+                    "message" => "Data tidak ditemukan"
+                ], JSON_PRETTY_PRINT);
+            } else {
+                $nis = null;
+
+                $cekNim = $pdo->prepare("SELECT no_nis FROM pendaftaran WHERE id_calon = :id_calon");
+                $cekNim->execute(["id_calon" => $results["id_calon"]]);
+                $hasilNis = $cekNim->fetch();
+
+                if (!empty($hasilNis)) {
+                    $nis = $hasilNis["no_nis"];
+                }
+
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Data ditemukan",
+                    "data" => [
+                        "nama" => $results["nama"],
+                        "email" => $results["email"],
+                    ]
+                ], JSON_PRETTY_PRINT);
             }
         } catch (Throwable $e) {
             echo json_encode([
@@ -377,7 +424,7 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
     if (isset($_POST["berkas"])) {
         // Konfigurasi unggahan file
         $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf'];
-        $max_file_size = 2 * 1024 * 1024; // 5MB
+        $max_file_size = 2 * 1024 * 1024; // 2MB
         $upload_folder = '../uploads/documents/';
 
         // Periksa apakah folder tujuan ada
@@ -638,6 +685,73 @@ if (isset($_SESSION) && $_SESSION["user_role"] === "Calon") {
                 }
 
                 echo json_encode($jsonMsg, JSON_PRETTY_PRINT);
+            }
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
+        }
+    }
+
+    // simpan perubahan akun
+    if (isset($_POST["simpanPerubahan"])) {
+        $namaPengguna = htmlspecialchars($_POST["nama-pengguna"]);
+        $emailPengguna = htmlspecialchars($_POST["email"]);
+        $password = htmlspecialchars($_POST["password"]);
+        $rePassword = htmlspecialchars($_POST["ulangi-password"]);
+
+        $idPengguna = $_SESSION["user_id"];
+        
+        try {
+            // Cek perubahan password
+            if ($password == "" && $rePassword == "") {
+                $updateData = "UPDATE pengguna SET `nama` = :namaPengguna, `email` = :emailPengguna WHERE `id` = :idPengguna";
+                $stmt = $pdo->prepare($updateData);
+    
+                $masukanPerubahan = [
+                    "namaPengguna" => $namaPengguna,
+                    "emailPengguna" => $emailPengguna,
+                    "idPengguna" => $idPengguna
+                ];
+    
+                $stmt->execute($masukanPerubahan);
+    
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Akun berhasil diubah"
+                ], JSON_PRETTY_PRINT);
+
+            } else {
+                if ($password === $rePassword) {
+                    $rePassword = password_hash($rePassword, PASSWORD_BCRYPT);
+        
+                    $updateData = "UPDATE pengguna SET `nama` = :namaPengguna, `email` = :emailPengguna, `password` = :password WHERE `id` = :idPengguna";
+                    $stmt = $pdo->prepare($updateData);
+        
+                    $masukanPerubahan = [
+                        "namaPengguna" => $namaPengguna,
+                        "emailPengguna" => $emailPengguna,
+                        "password" => $rePassword,
+                        "idPengguna" => $idPengguna
+                    ];
+        
+                    $stmt->execute($masukanPerubahan);
+        
+                    echo json_encode([
+                        "status" => "success",
+                        "code" => 200,
+                        "message" => "Akun berhasil diubah"
+                    ], JSON_PRETTY_PRINT);
+                } else {
+                    echo json_encode([
+                        "status" => "error",
+                        "code" => 400,
+                        "message" => "Kata sandi tidak sesuai"
+                    ], JSON_PRETTY_PRINT);
+                }
             }
         } catch (Throwable $e) {
             echo json_encode([
