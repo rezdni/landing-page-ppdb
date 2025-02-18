@@ -197,7 +197,7 @@
                         </table>
                     </div>
                 </div>
-                <a href="/views/admin/data-diri.html" class="btn-ubah">
+                <a href="/views/admin/data-pendaftar.html" class="btn-ubah">
                     Perbarui
                 </a>
             </div>
@@ -308,7 +308,6 @@
                         type="submit"
                         name="simpan"
                         id="simpan"
-                        onclick="kirimForm('berkas', event)"
                         class="btn-ubah"
                     >
                         Perbarui
@@ -341,198 +340,57 @@
         <script src="../../assets/scripts/popup.js"></script>
         <script src="../../assets/scripts/cek-sesi.js"></script>
         <script>
+            // Convert tanggal lahir
+            let tanggalLahir = document.getElementById("tgl-lahir");
+
             // Cek url
             const getUrlMethod = new URLSearchParams(window.location.search);
-            let idCalon = getUrlMethod.get("id-calon");
+            let nisCalon = getUrlMethod.get("nis");
+            let statusPerubahan = getUrlMethod.get("status_change");
 
-            // Request data calon
-            function reqCalon() {
-                const xhr = new XMLHttpRequest();
-                xhr.open(
-                    "GET",
-                    "../../backend/kelola-calon.php?id-calon=" + idCalon,
-                    true
-                );
-                xhr.setRequestHeader("Content-Type", "application/json");
+            // tombol submit
+            document.getElementById("simpan").addEventListener("click", () => {
+                kirimForm("berkas", event, nisCalon);
+            });
 
-                xhr.send();
+            // Proses data calon
+            async function prosesDataCalon(tipeData) {
+                try {
+                    let td = document.querySelectorAll(
+                        "#" + tipeData + " .list-biodata td:nth-child(2)"
+                    );
+                    const biodata =
+                        tipeData == "siswa"
+                            ? await reqCalon(nisCalon)
+                            : await reqOrtuCalon(nisCalon);
 
-                xhr.onload = () => {
-                    if (xhr.status === 200) {
-                        try {
-                            let respon = JSON.parse(xhr.responseText);
-
-                            if (respon.status === "success") {
-                                let td = document.querySelectorAll(
-                                    "#siswa .list-biodata td:nth-child(2)"
-                                );
-
-                                // Loop data
-                                for (let i = 0; i < td.length; i++) {
-                                    td[i].innerText = ": " + respon.data[i];
-                                }
-
-                                // Konversi tanggal lahir
-                                let tglLahir =
-                                    document.getElementById("tgl-lahir");
-                                tglLahir.innerText =
-                                    ": " + konversiTanggal(tglLahir.innerText);
-                            } else {
-                                showPopup(
-                                    "Kesalahan",
-                                    "Terjadi kesalahan",
-                                    "",
-                                    "Oke"
-                                );
-                                console.log(respon.message);
-                            }
-                        } catch (errMsg) {
-                            showPopup(
-                                "Kesalahan",
-                                "Terjadi kesalahan",
-                                "",
-                                "Oke"
-                            );
-                            console.dir({
-                                Kesalahan: errMsg,
-                                "XMLHttpRequest Respon": xhr.responseText,
-                            });
-                        }
-                    } else {
-                        showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                    for (let i = 0; i < td.length; i++) {
+                        td[i].innerText = ": " + biodata[i];
                     }
-                };
+                } catch (kesalahan) {
+                    if (kesalahan.code !== 404) {
+                        showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                        console.log(kesalahan.message);
+                    }
+                }
             }
 
-            // Request data ortu calon
-            function reqOrtuCalon() {
-                const xhr = new XMLHttpRequest();
-                xhr.open(
-                    "GET",
-                    "../../backend/kelola-calon.php?id-calon=" +
-                        idCalon +
-                        "&data-ortu=true",
-                    true
-                );
-                xhr.setRequestHeader("Content-Type", "application/json");
-
-                xhr.send();
-
-                xhr.onload = () => {
-                    if (xhr.status === 200) {
-                        try {
-                            let respon = JSON.parse(xhr.responseText);
-
-                            if (respon.status === "success") {
-                                let td = document.querySelectorAll(
-                                    "#ortu .list-biodata td:nth-child(2)"
-                                );
-
-                                // Loop data
-                                for (let i = 0; i < td.length; i++) {
-                                    td[i].innerText = ": " + respon.data[i];
-                                }
-                            } else {
-                                showPopup(
-                                    "Kesalahan",
-                                    "Terjadi kesalahan",
-                                    "",
-                                    "Oke"
-                                );
-                                console.log(respon.message);
-                            }
-                        } catch (errMsg) {
-                            showPopup(
-                                "Kesalahan",
-                                "Terjadi kesalahan",
-                                "",
-                                "Oke"
-                            );
-                            console.dir({
-                                Kesalahan: errMsg,
-                                "XMLHttpRequest Respon": xhr.responseText,
-                            });
-                        }
-                    } else {
-                        showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
-                    }
-                };
-            }
-
-            // Request dokumen
-            function reqDoc() {
-                const xhr = new XMLHttpRequest();
-                xhr.open(
-                    "GET",
-                    "../../backend/kelola-calon.php?id-calon=" +
-                        idCalon +
-                        "&berkas=true",
-                    true
-                );
-                xhr.setRequestHeader("Content-Type", "application/json");
-
-                xhr.send();
-
-                xhr.onload = () => {
-                    if (xhr.status === 200) {
-                        try {
-                            let respon = JSON.parse(xhr.responseText);
-
-                            if (respon.status === "success") {
-                                let sumberFile = respon.data;
-
-                                // Loop data
-                                for (let i = 0; i < sumberFile.length; i++) {
-                                    previewFile(
-                                        sumberFile[i].path,
-                                        sumberFile[i].jenis
-                                    );
-                                }
-                            } else {
-                                if (respon.code !== 404) {
-                                    showPopup(
-                                        "Kesalahan",
-                                        "Terjadi kesalahan",
-                                        "",
-                                        "Oke"
-                                    );
-                                    console.log(respon.message);
-                                }
-                            }
-                        } catch (errMsg) {
-                            showPopup(
-                                "Kesalahan",
-                                "Terjadi kesalahan",
-                                "",
-                                "Oke"
-                            );
-                            console.dir({
-                                Kesalahan: errMsg,
-                                "XMLHttpRequest Respon": xhr.responseText,
-                            });
-                        }
-                    } else {
-                        showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
-                    }
-                };
-            }
-
-            // atur link
-            function aturLink(idcalon) {
-                let linkBtn = document.querySelectorAll("a.btn-ubah");
-                linkBtn.forEach((element) => {
-                    let hrefAttr = element.getAttribute("href");
-                    element.setAttribute("href", hrefAttr + idcalon);
-                });
+            // Muat semua data
+            function muatData() {
+                prosesDataCalon("siswa");
+                prosesDataCalon("ortu");
+                reqDocs(nisCalon);
             }
 
             // Muat semua data
             window.onload = function () {
                 cekSesi();
-                reqCalon();
-                reqOrtuCalon();
-                reqDoc();
-                aturLink("?id-calon=" + idCalon);
+                muatData();
+                aturLink("?nis=" + nisCalon);
+
+                statusPerubahan
+                    ? showPopup("Berhasil", statusPerubahan, "", "Oke")
+                    : "";
             };
         </script>
     </body>

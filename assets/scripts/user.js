@@ -1,12 +1,15 @@
 // Data formulir
 function kirimForm(postId, event) {
+    // Cegah handle default
     event.preventDefault();
 
+    // Ambil semua field
     let requiredField = document.querySelectorAll(
         "input[required], select[required]"
     );
-    let validasi = true;
 
+    // Validasi
+    let validasi = true;
     requiredField.forEach((element) => {
         if (!element.checkValidity()) {
             validasi = false;
@@ -42,17 +45,23 @@ function kirimData(isi) {
                         showPopup("Kesalahan", respon.message, "", "Oke");
                         console.log(respon.message);
                     } else if (respon.code === 500) {
-                        // Debuging
-                        console.dir(respon.message);
                         // Jika NISN sudah dimiliki siswa lain
-                        respon.message.errorInfo[1] === 1062
-                            ? showPopup(
-                                  "Info",
-                                  "Nomor NISN yang anda masukan sudah dimiliki siswa lain",
-                                  "",
-                                  "Oke"
-                              )
-                            : "";
+                        if (respon.message.errorInfo[1] === 1062) {
+                            showPopup(
+                                "Info",
+                                "Nomor NISN yang anda masukan sudah dimiliki siswa lain",
+                                "",
+                                "Oke"
+                            );
+                        } else {
+                            showPopup(
+                                "Kesalahan",
+                                "Terjadi kesalahan",
+                                "",
+                                "Oke"
+                            );
+                            console.log(respon.message);
+                        }
                     }
                 } else {
                     // Pindahkan pengguna ke halaman biodata

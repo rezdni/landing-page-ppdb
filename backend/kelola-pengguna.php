@@ -4,44 +4,6 @@ require_once "../config/koneksi.php";
 
 if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
     header('Content-Type: application/json');
-    // Create admin
-    if (isset($_POST["createAdmin"])) {
-        // variable
-        $name = htmlspecialchars($_POST["name"]);
-        $email = htmlspecialchars($_POST["email"]);
-        $password = htmlspecialchars($_POST["password"]);
-    
-        // Decrypt password
-        $password = password_hash($password, PASSWORD_BCRYPT);
-    
-        try {
-            // Prepare query
-            $insertSql = "INSERT INTO pengguna (`id`, `nama`, `email`, `password`, `role`, `id_calon`, `lupa_sandi`, `sesi`) VALUES (null, :name, :email, :password, 'Admin', null, 0, null)";
-            $insertStmt = $pdo->prepare($insertSql);
-    
-            $data = [
-                'name' => $name,
-                'email' => $email,
-                'password' => $password
-            ];
-            
-            // Insert to database
-            $insertStmt->execute($data);
-            
-            echo json_encode([
-                "status" => "success",
-                "code" => 200,
-                "message" => "Berhasil menambahkan admin baru"
-            ], JSON_PRETTY_PRINT);
-            
-        } catch (Throwable $e) {
-            echo json_encode([
-                "status" => "error",
-                "code" => 500,
-                "message" => $e
-            ], JSON_PRETTY_PRINT);
-        }
-    }
     
     // List akun
     if (isset($_GET["list_pengguna"])) {
@@ -215,6 +177,79 @@ if (isset($_SESSION["user_role"]) && $_SESSION["user_role"] === "Admin") {
                     "status" => "success",
                     "code" => 200,
                     "message" => "Data pengguna berhasil diubah"
+                ], JSON_PRETTY_PRINT);
+
+            }
+        } catch (Throwable $e) {
+            echo json_encode([
+                "status" => "error",
+                "code" => 500,
+                "message" => $e
+            ], JSON_PRETTY_PRINT);
+        }
+    }
+
+    // Buat akun baru
+    if (isset($_POST["buatAkun"])) {
+        $namaPengguna = htmlspecialchars($_POST["nama-pengguna"]);
+        $emailPengguna = htmlspecialchars($_POST["email"]);
+        $password = htmlspecialchars($_POST["password"]);
+        $jenisPengguna = htmlspecialchars($_POST["jenis-pengguna"]);
+
+        $nisPengguna = null;
+        $idCalon = null;
+
+        (isset($_POST["no-nis"]) && $_POST["no-nis"] !== "") ? $nisPengguna = htmlspecialchars($_POST["no-nis"]) : $nisPengguna = null;
+        
+        try {
+            // Cek NIS
+            if (isset($_POST["no-nis"]) && $_POST["no-nis"] !== "") {
+                $sql = "SELECT * FROM pendaftaran WHERE no_nis = :no_nis";
+                $stmt = $pdo->prepare($sql);
+
+                $stmt->execute(["no_nis" => $nisPengguna]);
+
+                $hasil = $stmt->fetch();
+                
+                if (empty($hasil)) {
+                    echo json_encode([
+                        "status" => "error",
+                        "code" => 404,
+                        "message" => "NIS tidak tersedia"
+                    ], JSON_PRETTY_PRINT);
+                    exit();
+                } else {
+                    $idCalon = $hasil["id_calon"];
+                }
+            }
+
+            // Cek perubahan password
+            if ($password == "" || $password === null) {
+                echo json_encode([
+                    "status" => "error",
+                    "code" => 400,
+                    "message" => "Sandi tidak boleh kosong"
+                ], JSON_PRETTY_PRINT);
+            } else {
+                $password = password_hash($password, PASSWORD_BCRYPT);
+    
+                $updateData = "INSERT INTO pengguna (`id`, `nama`, `email`, `password`, `role`, `id_calon`, `lupa_sandi`, `sesi`) VALUES (null, :namaPengguna, :emailPengguna, :password, :jenisPengguna, :idCalon, 0, null)";
+                $stmt = $pdo->prepare($updateData);
+    
+                $tambah = [
+                    "namaPengguna" => $namaPengguna,
+                    "emailPengguna" => $emailPengguna,
+                    "password" => $password,
+                    "jenisPengguna" => $jenisPengguna,
+                    "idCalon" => $idCalon
+                ];
+    
+                $stmt->execute($tambah);
+    
+                echo json_encode([
+                    "status" => "success",
+                    "code" => 200,
+                    "message" => "Pengguna baru berhasil ditambahkan"
                 ], JSON_PRETTY_PRINT);
 
             }

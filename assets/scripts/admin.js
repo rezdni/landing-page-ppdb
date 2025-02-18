@@ -303,15 +303,18 @@ function hapusBerita(idBerita) {
 }
 
 // Calon Siswa
-// Tambah calon
-function tambahCalon(event) {
+// Data formulir
+function kirimForm(postId, event, defaultNis) {
+    // Cegah handle default
     event.preventDefault();
 
+    // Ambil semua field
     let requiredField = document.querySelectorAll(
         "input[required], select[required]"
     );
-    let validasi = true;
 
+    // Validasi
+    let validasi = true;
     requiredField.forEach((element) => {
         if (!element.checkValidity()) {
             validasi = false;
@@ -319,47 +322,94 @@ function tambahCalon(event) {
     });
 
     if (validasi) {
-        let formulir = document.getElementById("tambahcalon");
-        let formData = new FormData(formulir);
+        const formulir = document.querySelector("form");
+        const isiForm = new FormData(formulir);
+        isiForm.append(postId, "true");
 
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "../../backend/calon-siswa.php", true);
+        kirimData(isiForm, defaultNis);
+    } else {
+        showPopup("Info", "Mohon isi kolom yang dibutuhkan", "", "Oke");
+    }
+}
 
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                try {
-                    let respon = JSON.parse(xhr.responseText);
-                    if (respon.status === "error") {
-                        if (
-                            respon.code === "FILE_TOO_LARGE" ||
-                            respon.code === "EXTENSION_NOT_ALLOWED"
-                        ) {
-                            showPopup("Kesalahan", respon.message, "", "Oke");
+// Kirim formulir
+function kirimData(isi, defaultNis) {
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+        "POST",
+        "../../backend/kelola-calon.php?default_nis=" + defaultNis,
+        true
+    );
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            try {
+                const respon = JSON.parse(xhr.responseText);
+                if (respon.status === "error") {
+                    if (
+                        respon.code === "FILE_TOO_LARGE" ||
+                        respon.code === "EXTENSION_NOT_ALLOWED"
+                    ) {
+                        // Jika file terlalu besar
+                        showPopup("Kesalahan", respon.message, "", "Oke");
+                        console.log(respon.message);
+                    } else if (respon.code === 500) {
+                        // Jika NISN sudah dimiliki siswa lain
+                        if (respon.message.errorInfo[1] === 1062) {
+                            showPopup(
+                                "Info",
+                                "Nomor NISN yang anda masukan sudah dimiliki siswa lain",
+                                "",
+                                "Oke"
+                            );
                         } else {
                             showPopup(
                                 "Kesalahan",
-                                "Internal Server Error",
+                                "Terjadi kesalahan",
                                 "",
                                 "Oke"
                             );
                             console.log(respon.message);
                         }
                     } else {
-                        showPopup("Berhasil", respon.message, "", "Oke");
+                        showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                        console.log(respon.message);
                     }
-                } catch (errMsg) {
-                    showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
-                    console.dir({
-                        Kesalahan: errMsg,
-                        "XMLHttpRequest Respon": xhr.responseText,
-                    });
+                } else {
+                    // Pindahkan pengguna ke halaman biodata
+                    if (window.location.href.includes("edit-calon")) {
+                        showPopup(
+                            "Berhasil",
+                            "Biodata berhasil di update",
+                            "",
+                            "Oke"
+                        );
+
+                        /*
+                        Keberadaan fungsi dibawah ini diluar dari file admin.js
+                        namun untuk saat ini fungsi tersebut di panggil di sini.
+                        Pemanggilan fungsi ini akan dipindahkan jika sudah menemukan cara lain.
+                        */
+                        muatData();
+                    } else {
+                        window.location.href =
+                            "edit-calon.html?nis=" +
+                            respon.data.no_nis +
+                            "&status_change=" +
+                            respon.message;
+                    }
                 }
+            } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
+                });
             }
-        };
-        xhr.send(formData);
-    } else {
-        showPopup("Kesalahan", "Mohon isi kolom yang di butuhkan", "", "Oke");
-    }
+        }
+    };
+
+    xhr.send(isi);
 }
 
 //List semua calon
@@ -387,33 +437,45 @@ function listSemuaCalon() {
                                     <p class="text-wrap">${biodata.nomor}</p>
                                 </td>
                                 <td data-label="Nama Siswa" class="nama-siswa">
-                                    <p class="text-wrap">${biodata.nama}</p>
+                                    <p class="text-wrap">${
+                                        biodata.nama_calon_siswa
+                                    }</p>
                                 </td>
                                 <td data-label="Jurusan" class="jurusan">
                                     <p class="text-wrap">${biodata.jurusan}</p>
                                 </td>
                                 <td data-label="Gelombang" class="gelombang">
-                                    <p class="text-wrap">${biodata.gelombang}</p>
+                                    <p class="text-wrap">${
+                                        biodata.gelombang
+                                    }</p>
                                 </td>
                                 <td data-label="Tanggal" class="tanggal-daftar">
-                                    <p class="text-wrap">${biodata.daftar}</p>
+                                    <p class="text-wrap">${konversiTanggal(
+                                        biodata.tanggal_daftar
+                                    )}</p>
                                 </td>
                                 <td
                                     data-label="Nomor Telepon"
                                     class="nomor-telepon"
                                 >
-                                    <p class="text-wrap">${biodata.telepon}</p>
+                                    <p class="text-wrap">${
+                                        biodata.no_telepon
+                                    }</p>
                                 </td>
                                 <td data-label="Keterangan" class="keterangan">
                                     <p class="text-wrap">sukses</p>
                                 </td>
                                 <td data-label="Ubah Data" class="ubah-data">
-                                    <a href="edit-calon.html?id-calon=${biodata.id}">
+                                    <a href="edit-calon.html?nis=${
+                                        biodata.no_nis
+                                    }">
                                         <button name="edit-data" id="edit-data">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </button>
                                     </a>
-                                    <button name="hapus-data" id="hapus-data" onclick="hapusCalon(${biodata.id}, '${biodata.nama}')">
+                                    <button name="hapus-data" id="hapus-data" onclick="hapusCalon(${
+                                        biodata.no_nis
+                                    }, '${biodata.nama_calon_siswa}')">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </td>
@@ -474,22 +536,30 @@ function listCalon(batas) {
                                     <p class="text-wrap">${biodata.nomor}</p>
                                 </td>
                                 <td data-label="Nama Siswa" class="nama-siswa">
-                                    <p class="text-wrap">${biodata.nama}</p>
+                                    <p class="text-wrap">${
+                                        biodata.nama_calon_siswa
+                                    }</p>
                                 </td>
                                 <td data-label="Jurusan" class="jurusan">
                                     <p class="text-wrap">${biodata.jurusan}</p>
                                 </td>
                                 <td data-label="Gelombang" class="gelombang">
-                                    <p class="text-wrap">${biodata.gelombang}</p>
+                                    <p class="text-wrap">${
+                                        biodata.gelombang
+                                    }</p>
                                 </td>
                                 <td data-label="Tanggal" class="tanggal-daftar">
-                                    <p class="text-wrap">${biodata.daftar}</p>
+                                    <p class="text-wrap">${konversiTanggal(
+                                        biodata.tanggal_daftar
+                                    )}</p>
                                 </td>
                                 <td
                                     data-label="Nomor Telepon"
                                     class="nomor-telepon"
                                 >
-                                    <p class="text-wrap">${biodata.telepon}</p>
+                                    <p class="text-wrap">${
+                                        biodata.no_telepon
+                                    }</p>
                                 </td>
                                 <td data-label="Keterangan" class="keterangan">
                                     <p class="text-wrap">sukses</p>
@@ -522,8 +592,8 @@ function listCalon(batas) {
 }
 
 // Hapus calon
-function hapusCalon(idCalon, namaCalon) {
-    popupSubmit.setAttribute("onclick", "removeCalon(" + idCalon + ")");
+function hapusCalon(nisCalon, namaCalon) {
+    popupSubmit.setAttribute("onclick", "removeCalon(" + nisCalon + ")");
     showPopup(
         "Peringatan",
         "Hapus calon dengan nama '" + namaCalon + "'?",
@@ -532,7 +602,7 @@ function hapusCalon(idCalon, namaCalon) {
     );
 }
 
-function removeCalon(idCalon) {
+function removeCalon(nisCalon) {
     // buat koneksi xhttprequest
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "../../backend/kelola-calon.php", true);
@@ -574,7 +644,183 @@ function removeCalon(idCalon) {
     };
 
     // Kirim request ke back-end
-    xhr.send("removeCalon=true&calonId=" + encodeURIComponent(idCalon));
+    xhr.send("removeCalon=true&nis=" + encodeURIComponent(nisCalon));
+}
+
+// Request data calon
+function reqCalon(nis) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "../../backend/kelola-calon.php?nis=" + nis, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.send();
+
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                try {
+                    let respon = JSON.parse(xhr.responseText);
+
+                    if (respon.status === "success") {
+                        const biodata = [
+                            respon.data.nama_calon_siswa,
+                            respon.data.tanggal_lahir,
+                            respon.data.no_nis,
+                            respon.data.jenis_kelamin,
+                            respon.data.agama,
+                            respon.data.sekolah_asal,
+                            respon.data.kewarganegaraan,
+                            respon.data.golongan_darah,
+                            respon.data.alamat_tinggal,
+                            respon.data.provinsi,
+                            respon.data.kota_kabupaten,
+                            respon.data.kecamatan,
+                            respon.data.kelurahan,
+                            respon.data.kode_post,
+                            respon.data.no_telepon,
+                            respon.data.jurusan,
+                            respon.data.gelombang,
+                        ];
+
+                        resolve(biodata);
+                    } else {
+                        reject({
+                            status: respon.status,
+                            code: respon.code,
+                            message: respon.message,
+                        });
+                    }
+                } catch (errMsg) {
+                    let kesalahan = {
+                        Kesalahan: errMsg,
+                        "XMLHttpRequest Respon": xhr.responseText,
+                    };
+                    reject({
+                        status: "error",
+                        code: 500,
+                        message: kesalahan,
+                    });
+                }
+            } else {
+                reject({
+                    status: "error",
+                    code: 503,
+                    message: "Gagal terhubung ke server",
+                });
+            }
+        };
+    });
+}
+
+// Request data ortu calon
+function reqOrtuCalon(nis) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open(
+            "GET",
+            "../../backend/kelola-calon.php?nis=" + nis + "&data_ortu=true",
+            true
+        );
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.send();
+
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                try {
+                    let respon = JSON.parse(xhr.responseText);
+
+                    if (respon.status === "success") {
+                        const dataOrtu = [
+                            respon.data.nama_orang_tua,
+                            respon.data.nomor_telepon_orang_tua,
+                            respon.data.pekerjaan_orang_tua,
+                            respon.data.alamat_orang_tua,
+                        ];
+
+                        resolve(dataOrtu);
+                    } else {
+                        reject({
+                            status: respon.status,
+                            code: respon.code,
+                            message: respon.message,
+                        });
+                    }
+                } catch (errMsg) {
+                    let kesalahan = {
+                        Kesalahan: errMsg,
+                        "XMLHttpRequest Respon": xhr.responseText,
+                    };
+                    reject({
+                        status: "error",
+                        code: 500,
+                        message: kesalahan,
+                    });
+                }
+            } else {
+                reject({
+                    status: "error",
+                    code: 503,
+                    message: "Gagal terhubung ke server",
+                });
+            }
+        };
+    });
+}
+
+// Request dokumen
+function reqDocs(nis) {
+    const xhr = new XMLHttpRequest();
+    xhr.open(
+        "GET",
+        "../../backend/kelola-calon.php?nis=" + nis + "&berkas=true",
+        true
+    );
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send();
+
+    xhr.onload = () => {
+        if (xhr.status === 200) {
+            try {
+                let respon = JSON.parse(xhr.responseText);
+
+                if (respon.status === "success") {
+                    let sumberFile = respon.data;
+
+                    // Loop data
+                    for (let i = 0; i < sumberFile.length; i++) {
+                        previewFile(
+                            sumberFile[i].file_path,
+                            sumberFile[i].jenis_dokumen
+                        );
+                    }
+                } else {
+                    if (respon.code !== 404) {
+                        showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                        console.log(respon.message);
+                    }
+                }
+            } catch (errMsg) {
+                showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+                console.dir({
+                    Kesalahan: errMsg,
+                    "XMLHttpRequest Respon": xhr.responseText,
+                });
+            }
+        } else {
+            showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
+        }
+    };
+}
+
+// atur link
+function aturLink(nis) {
+    let linkBtn = document.querySelectorAll("a.btn-ubah");
+    linkBtn.forEach((element) => {
+        let hrefAttr = element.getAttribute("href");
+        element.setAttribute("href", hrefAttr + nis);
+    });
 }
 
 // Sidebar Responsive
@@ -590,9 +836,9 @@ try {
     });
 } catch (errMsg) {
     alert(
-        "Benerin tombol menu nya itu woy Reza, di baris 582 admin.js. Cek console kalo gk tau salahnya dimana."
+        "Benerin tombol menu nya itu Reza. Cek console kalo gk tau salahnya dimana."
     );
-    console.dir(errMsg);
+    console.log(errMsg);
 }
 
 // Sembunyikan menu saat tombol close ditekan

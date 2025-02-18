@@ -342,7 +342,15 @@
                         try {
                             const respon = JSON.parse(ambilData.responseText);
                             if (respon.status === "error") {
-                                console.log(respon.message);
+                                if (respon.code !== 404) {
+                                    showPopup(
+                                        "Kesalahan",
+                                        "Terjadi kesalahan",
+                                        "",
+                                        "Oke"
+                                    );
+                                    console.log(respon.message);
+                                }
                             } else {
                                 let kolomIsian = document.querySelectorAll(
                                     "form input, form select"

@@ -121,7 +121,7 @@
             <!-- end sidebar -->
             <!-- list user -->
             <div class="list--wrapper formulir">
-                <h3 class="main--title">Edit Akun Pengguna</h3>
+                <h3 class="main--title" id="main--title">Edit Akun Pengguna</h3>
                 <div class="list--container">
                     <form action="">
                         <div class="kolom-isi">
@@ -231,9 +231,20 @@
             let jenisPengguna = document.getElementById("jenis-pengguna");
             let noNis = document.getElementById("no-nis");
 
+            let mainTitle = document.getElementById("main--title");
+
             const getUrlMethod = new URLSearchParams(window.location.search);
             let idAkun = getUrlMethod.get("id_akun");
 
+            if (idAkun) {
+                mainTitle.innerText = "Edit Akun Pengguna";
+                password.removeAttribute("required");
+            } else {
+                mainTitle.innerText = "Buat Akun Pengguna";
+                password.setAttribute("required", "");
+            }
+
+            // Tampilkan informasi akun
             if (idAkun) {
                 let getXhr = new XMLHttpRequest();
                 getXhr.open(
@@ -281,6 +292,7 @@
                 getXhr.send();
             }
 
+            // Cek jenis pengguna
             jenisPengguna.addEventListener("change", () => {
                 cekJenisPengguna();
             });
@@ -293,6 +305,7 @@
                 }
             }
 
+            // Simpan perubahan
             function simpanPerubahan(event) {
                 event.preventDefault();
 
@@ -311,8 +324,12 @@
                     const formulir = document.querySelector("form");
                     let kelolaPengguna = new FormData(formulir);
 
-                    kelolaPengguna.append("idPengguna", idAkun);
-                    kelolaPengguna.append("simpanPerubahan", true);
+                    if (idAkun) {
+                        kelolaPengguna.append("idPengguna", idAkun);
+                        kelolaPengguna.append("simpanPerubahan", true);
+                    } else {
+                        kelolaPengguna.append("buatAkun", true);
+                    }
 
                     let simpan = new XMLHttpRequest();
                     simpan.open(
@@ -326,8 +343,9 @@
                             try {
                                 const respon = JSON.parse(simpan.responseText);
                                 if (respon.status == "success") {
-                                    location.href =
-                                        "kelola-pengguna.html?editpengguna=berhasil";
+                                    window.location.href =
+                                        "kelola-pengguna.html?status=" +
+                                        respon.message;
                                 } else if (respon.status === "error") {
                                     showPopup(
                                         "Kesalahan",
@@ -369,6 +387,7 @@
                 }
             }
 
+            // Muat sesi
             window.onload = function () {
                 cekSesi();
             };

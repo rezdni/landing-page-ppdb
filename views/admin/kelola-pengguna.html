@@ -155,7 +155,7 @@
                 </div>
 
                 <!-- tombol tambah pengguna -->
-                <a href="tambah-akun.html" class="btn-tambah-user">
+                <a href="edit-akun.html" class="btn-tambah-user">
                     <i class="fa-solid fa-user-plus"></i> Tambah Pengguna
                 </a>
                 <!-- tombol tambah pengguna -->
@@ -191,13 +191,9 @@
             };
 
             const getUrlMethod = new URLSearchParams(window.location.search);
-            if (getUrlMethod.get("editpengguna") == "berhasil") {
-                showPopup(
-                    "Berhasil",
-                    "Data pengguna berhasil diubah",
-                    "",
-                    "Ok"
-                );
+            let info = getUrlMethod.get("status");
+            if (info) {
+                showPopup("Berhasil", info, "", "Ok");
             }
         </script>
     </body>
