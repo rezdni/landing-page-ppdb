@@ -6,6 +6,7 @@
     height: 100%;
     transition: top 0ms ease-in-out 300ms;
     display: none;
+    z-index: 99999;
 }
 
 .popup .overlay {
@@ -74,11 +75,11 @@
     color: #fff;
 }
 
-.popup .popup-content .controls .hidden{
+.popup .popup-content .controls .hidden {
     visibility: hidden;
 }
 
-.popup.active{
+.popup.active {
     display: block;
 }
 

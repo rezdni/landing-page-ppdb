@@ -45,8 +45,11 @@ function registrasi(elm, event) {
                 try {
                     let respon = JSON.parse(xhr.responseText);
                     if (respon.status === "success") {
-                        alert(
-                            "Akun berhasil dibuat, silahkan pindah ke menu login"
+                        showPopup(
+                            "Berhasil",
+                            "Akun berhasil dibuat, silahkan pindah ke menu login",
+                            "",
+                            "Lanjut"
                         );
 
                         // bersihkan kolom isian
@@ -56,7 +59,7 @@ function registrasi(elm, event) {
                         });
 
                         // pindahkan pengguna ke halaman login
-                        window.location.href = "index.html";
+                        // window.location.href = "index.html";
                     } else {
                         alert("Kesalahan dalam membuat akun");
                         console.log(respon.message);

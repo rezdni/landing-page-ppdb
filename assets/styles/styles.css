@@ -185,6 +185,7 @@ body {
     color: #239b56;
     padding-bottom: 10px;
     font-size: 15px;
+    cursor: pointer;
 }
 .payment--card {
     background: #fff;
@@ -331,6 +332,7 @@ body {
     padding: 10px;
     border-radius: 50px;
     color: #fff;
+    cursor: pointer;
 }
 /* end list */
 
@@ -406,11 +408,11 @@ body {
 }
 
 .btn-tambah-user:hover {
-    background-color: #dee5d9;
+    background-color: #3bdf82;
 }
 
 .btn-tambah-user:active {
-    background-color: #003f7f;
+    background-color: #3bdf82;
 }
 /* end tambah pengguna */
 

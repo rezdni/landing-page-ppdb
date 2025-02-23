@@ -10,6 +10,9 @@
         />
         <!-- CSS -->
         <link rel="stylesheet" href="../../assets/styles/login.css" />
+        <!-- POPUP -->
+        <link rel="stylesheet" href="../../assets/styles/popup.css" />
+
         <title>Document</title>
     </head>
 
@@ -95,11 +98,21 @@
 
             <div class="toggle-box">
                 <div class="toggle-panel toggle-left">
+                    <img
+                        class="login-img"
+                        src="../../assets/images/logo-login.png"
+                        alt=""
+                    />
                     <h1>Selamat Datang!!</h1>
                     <p>Belum mendaftar?</p>
                     <button class="btn register-btn">Daftar Sekarang!</button>
                 </div>
                 <div class="toggle-panel toggle-right">
+                    <img
+                        class="login-img"
+                        src="../../assets/images/logo-login.png"
+                        alt=""
+                    />
                     <h1>Selamat Datang!</h1>
                     <p>Sudah mendaftar?</p>
                     <button class="btn login-btn">Login</button>
@@ -107,8 +120,29 @@
             </div>
         </div>
 
+        <!-- Popup Notifikasi -->
+        <div class="popup">
+            <div class="overlay">
+                <div class="popup-content">
+                    <h2 class="popup-title">This is popup title</h2>
+                    <p class="popup-msg">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Veniam blanditiis magnam aut harum et aperiam ea
+                        eum nulla? Sed, odit. Voluptatem sed debitis ullam
+                        aspernatur aliquam tempora ab magnam illum.
+                    </p>
+                    <div class="controls">
+                        <button class="submit-btn">Submit</button>
+                        <button class="close-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end Popup Notifikasi -->
+
         <script src="../../assets/scripts/login.js"></script>
         <script src="../../assets/scripts/cek-sesi.js"></script>
+        <script src="../../assets/scripts/popup.js"></script>
         <script>
             window.onload = function () {
                 cekSesi();
