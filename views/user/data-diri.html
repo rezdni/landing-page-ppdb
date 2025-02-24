@@ -66,7 +66,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="kelola-pengguna.html">
+                    <a href="edit-akun.html">
                         <i class="fa-solid fa-users"></i>
                         <span>Edit Akun</span>
                     </a>
@@ -83,18 +83,21 @@
         <!-- sidebar -->
         <div class="main--content">
             <div class="header--wrapper">
+                <div class="menu-btn">
+                    <span class="material-symbols-outlined"> menu </span>
+                </div>
                 <div class="header--title">
                     <img src="../../assets/images/logo.png" alt="" />
                     <div class="teks">
-                        <span>Selamat Datang</span>
-                        <h2>Di SMA AL FASANAH</h2>
+                        <h2>Pendaftaran</h2>
+                        <span>SMA AL FASANAH</span>
                     </div>
                 </div>
             </div>
             <!-- end sidebar -->
             <!-- list user -->
             <div class="list--wrapper formulir">
-                <h3 class="main--title">Formulir Pendaftaran</h3>
+                <h3 class="main--title">Lengkapi Formulir</h3>
                 <div class="list--container">
                     <form action="#" method="post" name="daftar" id="daftar">
                         <div class="kolom-isi">
@@ -320,9 +323,10 @@
         </div>
         <!-- end Popup Notifikasi -->
 
+        <script src="../../assets/scripts/user.js"></script>
         <script src="../../assets/scripts/popup.js"></script>
         <script src="../../assets/scripts/cek-sesi.js"></script>
-        <script src="../../assets/scripts/user.js"></script>
+
         <script>
             window.onload = function () {
                 cekSesi();

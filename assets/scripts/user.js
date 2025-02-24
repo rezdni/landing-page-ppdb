@@ -324,3 +324,26 @@ function muatData() {
     muatDataOrtu();
     muatDokumen();
 }
+
+// Sidebar Responsive
+// Menu Mobile 480px
+const menuToggle = document.querySelector(".menu-btn");
+const menuClose = document.querySelector(".menu-close");
+const menuMobile = document.querySelector(".menu-mobile");
+
+try {
+    // Tampilkan menu saat tombol menu ditekan
+    menuToggle.addEventListener("click", () => {
+        menuMobile.classList.add("active");
+    });
+} catch (errMsg) {
+    alert(
+        "Benerin tombol menu nya itu Reza. Cek console kalo gk tau salahnya dimana."
+    );
+    console.log(errMsg);
+}
+
+// Sembunyikan menu saat tombol close ditekan
+menuClose.addEventListener("click", () => {
+    menuMobile.classList.remove("active");
+});

@@ -27,12 +27,12 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="#">
+            <a href="biodata.html">
                 <i class="fa-solid fa-user-group"></i>
                 <span>Biodata</span>
             </a>
 
-            <a href="kelola-pengguna.html">
+            <a href="edit-akun.html">
                 <i class="fa-solid fa-users"></i>
                 <span>Edit Akun</span>
             </a>
@@ -66,7 +66,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/views/user/edit-akun.html">
+                    <a href="edit-akun.html">
                         <i class="fa-solid fa-users"></i>
                         <span>Edit Akun</span>
                     </a>
@@ -83,18 +83,21 @@
         <!-- sidebar -->
         <div class="main--content">
             <div class="header--wrapper">
+                <div class="menu-btn">
+                    <span class="material-symbols-outlined"> menu </span>
+                </div>
                 <div class="header--title">
                     <img src="../../assets/images/logo.png" alt="" />
                     <div class="teks">
-                        <span>Selamat Datang</span>
-                        <h2>Di SMA AL FASANAH</h2>
+                        <h2>Biodata</h2>
+                        <span>SMA AL FASANAH</span>
                     </div>
                 </div>
             </div>
             <!-- end sidebar -->
             <!-- biodata status -->
             <div class="list--wrapper">
-                <h3 class="main--title">Biodata Siswa</h3>
+                <h3 class="main--title">Data Siswa</h3>
                 <div class="list--container">
                     <div class="tabel-biodata" id="siswa">
                         <table class="list-biodata">
@@ -308,9 +311,10 @@
             </div>
         </div>
         <!-- end Popup Notifikasi -->
+        <script src="../../assets/scripts/user.js"></script>
         <script src="../../assets/scripts/popup.js"></script>
         <script src="../../assets/scripts/cek-sesi.js"></script>
-        <script src="../../assets/scripts/user.js"></script>
+
         <script>
             // Cek url
             const getUrlMethod = new URLSearchParams(window.location.search);
