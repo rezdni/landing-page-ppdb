@@ -10,12 +10,15 @@
         />
         <!-- CSS -->
         <link rel="stylesheet" href="../../assets/styles/login.css" />
+        <!-- POPup -->
+        <link rel="stylesheet" href="../../assets/styles/popup.css" />
         <title>Document</title>
     </head>
 
     <body>
         <div class="container">
             <!-- Login -->
+
             <div class="form-box login">
                 <form action="">
                     <h1>Ganti Sandi</h1>
@@ -52,7 +55,7 @@
                     <button
                         type="submit"
                         class="btn"
-                        onclick="resetPass(this.parentElement, event)"
+                        onclick="resetPass(this.parentElement, event, this)"
                     >
                         Reset sandi
                     </button>
@@ -61,12 +64,12 @@
             <!-- Register -->
             <div class="form-box register">
                 <form action="">
-                    <h1>Pendaftaran</h1>
+                    <h1>Login</h1>
                     <div class="input-box">
                         <input
-                            type="text"
-                            placeholder="Nama"
-                            id="regis-nama"
+                            type="email"
+                            placeholder="Masukan Email"
+                            id="login-email"
                             maxlength="50"
                             required
                         />
@@ -74,49 +77,71 @@
                     </div>
                     <div class="input-box">
                         <input
-                            type="email"
-                            placeholder="masukan email"
-                            id="regis-email"
-                            maxlength="50"
-                            required
-                        />
-                        <i class="bx bx-envelope"></i>
-                    </div>
-                    <div class="input-box">
-                        <input
                             type="password"
                             placeholder="Password"
-                            id="regis-passwd"
+                            id="login-password"
                             required
                         />
                         <i class="bx bxs-lock-alt"></i>
                     </div>
+
                     <button
                         type="submit"
                         class="btn"
-                        onclick="registrasi(this.parentElement, event)"
+                        onclick="login(this.parentElement, event, this)"
                     >
-                        Daftar
+                        Login
                     </button>
                 </form>
             </div>
 
             <div class="toggle-box">
                 <div class="toggle-panel toggle-left">
-                    <h1>Privasi Data</h1>
-                    <p>Ganti Password</p>
-                    <button class="btn register-btn">Daftar Sekarang!</button>
+                    <img
+                        class="login-img"
+                        src="../../assets/images/logo-login.png"
+                        alt=""
+                    />
+                    <h1>Selamat Datang</h1>
+                    <p>Sudah Punya Akun?</p>
+                    <button class="btn register-btn">Login</button>
                 </div>
                 <div class="toggle-panel toggle-right">
+                    <img
+                        class="login-img"
+                        src="../../assets/images/logo-login.png"
+                        alt=""
+                    />
                     <h1>Selamat Datang!</h1>
-                    <p>Sudah mendaftar?</p>
-                    <button class="btn login-btn">Login</button>
+                    <p>Lupa Sandi?</p>
+                    <button class="btn login-btn">Reset Sandi</button>
                 </div>
             </div>
         </div>
 
+        <!-- Popup Notifikasi -->
+        <div class="popup">
+            <div class="overlay">
+                <div class="popup-content">
+                    <h2 class="popup-title">This is popup title</h2>
+                    <p class="popup-msg">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Veniam blanditiis magnam aut harum et aperiam ea
+                        eum nulla? Sed, odit. Voluptatem sed debitis ullam
+                        aspernatur aliquam tempora ab magnam illum.
+                    </p>
+                    <div class="controls">
+                        <button class="submit-btn">Submit</button>
+                        <button class="close-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end Popup Notifikasi -->
+
         <script src="../../assets/scripts/login.js"></script>
         <script src="../../assets/scripts/cek-sesi.js"></script>
+        <script src="../../assets/scripts/popup.js"></script>
         <script>
             window.onload = function () {
                 cekSesi();

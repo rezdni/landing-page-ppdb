@@ -89,7 +89,7 @@
                 <div class="header--title">
                     <img src="../../assets/images/logo.png" alt="" />
                     <div class="teks">
-                        <h2>Pendaftaran</h2>
+                        <h2 id="judul-header">Edit Biodata</h2>
                         <span>SMA AL FASANAH</span>
                     </div>
                 </div>
@@ -328,6 +328,8 @@
         <script src="../../assets/scripts/cek-sesi.js"></script>
 
         <script>
+            let judulheader = document.querySelector("#judu-header");
+
             window.onload = function () {
                 cekSesi();
 
@@ -354,6 +356,8 @@
                                         "Oke"
                                     );
                                     console.log(respon.message);
+                                } else {
+                                    judulheader.innerText = "Pendaftaran";
                                 }
                             } else {
                                 let kolomIsian = document.querySelectorAll(

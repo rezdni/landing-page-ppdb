@@ -11,7 +11,7 @@ loginBtn.addEventListener("click", () => {
 });
 
 // Sistem registrasi
-function registrasi(elm, event) {
+function registrasi(elm, event, tombol) {
     event.preventDefault();
 
     let requiredField = elm.querySelectorAll(
@@ -26,6 +26,8 @@ function registrasi(elm, event) {
     });
 
     if (validasi) {
+        tombol.innerText = "Memproses";
+
         // Ambil hasil input pengguna
         let nama = elm.querySelector("#regis-nama").value;
         let email = elm.querySelector("#regis-email").value;
@@ -43,6 +45,7 @@ function registrasi(elm, event) {
         xhr.onload = function () {
             if (xhr.status === 200) {
                 try {
+                    tombol.innerText = "Daftar";
                     let respon = JSON.parse(xhr.responseText);
                     if (respon.status === "success") {
                         showPopup(
@@ -61,8 +64,13 @@ function registrasi(elm, event) {
                         // pindahkan pengguna ke halaman login
                         // window.location.href = "index.html";
                     } else {
-                        alert("Kesalahan dalam membuat akun");
                         console.log(respon.message);
+                        showPopup(
+                            "Kesalahan",
+                            "Kesalahan dalam membuat akun",
+                            "",
+                            "Lanjut"
+                        );
                     }
                 } catch (errMsg) {
                     console.dir({
@@ -71,7 +79,12 @@ function registrasi(elm, event) {
                     });
                 }
             } else {
-                alert("Kesalahan dalam menghubungkan ke server");
+                showPopup(
+                    "Kesalahan",
+                    "Kesalahan dalam menghubungkan ke server",
+                    "",
+                    "Lanjut"
+                );
             }
         };
 
@@ -85,12 +98,12 @@ function registrasi(elm, event) {
                 encodeURIComponent(sandi)
         );
     } else {
-        alert("Mohon isi kolom dengan benar");
+        showPopup("Kesalahan", "Mohon isi kolom dengan benar", "", "Lanjut");
     }
 }
 
 // Sistem login
-function login(elm, event) {
+function login(elm, event, tombol) {
     event.preventDefault();
 
     let requiredField = elm.querySelectorAll(
@@ -105,6 +118,7 @@ function login(elm, event) {
     });
 
     if (validasi) {
+        tombol.innerText = "Memperoses";
         const email = elm.querySelector("#login-email").value;
         const password = elm.querySelector("#login-password").value;
 
@@ -117,12 +131,13 @@ function login(elm, event) {
 
         xhr.onload = function () {
             if (xhr.status === 200) {
+                tombol.innerText = "Login";
                 try {
                     let respon = JSON.parse(xhr.responseText);
                     if (respon.status === "success") {
                         pindahHalaman(respon.redirect);
                     } else {
-                        alert(respon.message);
+                        showPopup("Kesalahan", respon.message, "", "Lanjut");
                     }
                 } catch (errMsg) {
                     console.dir({
@@ -140,12 +155,12 @@ function login(elm, event) {
                 encodeURIComponent(password)
         );
     } else {
-        alert("Mohon isi kolom dengan benar");
+        showPopup("Kesalahan", "Mohon isi kolom dengan benar", "", "Lanjut");
     }
 }
 
 // Sistem reset sandi
-function resetPass(elm, event) {
+function resetPass(elm, event, tombol) {
     event.preventDefault();
 
     let requiredField = elm.querySelectorAll(
@@ -165,6 +180,7 @@ function resetPass(elm, event) {
     }
 
     if (validasi) {
+        tombol.innerText = "Memperoses";
         const email = elm.querySelector("#login-email").value;
         const newPassword = elm.querySelector("#new-password").value;
         const retypePassword = elm.querySelector("#new-password").value;
@@ -178,17 +194,32 @@ function resetPass(elm, event) {
 
         xhr.onload = function () {
             if (xhr.status === 200) {
+                tombol.innerText = "Reset Sandi";
                 try {
                     let respon = JSON.parse(xhr.responseText);
                     if (respon.status === "success") {
-                        alert(respon.message);
-                        window.location.href = "index.html";
+                        showPopup(
+                            "Berhasil",
+                            "Sandi Berhasil di Ubah Silahkan Kehalaman Login.",
+                            "",
+                            "Lanjut"
+                        );
                     } else {
                         if (respon.code === 404 || respon.code === 403) {
-                            alert(respon.message);
+                            showPopup(
+                                "Kesalahan",
+                                respon.message,
+                                "",
+                                "Lanjut"
+                            );
                         } else {
-                            alert("Terjadi kesalahan");
                             console.dir(respon.message);
+                            showPopup(
+                                "Kesalahan",
+                                "Terjadi kesalahan",
+                                "",
+                                "Lanjut"
+                            );
                         }
                     }
                 } catch (errMsg) {
@@ -209,7 +240,7 @@ function resetPass(elm, event) {
                 encodeURIComponent(retypePassword)
         );
     } else {
-        alert("Mohon isi kolom dengan benar");
+        showPopup("Kesalahan", "Mohon isi kolom dengan benar", "", "Lanjut");
     }
 }
 
