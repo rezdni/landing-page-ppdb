@@ -27,6 +27,7 @@ function registrasi(elm, event, tombol) {
 
     if (validasi) {
         tombol.innerText = "Memproses";
+        tombol.setAttribute("disabled", "");
 
         // Ambil hasil input pengguna
         let nama = elm.querySelector("#regis-nama").value;
@@ -46,6 +47,8 @@ function registrasi(elm, event, tombol) {
             if (xhr.status === 200) {
                 try {
                     tombol.innerText = "Daftar";
+                    tombol.removeAttribute("disabled");
+
                     let respon = JSON.parse(xhr.responseText);
                     if (respon.status === "success") {
                         showPopup(
@@ -119,6 +122,8 @@ function login(elm, event, tombol) {
 
     if (validasi) {
         tombol.innerText = "Memperoses";
+        tombol.setAttribute("disabled", "");
+
         const email = elm.querySelector("#login-email").value;
         const password = elm.querySelector("#login-password").value;
 
@@ -132,6 +137,8 @@ function login(elm, event, tombol) {
         xhr.onload = function () {
             if (xhr.status === 200) {
                 tombol.innerText = "Login";
+                tombol.removeAttribute("disabled");
+
                 try {
                     let respon = JSON.parse(xhr.responseText);
                     if (respon.status === "success") {
@@ -181,7 +188,9 @@ function resetPass(elm, event, tombol) {
 
     if (validasi) {
         tombol.innerText = "Memperoses";
-        const email = elm.querySelector("#login-email").value;
+        tombol.setAttribute("disabled", "");
+
+        const email = elm.querySelector("#reset-email").value;
         const newPassword = elm.querySelector("#new-password").value;
         const retypePassword = elm.querySelector("#new-password").value;
 
@@ -195,6 +204,8 @@ function resetPass(elm, event, tombol) {
         xhr.onload = function () {
             if (xhr.status === 200) {
                 tombol.innerText = "Reset Sandi";
+                tombol.removeAttribute("disabled");
+
                 try {
                     let respon = JSON.parse(xhr.responseText);
                     if (respon.status === "success") {

@@ -155,7 +155,7 @@
                                 type="submit"
                                 name="simpan"
                                 id="simpan"
-                                onclick="simpanPerubahan(event)"
+                                onclick="simpanPerubahan(this, event)"
                             >
                                 Simpan
                             </button>
@@ -234,7 +234,7 @@
 
             getXhr.send();
 
-            function simpanPerubahan(event) {
+            function simpanPerubahan(tombol, event) {
                 event.preventDefault();
 
                 let requiredField =
@@ -256,6 +256,9 @@
                 }
 
                 if (validasi) {
+                    tombol.innerText = "Menyimpan...";
+                    tombol.setAttribute("disabled", "");
+
                     const formulir = document.querySelector("form");
                     let editAkun = new FormData(formulir);
 
@@ -267,6 +270,9 @@
                     simpan.onload = function () {
                         if (simpan.status === 200) {
                             try {
+                                tombol.innerText = "Simpan";
+                                tombol.removeAttribute("disabled");
+
                                 const respon = JSON.parse(simpan.responseText);
                                 if (respon.status == "success") {
                                     showPopup(

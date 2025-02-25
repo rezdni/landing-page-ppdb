@@ -153,7 +153,12 @@
                             <button type="reset" name="reset" id="reset">
                                 Batal
                             </button>
-                            <button type="submit" name="simpan" id="simpan">
+                            <button
+                                type="submit"
+                                name="simpan"
+                                id="simpan"
+                                onclick="kirimForm('orangtua', event, nisCalon, this);"
+                            >
                                 Simpan
                             </button>
                         </div>
@@ -189,11 +194,6 @@
             const getUrlMethod = new URLSearchParams(window.location.search);
             let nisCalon = getUrlMethod.get("nis");
 
-            // tombol submit
-            document.getElementById("simpan").addEventListener("click", () => {
-                kirimForm("orangtua", event, nisCalon);
-            });
-
             // Proses data ortu calon
             async function prosesDataOrtuCalon() {
                 try {
@@ -214,9 +214,10 @@
             }
 
             window.onload = function () {
-                cekSesi();
                 prosesDataOrtuCalon();
             };
+
+            cekSesi();
         </script>
     </body>
 </html>

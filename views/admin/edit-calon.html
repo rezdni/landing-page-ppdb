@@ -313,6 +313,7 @@
                         name="simpan"
                         id="simpan"
                         class="btn-ubah"
+                        onclick="kirimForm('berkas', event, nisCalon, this);"
                     >
                         Perbarui
                     </button>
@@ -352,11 +353,6 @@
             let nisCalon = getUrlMethod.get("nis");
             let statusPerubahan = getUrlMethod.get("status_change");
 
-            // tombol submit
-            document.getElementById("simpan").addEventListener("click", () => {
-                kirimForm("berkas", event, nisCalon);
-            });
-
             // Proses data calon
             async function prosesDataCalon(tipeData) {
                 try {
@@ -388,7 +384,6 @@
 
             // Muat semua data
             window.onload = function () {
-                cekSesi();
                 muatData();
                 aturLink("?nis=" + nisCalon);
 
@@ -396,6 +391,8 @@
                     ? showPopup("Berhasil", statusPerubahan, "", "Oke")
                     : "";
             };
+
+            cekSesi();
         </script>
     </body>
 </html>

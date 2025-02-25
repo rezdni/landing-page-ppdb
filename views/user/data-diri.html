@@ -292,7 +292,7 @@
                                 type="button"
                                 name="simpan"
                                 id="simpan"
-                                onclick="kirimForm('daftar', event)"
+                                onclick="kirimForm('daftar', event, this)"
                             >
                                 Simpan
                             </button>
@@ -328,7 +328,7 @@
         <script src="../../assets/scripts/cek-sesi.js"></script>
 
         <script>
-            let judulheader = document.querySelector("#judu-header");
+            let judulheader = document.querySelector("#judul-header");
 
             window.onload = function () {
                 cekSesi();

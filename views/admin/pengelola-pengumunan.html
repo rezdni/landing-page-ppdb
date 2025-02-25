@@ -165,7 +165,7 @@
                                     type="submit"
                                     name="simpan"
                                     id="simpan"
-                                    onclick="simpanBerita(this.parentElement.parentElement, event)"
+                                    onclick="simpanBerita(this.parentElement.parentElement, event, this)"
                                 >
                                     Simpan
                                 </button>
@@ -204,8 +204,9 @@
         <script>
             window.onload = function () {
                 listBerita();
-                cekSesi();
             };
+
+            cekSesi();
         </script>
     </body>
 </html>

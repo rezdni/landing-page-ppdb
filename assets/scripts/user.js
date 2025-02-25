@@ -1,5 +1,5 @@
 // Data formulir
-function kirimForm(postId, event) {
+function kirimForm(postId, event, tombol) {
     // Cegah handle default
     event.preventDefault();
 
@@ -17,6 +17,9 @@ function kirimForm(postId, event) {
     });
 
     if (validasi) {
+        tombol.innerText = "Mengirim...";
+        tombol.setAttribute("disabled", "");
+
         const formulir = document.querySelector("form");
         const isiForm = new FormData(formulir);
         isiForm.append(postId, "true");
@@ -77,6 +80,13 @@ function kirimData(isi) {
                         window.location.href =
                             "biodata.html?status_change=true";
                     }
+                }
+
+                // Hapus atribut disabled pada tombol submit
+                let saveBtn = document.getElementById("simpan");
+                if (saveBtn && window.location.href.includes("biodata")) {
+                    saveBtn.innerText = "Perbarui";
+                    saveBtn.removeAttribute("disabled");
                 }
             } catch (errMsg) {
                 showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");

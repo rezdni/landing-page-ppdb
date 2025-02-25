@@ -125,198 +125,205 @@
             <div class="list--wrapper formulir">
                 <h3 class="main--title">Formulir Pendaftaran</h3>
                 <div class="list--container">
-                    <!-- <form method="post" action="#"> -->
-                    <div class="kolom-isi">
-                        <label for="nama-siswa"> Nama Siswa </label>
-                        <input
-                            type="text"
-                            id="nama-siswa"
-                            name="nama-siswa"
-                            maxlength="50"
-                            required
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="tanggal-lahir"> Tanggal Lahir </label>
-                        <input
-                            type="date"
-                            id="tanggal-lahir"
-                            name="tanggal-lahir"
-                            required
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="no-nis"> No NISN </label>
-                        <input
-                            type="number"
-                            id="no-nis"
-                            name="no-nis"
-                            maxlength="17"
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="jenis-kelamin"> Jenis Kelamin </label>
-                        <!-- <input type="text" id="jenis-kelamin" name="jenis-kelamin"> -->
-                        <select
-                            name="jenis-kelamin"
-                            id="jenis-kelamin"
-                            required
-                        >
-                            <option value="" selected>Pilih</option>
-                            <option value="Laki-laki">Laki-laki</option>
-                            <option value="Perempuan">Perempuan</option>
-                        </select>
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="agama"> Agama </label>
-                        <!-- <input type="text" id="agama" name="agama"> -->
-                        <select name="agama" id="agama" required>
-                            <option value="" selected>Pilih</option>
-                            <option value="Islam">Islam</option>
-                            <option value="Katolik">Katolik</option>
-                            <option value="Kristen Protestan">
-                                Kristen Protestan
-                            </option>
-                            <option value="Hindu">Hindu</option>
-                            <option value="Budha">Budha</option>
-                            <option value="Konghucu">Konghucu</option>
-                        </select>
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="asal-sekolah"> Asal Sekolah </label>
-                        <input
-                            type="text"
-                            id="asal-sekolah"
-                            name="asal-sekolah"
-                            maxlength="50"
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="kewarganegaraan"> Kewarganegaraan </label>
-                        <!-- <input type="text" id="agama" name="agama"> -->
-                        <select
-                            name="kewarganegaraan"
-                            id="kewarganegaraan"
-                            required
-                        >
-                            <option value="" selected>Pilih</option>
-                            <option value="WNI">WNI</option>
-                            <option value="WNA">WNA</option>
-                        </select>
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="golongan-darah"> Golongan Darah </label>
-                        <input
-                            type="text"
-                            id="golongan-darah"
-                            name="golongan-darah"
-                            maxlength="5"
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="alamat-tinggal"> Alamat </label>
-                        <input
-                            type="text"
-                            id="alamat-tinggal"
-                            name="alamat-tinggal"
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="provinsi"> Provinsi </label>
-                        <input
-                            type="text"
-                            id="provinsi"
-                            name="provinsi"
-                            maxlength="50"
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="kota-kabupaten"> Kota/Kabupaten </label>
-                        <input
-                            type="text"
-                            id="kota-kabupaten"
-                            name="kota-kabupaten"
-                            maxlength="50"
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="kecamatan"> Kecamatan </label>
-                        <input
-                            type="text"
-                            id="kecamatan"
-                            name="kecamatan"
-                            maxlength="50"
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="kelurahan"> Kelurahan </label>
-                        <input
-                            type="text"
-                            id="kelurahan"
-                            name="kelurahan"
-                            maxlength="50"
-                        />
-                    </div>
-                    <div class="kolom-isi">
-                        <label for="kode-post"> Kode Pos </label>
-                        <input
-                            type="number"
-                            id="kode-post"
-                            name="kode-post"
-                            maxlength="5"
-                        />
-                    </div>
+                    <form method="post" action="#">
+                        <div class="kolom-isi">
+                            <label for="nama-siswa"> Nama Siswa </label>
+                            <input
+                                type="text"
+                                id="nama-siswa"
+                                name="nama-siswa"
+                                maxlength="50"
+                                required
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="tanggal-lahir"> Tanggal Lahir </label>
+                            <input
+                                type="date"
+                                id="tanggal-lahir"
+                                name="tanggal-lahir"
+                                required
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="no-nis"> No NISN </label>
+                            <input
+                                type="number"
+                                id="no-nis"
+                                name="no-nis"
+                                maxlength="17"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="jenis-kelamin"> Jenis Kelamin </label>
+                            <!-- <input type="text" id="jenis-kelamin" name="jenis-kelamin"> -->
+                            <select
+                                name="jenis-kelamin"
+                                id="jenis-kelamin"
+                                required
+                            >
+                                <option value="" selected>Pilih</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="agama"> Agama </label>
+                            <!-- <input type="text" id="agama" name="agama"> -->
+                            <select name="agama" id="agama" required>
+                                <option value="" selected>Pilih</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Katolik">Katolik</option>
+                                <option value="Kristen Protestan">
+                                    Kristen Protestan
+                                </option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Budha">Budha</option>
+                                <option value="Konghucu">Konghucu</option>
+                            </select>
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="asal-sekolah"> Asal Sekolah </label>
+                            <input
+                                type="text"
+                                id="asal-sekolah"
+                                name="asal-sekolah"
+                                maxlength="50"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kewarganegaraan">
+                                Kewarganegaraan
+                            </label>
+                            <!-- <input type="text" id="agama" name="agama"> -->
+                            <select
+                                name="kewarganegaraan"
+                                id="kewarganegaraan"
+                                required
+                            >
+                                <option value="" selected>Pilih</option>
+                                <option value="WNI">WNI</option>
+                                <option value="WNA">WNA</option>
+                            </select>
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="golongan-darah"> Golongan Darah </label>
+                            <input
+                                type="text"
+                                id="golongan-darah"
+                                name="golongan-darah"
+                                maxlength="5"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="alamat-tinggal"> Alamat </label>
+                            <input
+                                type="text"
+                                id="alamat-tinggal"
+                                name="alamat-tinggal"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="provinsi"> Provinsi </label>
+                            <input
+                                type="text"
+                                id="provinsi"
+                                name="provinsi"
+                                maxlength="50"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kota-kabupaten"> Kota/Kabupaten </label>
+                            <input
+                                type="text"
+                                id="kota-kabupaten"
+                                name="kota-kabupaten"
+                                maxlength="50"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kecamatan"> Kecamatan </label>
+                            <input
+                                type="text"
+                                id="kecamatan"
+                                name="kecamatan"
+                                maxlength="50"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kelurahan"> Kelurahan </label>
+                            <input
+                                type="text"
+                                id="kelurahan"
+                                name="kelurahan"
+                                maxlength="50"
+                            />
+                        </div>
+                        <div class="kolom-isi">
+                            <label for="kode-post"> Kode Pos </label>
+                            <input
+                                type="number"
+                                id="kode-post"
+                                name="kode-post"
+                                maxlength="5"
+                            />
+                        </div>
 
-                    <div class="kolom-isi">
-                        <label for="no-telepon"> Nomor Telepon </label>
-                        <input
-                            type="text"
-                            id="no-telepon"
-                            name="no-telepon"
-                            maxlength="15"
-                        />
-                    </div>
+                        <div class="kolom-isi">
+                            <label for="no-telepon"> Nomor Telepon </label>
+                            <input
+                                type="text"
+                                id="no-telepon"
+                                name="no-telepon"
+                                maxlength="15"
+                            />
+                        </div>
 
-                    <div class="kolom-isi">
-                        <label for="jurusan"> Pilih Jurusan </label>
-                        <!-- <input type="text" id="agama" name="agama"> -->
-                        <select name="jurusan" id="jurusan" required>
-                            <option value="" selected>Pilih</option>
-                            <option value="MIA (Matematika Ilmu Alam)">
-                                MIA (Matematika Ilmu Alam)
-                            </option>
-                            <option value="IIS (Ilmu Ilmu Sosial)">
-                                IIS (Ilmu Ilmu Sosial)
-                            </option>
-                            <option value="IPA (Ilmu Pengetahuan Alam)">
-                                IPA (Ilmu Pengetahuan Alam)
-                            </option>
-                            <option value="IPS (Ilmu Pengetahuan Sosial)">
-                                IPS (Ilmu Pengetahuan Sosial)
-                            </option>
-                        </select>
-                    </div>
+                        <div class="kolom-isi">
+                            <label for="jurusan"> Pilih Jurusan </label>
+                            <!-- <input type="text" id="agama" name="agama"> -->
+                            <select name="jurusan" id="jurusan" required>
+                                <option value="" selected>Pilih</option>
+                                <option value="MIA (Matematika Ilmu Alam)">
+                                    MIA (Matematika Ilmu Alam)
+                                </option>
+                                <option value="IIS (Ilmu Ilmu Sosial)">
+                                    IIS (Ilmu Ilmu Sosial)
+                                </option>
+                                <option value="IPA (Ilmu Pengetahuan Alam)">
+                                    IPA (Ilmu Pengetahuan Alam)
+                                </option>
+                                <option value="IPS (Ilmu Pengetahuan Sosial)">
+                                    IPS (Ilmu Pengetahuan Sosial)
+                                </option>
+                            </select>
+                        </div>
 
-                    <div class="kolom-isi">
-                        <label for="gelombang"> Pilih Gelombang </label>
-                        <!-- <input type="text" id="agama" name="agama"> -->
-                        <select name="gelombang" id="gelombang" required>
-                            <option value="" selected>Pilih</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </div>
+                        <div class="kolom-isi">
+                            <label for="gelombang"> Pilih Gelombang </label>
+                            <!-- <input type="text" id="agama" name="agama"> -->
+                            <select name="gelombang" id="gelombang" required>
+                                <option value="" selected>Pilih</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
 
-                    <div class="tombol-form">
-                        <button type="reset" name="reset" id="reset">
-                            Batal
-                        </button>
-                        <button type="submit" name="simpan" id="simpan">
-                            Simpan
-                        </button>
-                    </div>
-                    <!-- </form> -->
+                        <div class="tombol-form">
+                            <button type="reset" name="reset" id="reset">
+                                Batal
+                            </button>
+                            <button
+                                type="submit"
+                                name="simpan"
+                                id="simpan"
+                                onclick="kirimForm('daftar_calon', event, nisCalon, this);"
+                            >
+                                Simpan
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -349,15 +356,14 @@
             const getUrlMethod = new URLSearchParams(window.location.search);
             let nisCalon = getUrlMethod.get("nis");
 
-            nisCalon ? judulheader.innerText = "Data Siswa" : judulheader.innerText = "Pendaftaran";
+            nisCalon
+                ? (judulheader.innerText = "Data Siswa")
+                : (judulheader.innerText = "Pendaftaran");
 
-            // tombol submit
-            document.getElementById("simpan").addEventListener("click", () => {
-                // event.preventDefault();
-                console.log(this);
-                this.innerText = "Memperoses";
-                // kirimForm("daftar_calon", event, nisCalon);
-            });
+            // // tombol submit
+            // document.getElementById("simpan").addEventListener("click", () => {
+            //     kirimForm("daftar_calon", event, nisCalon, this);
+            // });
 
             // Proses data calon
             async function prosesDataCalon() {
@@ -379,9 +385,10 @@
             }
 
             window.onload = function () {
-                cekSesi();
                 nisCalon ? prosesDataCalon() : "";
             };
+
+            cekSesi();
         </script>
     </body>
 </html>

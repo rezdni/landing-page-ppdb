@@ -165,8 +165,9 @@
         <script>
             window.onload = function () {
                 showUsers();
-                cekSesi();
             };
+
+            cekSesi();
 
             const getUrlMethod = new URLSearchParams(window.location.search);
             let info = getUrlMethod.get("status");

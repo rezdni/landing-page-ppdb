@@ -45,7 +45,7 @@ function showUsers() {
                     });
                     listPengguna.innerHTML = listDataPengguna;
                 } else {
-                    listPengguna.innerHTML = `<h2>${respon.message}</h2>`;
+                    listPengguna.innerHTML = `<p>${respon.message}</p>`;
                 }
             } catch (errMsg) {
                 showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
@@ -162,7 +162,7 @@ function listBerita() {
                     });
                     kolomBerita.innerHTML = listIsiBerita;
                 } else {
-                    kolomBerita.innerHTML = `<h2>${listDataBerita.message}</h2>`;
+                    kolomBerita.innerHTML = `<p>${listDataBerita.message}</p>`;
                 }
             } catch (errMsg) {
                 showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
@@ -180,7 +180,7 @@ function listBerita() {
 }
 
 // simpan berita
-function simpanBerita(elmn, event) {
+function simpanBerita(elmn, event, tombol) {
     event.preventDefault();
 
     let requiredField = document.querySelectorAll(
@@ -195,6 +195,8 @@ function simpanBerita(elmn, event) {
     });
 
     if (validasi) {
+        tombol.innerText = "Menyimpan...";
+        tombol.setAttribute("disabled", "");
         let judulBerita = elmn.querySelector("#judul-berita").value;
         let isiBerita = elmn.querySelector("#isi-berita").value;
 
@@ -209,6 +211,9 @@ function simpanBerita(elmn, event) {
         // terima respon back-end
         xhr.onload = function () {
             if (xhr.status === 200) {
+                tombol.innerText = "Simpan";
+                tombol.removeAttribute("disabled");
+
                 try {
                     let respon = JSON.parse(xhr.responseText);
                     if (respon.status === "success") {
@@ -304,7 +309,7 @@ function hapusBerita(idBerita) {
 
 // Calon Siswa
 // Data formulir
-function kirimForm(postId, event, defaultNis) {
+function kirimForm(postId, event, defaultNis, tombol) {
     // Cegah handle default
     event.preventDefault();
 
@@ -322,6 +327,11 @@ function kirimForm(postId, event, defaultNis) {
     });
 
     if (validasi) {
+        // Tampilkan teks mengirim dan matikan tombol submit
+        tombol.innerText = "Mengirim...";
+        tombol.setAttribute("disabled", "");
+
+        // Formulir
         const formulir = document.querySelector("form");
         const isiForm = new FormData(formulir);
         isiForm.append(postId, "true");
@@ -348,7 +358,8 @@ function kirimData(isi, defaultNis) {
                 if (respon.status === "error") {
                     if (
                         respon.code === "FILE_TOO_LARGE" ||
-                        respon.code === "EXTENSION_NOT_ALLOWED"
+                        respon.code === "EXTENSION_NOT_ALLOWED" ||
+                        respon.code === 400
                     ) {
                         // Jika file terlalu besar
                         showPopup("Kesalahan", respon.message, "", "Oke");
@@ -398,6 +409,13 @@ function kirimData(isi, defaultNis) {
                             "&status_change=" +
                             respon.message;
                     }
+                }
+
+                // Hapus atribut disabled pada tombol submit
+                let saveBtn = document.getElementById("simpan");
+                if (saveBtn && window.location.href.includes("edit-calon")) {
+                    saveBtn.innerText = "Perbarui";
+                    saveBtn.removeAttribute("disabled");
                 }
             } catch (errMsg) {
                 showPopup("Kesalahan", "Terjadi kesalahan", "", "Oke");
