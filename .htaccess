@@ -1,12 +1,20 @@
 # Mengaktifkan URL rewriting
+
 # RewriteEngine On
 
 # Memblokir akses langsung ke file tertentu
+
 <FilesMatch "\.(env|json|lock|ini|log|sh|inc|bak|sql)$">
-    Order Allow,Deny
-    Deny from all
+Order Allow,Deny
+Deny from all
 </FilesMatch>
 
 # Menonaktifkan tampilan direktori
+
 Options -Indexes
 
+#Kostum halaman error
+ErrorDocument 404 /views/error/404.html
+ErrorDocument 500 /views/error/500.html
+ErrorDocument 403 /views/error/403.html
+ErrorDocument 401 /views/error/401.html

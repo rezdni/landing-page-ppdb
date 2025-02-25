@@ -271,7 +271,7 @@ footer .copyright {
 /* Mobile Phone */
 @media (max-width: 576px) {
     .sambutan {
-        padding-top: 33rem;
+        padding-top: 10rem;
     }
 
     .sambutan .sambutan-img .thumbnail {

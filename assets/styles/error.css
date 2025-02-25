@@ -1,0 +1,56 @@
+.error {
+    margin-top: 50px;
+    margin-bottom: 100px;
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+h1 {
+    font-size: 6rem;
+    margin: 0;
+    color: #239b56;
+    animation: jedagJedug 3s ease-in-out infinite;
+}
+
+p {
+    font-size: 2rem;
+    margin: 10px 0;
+    color: #333;
+}
+
+a#kembali {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #239b56;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+footer {
+    margin-top: 0;
+}
+
+@keyframes jedagJedug {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateY(-10px) rotate(-5deg);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
