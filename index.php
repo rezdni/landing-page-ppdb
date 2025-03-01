@@ -1,4 +1,4 @@
 <?php
-header('Location: views/company-profile/');
+header('Location: views/login/');
 exit;
 ?>
