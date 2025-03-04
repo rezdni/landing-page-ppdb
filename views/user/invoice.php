@@ -1,3 +1,63 @@
+<?php
+session_start();
+require "../../config/koneksi.php";
+
+// Convert date
+function konversiTanggal($tgl) {
+    $bln = array(
+      1 => "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember"
+    );
+    
+    $pecahkan = explode("-", $tgl);
+    return $pecahkan[2] . " " . $bln[(int)$pecahkan[1]] . " " . $pecahkan[0];
+}
+
+// get data
+function getUserData($database, $sesi, $tabel){
+    $sql = "SELECT id_calon FROM pengguna WHERE id = :user_id";
+    $stmt = $database->prepare($sql);
+    $stmt->execute(["user_id" => $sesi["user_id"]]);
+    $hasil = $stmt->fetch();
+
+    if (empty($hasil) || $hasil["id_calon"] === null) {
+        return "Data tidak tersedia";
+    } else {
+        $calonId = $hasil["id_calon"];
+
+        if ($tabel === "calon") {
+            $sql = "SELECT * FROM pendaftaran WHERE id_calon = :id_calon";
+        } elseif ($tabel === "orang_tua") {
+            $sql = "SELECT * FROM orang_tua WHERE id_calon = :id_calon";
+        } else {
+            return "Parameter salah";
+        }
+    
+        $cekDataCalon = $database->prepare($sql);
+        $cekDataCalon->execute(["id_calon" => $calonId]);
+        $hasilData = $cekDataCalon->fetch();
+
+        if (!empty($hasilData)) {
+            return $hasilData;
+        } else {
+            return "Data tidak tersedia";
+        }
+    }
+}
+
+$dataCalon = getUserData($pdo, $_SESSION, "calon");
+$dataOrtu = getUserData($pdo, $_SESSION, "orang_tua");
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -69,57 +129,48 @@
                                     <tr>
                                         <th class="text-bold" colspan="4">
                                             Nomor Ujian Nasional
-                                            <p>8499894839</p>
+                                            <p id="nis"><?php echo $dataCalon["no_nis"] ?></p>
                                         </th>
                                     </tr>
 
                                     <tr>
                                         <td>Nama Siswa</td>
-                                        <td>: Reza Dani Pramudya</td>
-
-                                        <td>Jenis Kelamin</td>
-                                        <td>: Laki-Laki</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Tempat Lahir</td>
-                                        <td>: Kota Madiun</td>
+                                        <td id="name">: <?php echo $dataCalon["nama_calon_siswa"] ?></td>
                                         <td>Alamat</td>
-                                        <td>: Kp.</td>
+                                        <td id="addres">: <?php echo $dataCalon["alamat_tinggal"] ?></td>
                                     </tr>
 
                                     <tr>
                                         <td>Tanggal Lahir</td>
-                                        <td>: 22/22/2222</td>
+                                        <td id="birth-date">: <?php echo konversiTanggal($dataCalon["tanggal_lahir"]) ?></td>
+                                        <td>No. Telepon</td>
+                                        <td id="phone">: <?php echo $dataCalon["no_telepon"] ?></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Jenis Kelamin</td>
+                                        <td id="gender">: <?php echo $dataCalon["jenis_kelamin"] ?></td>
                                         <td>Tanggal Daftar</td>
-                                        <td>: 22-09-205</td>
+                                        <td id="regist-date">: <?php echo konversiTanggal($dataCalon["tanggal_daftar"]) ?></td>
                                     </tr>
                                     <th class="text-bold" colspan="4">
-                                        Nama Orang Tua
+                                        Data Orang Tua Siswa
                                     </th>
 
                                     <tr>
-                                        <td>Nama Ayah</td>
-                                        <td>: Reza Dani Pramudya</td>
+                                        <td>Nama Orang tua</td>
+                                        <td id="parent-name">: <?php echo $dataOrtu["nama_orang_tua"] ?></td>
 
-                                        <td>Desa</td>
-                                        <td>: 22/22/2222</td>
+                                        <td>Pekerjaan</td>
+                                        <td id="work">: <?php echo $dataOrtu["pekerjaan_orang_tua"] ?></td>
                                     </tr>
 
                                     <tr>
-                                        <td>Nama Ibu</td>
-                                        <td>: Laki-Laki</td>
+                                        <td>No. Telepon</td>
+                                        <td id="parent-phone">: <?php echo $dataOrtu["nomor_telepon_orang_tua"] ?></td>
 
-                                        <td>Kecamatan</td>
-                                        <td>: Rumpin</td>
-                                    </tr>
-
-                                    <tr>
                                         <td>Alamat</td>
-                                        <td>: Kota Madiun</td>
-
-                                        <td>Kabupaten</td>
-                                        <td>: Bogor</td>
+                                        <td id="parent-addres">: <?php echo $dataOrtu["alamat_orang_tua"] ?></td>
                                     </tr>
                                 </tbody>
                             </table>
